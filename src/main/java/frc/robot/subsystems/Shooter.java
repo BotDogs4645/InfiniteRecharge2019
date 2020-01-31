@@ -7,12 +7,14 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.Constants;
 import frc.robot.commands.RunShooter;
 
@@ -30,27 +32,34 @@ public class Shooter extends SubsystemBase {
   private boolean shooting;
   
   public Shooter() {
+    
     motor2.setInverted(true);
     motor2.follow(motor1);
+
+    motor1.setSelectedSensorPosition(0);
     shooterpid.setTolerance(Constants.shooterPIDTolerance);
     shooting = false;
-    setDefaultCommand(new RunShooter(this, Constants.shooterTargetRPM));
+    
+    setDefaultCommand(new RunShooter(this, 120));
   }
 
   public void move(double targetRPM) {
     if (shooting) {
       shooterpid.setSetpoint(targetRPM);
       double ffvalue = feedforward.calculate(targetRPM);
-      double pidvalue = shooterpid.calculate(getRPM(), targetRPM);
+      double pidvalue = MathUtil.clamp(shooterpid.calculate(getRPM(), targetRPM),0,12);
       double voltage = ffvalue+pidvalue;
 
+      SmartDashboard.putNumber("Position", motor1.getSelectedSensorPosition());
       SmartDashboard.putNumber("feedforward", ffvalue);
       SmartDashboard.putNumber("pid", pidvalue);
-      SmartDashboard.putNumber("voltage", voltage);
       SmartDashboard.putNumber("RPM", getRPM());
-
-
+      SmartDashboard.putNumber("velocity", motor1.getSelectedSensorVelocity());
+      
       motor1.setVoltage(voltage);
+      SmartDashboard.putNumber("voltage", voltage);
+      //SmartDashboard.putNumber("voltage", motor1.getBusVoltage());
+
       
     }
   }
@@ -58,8 +67,8 @@ public class Shooter extends SubsystemBase {
   public double getRPM() {
     //sensor velocity measured in counts/100ms
     double RPM = (
-     (motor1.getSelectedSensorVelocity()/100) //counts/ms
-      *60000                                  //counts/min
+     (motor1.getSelectedSensorVelocity()*10) //counts/ms
+      *60                                  //counts/min
       /1024                                   //revolutions/min
     );
     return RPM;

@@ -44,18 +44,18 @@ public final class Constants {
     public static final double shooterTargetRPM = 9375;
 
     //Static gain of feedforward
-    public static final double shooterKS = 0.05;
+    public static final double shooterKS = .005; //0.005
     //Velocity gain of feedforward
     public static final double shooterVS = 12.0 / shooterFreeRPM;
 
     //Shooter PID gains
-    public static final double shooterP = 0.5;
+    public static final double shooterP = 0.005; //0.005
     public static final double shooterI = 0;
     public static final double shooterD = 0;
     public static final double shooterPIDTolerance = 100;
 
     //Shooter Ports
-    public static final int shooterMotor1 = 4;
+    public static final int shooterMotor1 = 5;
     public static final int shooterMotor2 = 6;
 
     
