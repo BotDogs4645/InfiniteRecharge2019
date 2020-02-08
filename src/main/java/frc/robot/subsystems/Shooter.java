@@ -28,7 +28,7 @@ public class Shooter extends SubsystemBase {
   private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(Constants.shooterKS, Constants.shooterVS);
 
 
-  private final PIDController shooterpid = new PIDController(Constants.shooterP,Constants.shooterI,Constants.shooterD);
+  private final PIDController shooterpid = new PIDController(Constants.shooterP,Constants.shooterI,Constants.shooterD, .02);
   private boolean shooting;
   
   public Shooter() {
@@ -36,7 +36,7 @@ public class Shooter extends SubsystemBase {
     motor2.configFactoryDefault();
 
     motor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
-
+    
     motor2.setInverted(true);
     motor2.follow(motor1);
 
@@ -61,9 +61,10 @@ public class Shooter extends SubsystemBase {
       SmartDashboard.putNumber("feedforward", ffvalue);
       SmartDashboard.putNumber("pid", pidvalue);
       SmartDashboard.putNumber("RPM", getRPM());
+      SmartDashboard.putNumber("print RPM", getRPM());
       SmartDashboard.putNumber("velocity", motor1.getSelectedSensorVelocity());
       
-      motor1.setVoltage(-6);
+      motor1.setVoltage(voltage);
       SmartDashboard.putNumber("voltage", voltage);
       //SmartDashboard.putNumber("voltage", motor1.getBusVoltage());
 
@@ -74,7 +75,7 @@ public class Shooter extends SubsystemBase {
   public double getRPM() {
     //sensor velocity measured in counts/100ms
     double RPM = (
-     (motor1.getSelectedSensorVelocity()*10.0) //counts/ms
+     (-motor1.getSelectedSensorVelocity()*10.0) //counts/ms
       *60.0                                  //counts/min
       /4096.0                                   //revolutions/min
     );
