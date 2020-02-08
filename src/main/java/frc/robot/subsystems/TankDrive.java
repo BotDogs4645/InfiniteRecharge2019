@@ -1,14 +1,14 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.commands.DriveCommand;
 import edu.wpi.first.wpilibj.smartdashboard.*;
-import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
+
 
 
 
@@ -16,12 +16,9 @@ public class TankDrive extends SubsystemBase {
   /**
    * Creates a new ExampleSubsystem.
    */
-  
- 
-   
-  //private final TrapezoidProfile.Constraints m_constraints = new TrapezoidProfile.Constraints(0, 0.5);
 
-  public final PIDController pid = new PIDController(1, 0, 0);
+  public final PIDController pid = new PIDController(0.0003397,0, 0);//.00005
+  public PowerDistributionPanel pdp = new PowerDistributionPanel();
 
   public TankDrive() {
     setDefaultCommand(new DriveCommand(this));
@@ -33,23 +30,23 @@ public class TankDrive extends SubsystemBase {
 
   public void driveWithJoystick() {
     //ONE JOYSTICK
-    //make sure throttle is at 1 or -1
-    double forward = (RobotContainer.stick.getY())*.8;
-    double turn = (RobotContainer.stick.getZ())*.8;
+    
+    double forward = 3 * Math.pow(RobotContainer.stick.getY(), 3);
+    double turn = -3 * Math.pow(RobotContainer.stick.getZ(), 3);
 
     /*deadband*/
     
-    if ((Math.abs(forward)<0.05) && (Math.abs(turn)<0.05))
+    if (Math.abs(forward) < 0.05)
     {
-      stop();
+      forward = 0;
+    }
+    
+    if (Math.abs(turn) < 0.05) {
+      turn = 0;
     }
 
-    else 
-    {
-      RobotContainer.difDrive.arcadeDrive(forward, turn);
-    }
-    
-    
+    RobotContainer.difDrive.arcadeDrive(forward, turn);
+    SmartDashboard.putNumber("Total current", pdp.getTotalCurrent()); 
   }
   
   
@@ -70,16 +67,19 @@ public class TankDrive extends SubsystemBase {
   public void updateDrive() {
     double output = pid.calculate(RobotContainer.middleLeft.getSelectedSensorPosition(), pid.getSetpoint());
     SmartDashboard.putNumber("count", pid.getSetpoint());
+    SmartDashboard.putNumber("Pid Output", output);
     SmartDashboard.putNumber("current count", RobotContainer.middleLeft.getSelectedSensorPosition());
-
-    
-    if (output > 0.4) {
+    /*
+    if(output > 0.4) {
       output = 0.4;
     }
-    if (output < -0.4) {
+
+    if(output < -0.4){
       output = -0.4;
     }
+    */
     RobotContainer.difDrive.arcadeDrive(output, 0);
+    SmartDashboard.putNumber("Total auto current", pdp.getTotalCurrent());
   }
   
   @Override

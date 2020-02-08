@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.VisionCode;
 
-import frc.robot.subsystems.ExampleSubsystem;
+
 import frc.robot.subsystems.TankDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -36,12 +36,12 @@ public class RobotContainer {
   private final ExampleCommand m_autoCommand = new ExampleCommand();
   public static TankDrive tankDriveSubsystem = new TankDrive(); 
   //TANK DRIVE MOTORS
-  public static final WPI_TalonSRX frontLeft = new WPI_TalonSRX(4); 
-  public static final WPI_TalonSRX middleLeft = new WPI_TalonSRX(5); 
-  public static final WPI_TalonSRX rearLeft = new WPI_TalonSRX(6); 
+  public static final WPI_TalonSRX frontLeft = new WPI_TalonSRX(0); //0
+  public static final WPI_TalonSRX middleLeft = new WPI_TalonSRX(13); //13
+  public static final WPI_TalonSRX rearLeft = new WPI_TalonSRX(11); //11
 
-  public static final WPI_TalonSRX frontRight = new WPI_TalonSRX(1); 
-  public static final WPI_TalonSRX middleRight = new WPI_TalonSRX(2);
+  public static final WPI_TalonSRX frontRight = new WPI_TalonSRX(12); //12
+  public static final WPI_TalonSRX middleRight = new WPI_TalonSRX(1);
   public static final WPI_TalonSRX rearRight = new WPI_TalonSRX(10);
   public static final Joystick stick = new Joystick(0);
   

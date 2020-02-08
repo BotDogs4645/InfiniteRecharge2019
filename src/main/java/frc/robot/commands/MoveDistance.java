@@ -35,7 +35,7 @@ public class MoveDistance extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    tankDriveSubsystem.driveDistance(distance);
+    RobotContainer.tankDriveSubsystem.driveDistance(distance);
 
     
   }
@@ -44,18 +44,19 @@ public class MoveDistance extends CommandBase {
   @Override
   public void execute() {
     SmartDashboard.putBoolean("moving", true);
-    tankDriveSubsystem.updateDrive();
+    RobotContainer.tankDriveSubsystem.updateDrive();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    tankDriveSubsystem.stop();
+    RobotContainer.tankDriveSubsystem.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return RobotContainer.tankDriveSubsystem.pid.atSetpoint();
+    SmartDashboard.putBoolean("Finished", RobotContainer.tankDriveSubsystem.pid.atSetpoint());
+    return false;//RobotContainer.tankDriveSubsystem.pid.atSetpoint();
   }
 }
