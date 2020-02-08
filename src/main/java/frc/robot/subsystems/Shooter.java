@@ -32,7 +32,11 @@ public class Shooter extends SubsystemBase {
   private boolean shooting;
   
   public Shooter() {
-    
+    motor1.configFactoryDefault();
+    motor2.configFactoryDefault();
+
+    motor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+
     motor2.setInverted(true);
     motor2.follow(motor1);
 
@@ -40,14 +44,17 @@ public class Shooter extends SubsystemBase {
     shooterpid.setTolerance(Constants.shooterPIDTolerance);
     shooting = false;
     
-    setDefaultCommand(new RunShooter(this, 120));
+    
+
+    
+    setDefaultCommand(new RunShooter(this, Constants.shooterTargetRPM));
   }
 
   public void move(double targetRPM) {
     if (shooting) {
       shooterpid.setSetpoint(targetRPM);
       double ffvalue = feedforward.calculate(targetRPM);
-      double pidvalue = MathUtil.clamp(shooterpid.calculate(getRPM(), targetRPM),0,12);
+      double pidvalue = MathUtil.clamp(shooterpid.calculate(getRPM(), targetRPM),-12,12);
       double voltage = ffvalue+pidvalue;
 
       SmartDashboard.putNumber("Position", motor1.getSelectedSensorPosition());
@@ -56,7 +63,7 @@ public class Shooter extends SubsystemBase {
       SmartDashboard.putNumber("RPM", getRPM());
       SmartDashboard.putNumber("velocity", motor1.getSelectedSensorVelocity());
       
-      motor1.setVoltage(voltage);
+      motor1.setVoltage(-6);
       SmartDashboard.putNumber("voltage", voltage);
       //SmartDashboard.putNumber("voltage", motor1.getBusVoltage());
 
@@ -67,9 +74,9 @@ public class Shooter extends SubsystemBase {
   public double getRPM() {
     //sensor velocity measured in counts/100ms
     double RPM = (
-     (motor1.getSelectedSensorVelocity()*10) //counts/ms
-      *60                                  //counts/min
-      /1024                                   //revolutions/min
+     (motor1.getSelectedSensorVelocity()*10.0) //counts/ms
+      *60.0                                  //counts/min
+      /4096.0                                   //revolutions/min
     );
     return RPM;
   }
