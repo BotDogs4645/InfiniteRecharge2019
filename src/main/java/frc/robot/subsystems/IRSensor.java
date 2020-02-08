@@ -28,39 +28,39 @@ public class IRSensor extends SubsystemBase{
   int LEDPIN = 13;
   int SENSORPIN = 4;
 
-  DigitalInput IRCount = new DigitalInput(9);
-  DigitalInput IRIntake = new DigitalInput(6);
+  DigitalInput IRIntake = new DigitalInput(9);
+  DigitalInput IRIndex = new DigitalInput(6);
   DigitalInput IROutake = new DigitalInput(1);
   int count = 0;
-  Boolean LastValue = true;
-  Boolean OuttakeValue = true;
+  Boolean LastIntakeValue = true;
+  Boolean LastOuttakeValue = true;
     
   public void setup(){
-    if(!IRCount.get()) { 
+    if(!IRIntake.get()) { 
     //Roller Begins to Move; Counts # of new balls in the indexer
      RobotContainer.indexerMotor.set(0.5);
      RobotContainer.indexerReverseMotor.set(-0.5);
-      if(LastValue == true) {
+      if(LastIntakeValue == true) {
         count++;    
       } 
     } 
-    if(!(IRIntake.get())){
+    if(!(IRIndex.get())){
       //Roller Stops and hold the ball in the first position
       RobotContainer.indexerMotor.set(0);
       RobotContainer.indexerReverseMotor.set(0);
     }
     if  (!(IROutake.get())){
       //counts the # of balls exiting
-      if(OuttakeValue = true){
+      if(LastOuttakeValue == true){
         count--; 
       }
-      OuttakeValue = IROutake.get();
+      
     }
         
   
     SmartDashboard.putNumber("Number of Balls: ", count);
-    LastValue = IRCount.get();
-    OuttakeValue = IROutake.get();
+    LastIntakeValue = IRIntake.get();
+    LastOuttakeValue = IROutake.get();
   }
     
   @Override

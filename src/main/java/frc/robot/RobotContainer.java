@@ -21,6 +21,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
 import frc.robot.commands.MoveDistance;
 
 
@@ -58,9 +60,9 @@ public class RobotContainer {
 
   //INDEXER MOTORS
 
-  public static final WPI_TalonSRX intakeMotor = new WPI_TalonSRX(6);
-  public static final WPI_TalonSRX indexerMotor = new WPI_TalonSRX(3);
-  public static final WPI_TalonSRX indexerReverseMotor = new WPI_TalonSRX(1);
+  public static final WPI_TalonSRX intakeMotor = new WPI_TalonSRX(11);
+  public static final WPI_VictorSPX indexerMotor = new WPI_VictorSPX(7);
+  public static final WPI_TalonSRX indexerReverseMotor = new WPI_TalonSRX(6);
   
   
 
