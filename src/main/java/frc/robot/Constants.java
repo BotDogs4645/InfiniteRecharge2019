@@ -41,17 +41,17 @@ public final class Constants {
     public static final double shooterFreeRPM = 18730;
 
     //an RPM at which efficiency (percent of power not lost thorugh absorbance) and Power Output are at their highest
-    public static final double shooterTargetRPM = 6000;//9375
+    public static final double shooterTargetRPM = 8000;//9375
 
     //Static gain of feedforward
-    public static final double shooterKS = .5; //0.005
+    public static final double shooterKS = .5; //0.005  
     //Velocity gain of feedforward
     public static final double shooterVS = 12.0 / shooterFreeRPM;
 
     //Shooter PID gains
-    public static final double shooterP = .01575;//.0072;//0.05; //0.005
-    public static final double shooterI = 0.0005;//0;//.047;//0.01;
-    public static final double shooterD = .00062;//.0006;//0.0006;//0.0007;
+    public static final double shooterP = .01685;//.01685;//.0072;//0.05; //0.005
+    public static final double shooterI = 0.0005;//0.0005;//0;//.047;//0.01;
+    public static final double shooterD = .00068;//.00068;//.0006;//0.0006;//0.0007;
     public static final double shooterPIDTolerance = 100;
 
     //Shooter Ports

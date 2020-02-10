@@ -75,7 +75,7 @@ public class Shooter extends SubsystemBase {
   public double getRPM() {
     //sensor velocity measured in counts/100ms
     double RPM = (
-     (-motor1.getSelectedSensorVelocity()*10.0) //counts/ms
+     (motor1.getSelectedSensorVelocity()*10.0) //counts/ms
       *60.0                                  //counts/min
       /4096.0                                   //revolutions/min
     );
