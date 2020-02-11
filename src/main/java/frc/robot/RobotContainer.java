@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.VisionCode;
+//import frc.robot.subsystems.VisionCode;
 import frc.robot.subsystems.IRSensor;
 //import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.TankDrive;
@@ -60,9 +60,9 @@ public class RobotContainer {
 
   //INDEXER MOTORS
 
-  public static final WPI_TalonSRX intakeMotor = new WPI_TalonSRX(11);
+  public static final WPI_TalonSRX OuttakeHold = new WPI_TalonSRX(11);
   public static final WPI_VictorSPX indexerMotor = new WPI_VictorSPX(7);
-  public static final WPI_VictorSPX indexerReverseMotor = new WPI_VictorSPX(1);
+  public static final WPI_VictorSPX intakeMotor= new WPI_VictorSPX(1);
   
   
 

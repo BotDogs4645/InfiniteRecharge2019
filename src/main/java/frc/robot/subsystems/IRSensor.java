@@ -30,30 +30,35 @@ public class IRSensor extends SubsystemBase{
 
   DigitalInput IRIntake = new DigitalInput(9);
   DigitalInput IRIndex = new DigitalInput(6);
-  DigitalInput IROutake = new DigitalInput(1);
+  DigitalInput IROutake = new DigitalInput(8);
   int count = 0;
   Boolean LastIntakeValue = true;
   Boolean LastOuttakeValue = true;
     
   public void setup(){
+ 
     if(!IRIntake.get()) { 
     //Roller Begins to Move; Counts # of new balls in the indexer
-     RobotContainer.indexerMotor.set(0.5);
-     RobotContainer.indexerReverseMotor.set(-0.5);
+     
       if(LastIntakeValue == true) {
-        count++;    
-      } 
+        count++;
+        RobotContainer.indexerMotor.set(0.5);
+        RobotContainer.OuttakeHold.set(0.5);
+      }
     } 
+    
     if(!(IRIndex.get())){
       //Roller Stops and hold the ball in the first position
       RobotContainer.indexerMotor.set(0);
-      RobotContainer.indexerReverseMotor.set(0);
+      RobotContainer.OuttakeHold.set(0);
     }
+    
     if  (!(IROutake.get())){
       //counts the # of balls exiting
       if(LastOuttakeValue == true){
         count--; 
-      }
+      } 
+      RobotContainer.OuttakeHold.set(0);
       
     }
         
