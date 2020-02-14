@@ -9,12 +9,14 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.commands.ExampleCommand;
 //import frc.robot.subsystems.VisionCode;
 import frc.robot.subsystems.IRSensor;
+import frc.robot.subsystems.PowerDistribution;
 //import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.TankDrive;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -38,6 +40,12 @@ public class RobotContainer {
   private final ExampleCommand m_autoCommand = new ExampleCommand();
   public static TankDrive tankDriveSubsystem = new TankDrive(); 
   public static IRSensor sensor = new IRSensor();
+  
+  //Power Distribution
+
+  public static final WPI_TalonSRX Motor = new WPI_TalonSRX(1);
+
+  public static PowerDistribution pdp  = new PowerDistribution();
   //TANK DRIVE MOTORS
   public static final WPI_TalonSRX frontLeft = new WPI_TalonSRX(4); 
   public static final WPI_TalonSRX middleLeft = new WPI_TalonSRX(5); 
@@ -62,10 +70,9 @@ public class RobotContainer {
 
   public static final WPI_TalonSRX OuttakeHold = new WPI_TalonSRX(11);
   public static final WPI_VictorSPX indexerMotor = new WPI_VictorSPX(7);
-  public static final WPI_VictorSPX intakeMotor= new WPI_VictorSPX(1);
+  public static final WPI_VictorSPX intakeMotor= new WPI_VictorSPX(999);//1
   
   
-
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */

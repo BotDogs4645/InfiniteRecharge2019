@@ -25,9 +25,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class IRSensor extends SubsystemBase{
 
-  int LEDPIN = 13;
-  int SENSORPIN = 4;
-
   DigitalInput IRIntake = new DigitalInput(9);
   DigitalInput IRIndex = new DigitalInput(6);
   DigitalInput IROutake = new DigitalInput(8);
