@@ -39,19 +39,19 @@ public class RobotContainer {
   //private final VisionCode vision = new VisionCode();
   private final ExampleCommand m_autoCommand = new ExampleCommand();
   public static TankDrive tankDriveSubsystem = new TankDrive(); 
-  public static IRSensor sensor = new IRSensor();
+  //public static IRSensor sensor = new IRSensor();
   
   //Power Distribution
 
-  public static final WPI_TalonSRX Motor = new WPI_TalonSRX(1);
 
   public static PowerDistribution pdp  = new PowerDistribution();
+
   //TANK DRIVE MOTORS
   public static final WPI_TalonSRX frontLeft = new WPI_TalonSRX(4); 
   public static final WPI_TalonSRX middleLeft = new WPI_TalonSRX(5); 
   public static final WPI_TalonSRX rearLeft = new WPI_TalonSRX(6); 
 
-  public static final WPI_TalonSRX frontRight = new WPI_TalonSRX(1); 
+  public static final WPI_TalonSRX frontRight = new WPI_TalonSRX(1111);//1 
   public static final WPI_TalonSRX middleRight = new WPI_TalonSRX(2);
   public static final WPI_TalonSRX rearRight = new WPI_TalonSRX(10);
   public static final Joystick stick = new Joystick(0);

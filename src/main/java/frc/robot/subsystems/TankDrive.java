@@ -24,7 +24,7 @@ public class TankDrive extends SubsystemBase {
   public final PIDController pid = new PIDController(1, 0, 0);
 
   public TankDrive() {
-    setDefaultCommand(new DriveCommand(this));
+    //setDefaultCommand(new DriveCommand(this));
     pid.setTolerance(128); //Error is within 1/8 of a revolution
     
     

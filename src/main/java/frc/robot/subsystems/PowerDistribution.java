@@ -8,6 +8,9 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import frc.robot.RobotContainer;
@@ -17,28 +20,25 @@ public class PowerDistribution extends SubsystemBase {
   /**
    * Creates a new PowerDistributionPanel.
    */
-  private final static PowerDistributionPanel pdp = new PowerDistributionPanel();
+  private final static PowerDistributionPanel pdp = new PowerDistributionPanel(2);
+  public static final WPI_TalonSRX motor = new WPI_TalonSRX(6);
 
-  public PowerDistribution() {
-    RobotContainer.Motor.set(0.5);
-  }
 
-  public void powerdis()
-  {
-    double x;
-    for (int i = 0; i < 15; i++) {
-      //pdp.getCurrent(i);
-      x = pdp.getCurrent(i);
-      SmartDashboard.putNumber("The Current of "+ i + " is ", x);
+    public void powerdis()
+    {
+
+     for (int i = 0; i < 15; i++) {
+       //pdp.getCurrent(i);
+       double x = pdp.getCurrent(i);
+       SmartDashboard.putNumber("The Current of "+ i + " is ", x);
+     }
+     double z = pdp.getVoltage();
+     SmartDashboard.putNumber("Voltage of PDP: ", z);
     }
-    double z = pdp.getVoltage();
-    SmartDashboard.putNumber("Voltage of PDP: ", z);
-  }
 
-  public void running(){
-    
-    RobotContainer.Motor.set(0.5);
-  }
+    public void running(){
+      motor.set(0.5);
+    }
  
   @Override
   public void periodic() {
