@@ -1,14 +1,16 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.commands.DriveCommand;
 import edu.wpi.first.wpilibj.smartdashboard.*;
-import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
+
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.kauailabs.navx.frc.AHRS;
 
 
 
@@ -16,13 +18,10 @@ public class TankDrive extends SubsystemBase {
   /**
    * Creates a new ExampleSubsystem.
    */
-  
- 
-   
-  //private final TrapezoidProfile.Constraints m_constraints = new TrapezoidProfile.Constraints(0, 0.5);
-
   public final PIDController pid = new PIDController(1, 0, 0);
-
+  public final AHRS ahrs = new AHRS();
+  public final WPI_TalonSRX talon = new WPI_TalonSRX(0);  
+  
   public TankDrive() {
     setDefaultCommand(new DriveCommand(this));
     pid.setTolerance(128); //Error is within 1/8 of a revolution
