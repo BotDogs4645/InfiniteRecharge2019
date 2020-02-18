@@ -1,15 +1,13 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.commands.DriveCommand;
 import edu.wpi.first.wpilibj.smartdashboard.*;
-
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 
@@ -19,14 +17,18 @@ public class TankDrive extends SubsystemBase {
    * Creates a new ExampleSubsystem.
    */
   public final PIDController pid = new PIDController(1, 0, 0);
-  public final AHRS ahrs = new AHRS();
-  public final WPI_TalonSRX talon = new WPI_TalonSRX(0);  
+
+  //Multidimensional gyroscope and accelerometer sensor
+  private final AHRS ahrs = new AHRS();
+
+  //Odometry class for tracking robot pose
+  private final DifferentialDriveOdometry m_odometry;
   
   public TankDrive() {
     setDefaultCommand(new DriveCommand(this));
     pid.setTolerance(128); //Error is within 1/8 of a revolution
     
-    
+    m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
   }
 
 
@@ -85,6 +87,31 @@ public class TankDrive extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
+  /**
+   * Returns the currently-estimated pose of the robot.
+   *
+   * @return The pose.
+   */
+  public Pose2d getPose() {
+    return m_odometry.getPoseMeters();
+  }
+
+  /**
+   * Zeroes the heading of the robot.
+   */
+  public void zeroHeading() {
+    ahrs.reset();
+  }
+
+   /**
+   * Returns the heading of the robot.
+   *
+   * @return the robot's heading in degrees, from -180 to 180
+   */
+   public double getHeading() {
+     return ahrs.getYaw();
+   } 
   
 
 }
