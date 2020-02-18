@@ -32,11 +32,11 @@ public class TankDrive extends SubsystemBase {
   public void driveWithJoystick() {
     //ONE JOYSTICK
     
-    //double forward = MathUtil.clamp(1 * Math.pow(RobotContainer.stick.getY(), 3),-1,1);
-    double forward = 1 * RobotContainer.stick.getY();
+    double forward = MathUtil.clamp(1 * Math.pow(RobotContainer.stick.getY(), 3),-1,1);
+    //double forward = Math.pow(RobotContainer.stick.getY(), 2);
     SmartDashboard.putNumber("Forward", forward);
-    //double turn = MathUtil.clamp(-1 * Math.pow(RobotContainer.stick.getZ(), 3),-1,1);
-    double turn = RobotContainer.stick.getZ();
+    double turn = MathUtil.clamp(-1 * Math.pow(RobotContainer.stick.getZ(), 3),-1,1);
+    //double turn = Math.pow(RobotContainer.stick.getZ(), 2);
     SmartDashboard.putNumber("Turn", turn);
 
     /*deadband*/

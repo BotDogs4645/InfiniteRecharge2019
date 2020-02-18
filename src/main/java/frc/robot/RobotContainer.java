@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -57,6 +58,7 @@ public class RobotContainer {
 
   public static final DoubleSolenoid RightPiston = new DoubleSolenoid(0,1);
   public static final DoubleSolenoid LeftPiston = new DoubleSolenoid(2,3);
+
 
   public static final Joystick stick = new Joystick(0);
   
