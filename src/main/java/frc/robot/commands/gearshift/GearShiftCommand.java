@@ -5,15 +5,20 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.gearshift;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.GearShiftSubsystem;
 
-public class ExampleCommand extends CommandBase {
+public class GearShiftCommand extends CommandBase {
   /**
    * Creates a new ExampleCommand.
    */
-  public ExampleCommand() {
+  public static GearShiftSubsystem subsystem;
+  public GearShiftCommand(GearShiftSubsystem sub) {
+    subsystem = sub;
+    addRequirements(subsystem); 
 
   }
 
@@ -25,11 +30,14 @@ public class ExampleCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    RobotContainer.m_gearshiftsubsystem.in();
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    RobotContainer.m_gearshiftsubsystem.out();
   }
 
   // Returns true when the command should end.

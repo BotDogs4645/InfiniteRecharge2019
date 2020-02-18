@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.VisionCode;
-
+import frc.robot.subsystems.GearShiftSubsystem;
 import frc.robot.subsystems.PneumaticsSubsystem;
 import frc.robot.subsystems.TankDrive;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.robot.commands.MoveDistance;
+import frc.robot.commands.gearshift.GearShiftCommand;
 import frc.robot.commands.pneumatics.BothDownCommand;
 import frc.robot.commands.pneumatics.BothUpCommand;
 import frc.robot.commands.pneumatics.LeftDownCommand;
@@ -45,8 +46,13 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final VisionCode vision = new VisionCode();
   private final ExampleCommand m_autoCommand = new ExampleCommand();
+
   public static TankDrive tankDriveSubsystem = new TankDrive(); 
   public static PneumaticsSubsystem m_pneumaticssubsytem = new PneumaticsSubsystem();
+  public static GearShiftSubsystem m_gearshiftsubsystem = new GearShiftSubsystem();
+
+
+
   //TANK DRIVE MOTORS
   public static final WPI_TalonSRX frontLeft = new WPI_TalonSRX(0); //0
   public static final WPI_TalonSRX middleLeft = new WPI_TalonSRX(13); //13
@@ -59,6 +65,9 @@ public class RobotContainer {
   public static final DoubleSolenoid RightPiston = new DoubleSolenoid(0,1);
   public static final DoubleSolenoid LeftPiston = new DoubleSolenoid(2,3);
 
+  public static Solenoid gearshift1 = new Solenoid(4);
+  public static Solenoid gearshift2 = new Solenoid(5);
+
 
   public static final Joystick stick = new Joystick(0);
   
@@ -66,6 +75,9 @@ public class RobotContainer {
 
 
   //change all these to xbox controller
+
+  public static JoystickButton GearShiftButton = new JoystickButton(stick,2);
+
   public static JoystickButton LeftUp = new JoystickButton(stick,7);
   public static JoystickButton LeftOff = new JoystickButton(stick,9);
   public static JoystickButton LeftDown = new JoystickButton(stick,11);
@@ -73,6 +85,7 @@ public class RobotContainer {
   public static JoystickButton RightUp = new JoystickButton(stick,8);
   public static JoystickButton RightOff = new JoystickButton(stick,10);
   public static JoystickButton RightDown = new JoystickButton(stick,12);
+
 
   //public static JoystickButton BothUp = new JoystickButton(stick,9);
   //public static JoystickButton BothDown = new JoystickButton(stick,11);
@@ -122,6 +135,9 @@ public class RobotContainer {
     RightUp.whenPressed(new RightUpCommand(m_pneumaticssubsytem), true);
     RightOff.whenPressed(new RightOffCommand(m_pneumaticssubsytem), true);
     RightDown.whenPressed(new RightDownCommand(m_pneumaticssubsytem), true);
+
+    GearShiftButton.whenHeld(new GearShiftCommand(m_gearshiftsubsystem), true);
+    
 
     //BothUp.whileHeld(new BothUpCommand(m_pneumaticssubsytem));
     //BothDown.whileHeld(new BothDownCommand(m_pneumaticssubsytem));
