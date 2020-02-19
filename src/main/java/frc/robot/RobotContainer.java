@@ -11,10 +11,22 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.RamseteController;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.geometry.*;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.subsystems.TankDrive;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
+import java.util.List;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.robot.commands.MoveDistance;
@@ -88,8 +100,55 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return null;
+    // Create a voltage constraint to ensure we don't accelerate too fast
+    DifferentialDriveVoltageConstraint autoVoltageConstraint =
+      new DifferentialDriveVoltageConstraint(
+        new SimpleMotorFeedforward(Constants.ksVolts,
+                                   Constants.kvVoltSecondsPerMeter,
+                                   Constants.kaVoltSecondsSquaredPerMeter),
+        Constants.kDriveKinematics,
+        10);
+    
+    // Create config for trajectory
+    TrajectoryConfig config = 
+      new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond, 
+                           Constants.kMaxAccelerationMetersPerSecondSquared)
+          //Add kinematics to ensure max speed is actually obeyed
+          .setKinematics(Constants.kDriveKinematics)
+          //Apply the auto voltage constraint
+          .addConstraint(autoVoltageConstraint);
+
+    Trajectory autoTrajectory = TrajectoryGenerator.generateTrajectory(
+      //Start at origin facing the +X direction
+      new Pose2d(0, 0, new Rotation2d(0)),
+      //Wavepoints making a S curve path
+      List.of(
+        new Translation2d(Units.feetToMeters(1), Units.feetToMeters(1)),
+        new Translation2d(Units.feetToMeters(2), -Units.feetToMeters(1))
+      ),
+      //End 3 feet ahead of where robot start, facing forward
+      new Pose2d(Units.feetToMeters(3), 0, new Rotation2d(0)),
+      //Pass config
+      config
+    );
+
+    RamseteCommand ramseteCommand = new RamseteCommand(
+      autoTrajectory,
+      tankDriveSubsystem::getPose,
+      new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
+      new SimpleMotorFeedforward(Constants.ksVolts,
+                                 Constants.kvVoltSecondsPerMeter,
+                                 Constants.kaVoltSecondsSquaredPerMeter),
+      Constants.kDriveKinematics,
+      tankDriveSubsystem::getWheelSpeeds,
+      new PIDController(Constants.kPDriveVel, 0, 0),
+      new PIDController(Constants.kPDriveVel, 0, 0),
+      //RamseteCommand passes volts to the callback
+      tankDriveSubsystem::tankDriveVolts,
+      tankDriveSubsystem
+    );
+
+    return ramseteCommand;
   }
 }
 

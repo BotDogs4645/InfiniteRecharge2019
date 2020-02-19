@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.commands.DriveCommand;
@@ -26,6 +27,9 @@ public class TankDrive extends SubsystemBase {
 
   //Odometry class for tracking robot pose
   private final DifferentialDriveOdometry m_odometry;
+
+  //Diameter of tankDriveWheels in meters
+  private final double wheelDiameter = Units.inchesToMeters(6);
   
   public TankDrive() {
     setDefaultCommand(new DriveCommand(this));
@@ -106,6 +110,15 @@ public class TankDrive extends SubsystemBase {
   }
 
   /**
+   * Returns the current wheel speeds of the robot.
+   *
+   * @return The current wheel speeds.
+   */
+  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+    return new DifferentialDriveWheelSpeeds(getActualRate(RobotContainer.middleLeft), getActualRate(RobotContainer.middleRight));
+  }
+
+  /**
    * Resets the odometry to the specified pose.
    *
    * @param pose The pose to which to set the odometry.
@@ -167,11 +180,21 @@ public class TankDrive extends SubsystemBase {
    * 
    * @return The distance traveled by the robot in meters 
   */
-
   public double getActualDistance(WPI_TalonSRX motor) {
     double count = motor.getSelectedSensorPosition();
-    double wheelDiameter = Units.inchesToMeters(6);
     return ((wheelDiameter * Math.PI)/1024) * count;
+  }
+
+  /**
+   * Gets the actual rate in meters per second traveled by the robot
+   * 
+   * @param motor The TalonSRX motor with an encoder
+   * 
+   * @return The rate at which the robot travels in meters per second
+   */
+  public double getActualRate(WPI_TalonSRX motor) {
+    double encoderRate = motor.getSelectedSensorVelocity(); //Returns count per 100ms
+    return (10 * encoderRate * wheelDiameter * Math.PI) / 1024.0;
   }
 
    /**
