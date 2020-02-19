@@ -44,9 +44,9 @@ public class RobotContainer {
   
   public static final JoystickButton tankDriveButton = new JoystickButton(stick, 5);
 
-  private static final SpeedControllerGroup leftSide = new SpeedControllerGroup(frontLeft, middleLeft, rearLeft);
+  public static final SpeedControllerGroup leftSide = new SpeedControllerGroup(frontLeft, middleLeft, rearLeft);
 
-  private static final SpeedControllerGroup rightSide = new SpeedControllerGroup(frontRight, middleRight, rearRight);
+  public static final SpeedControllerGroup rightSide = new SpeedControllerGroup(frontRight, middleRight, rearRight);
 
   public static final DifferentialDrive difDrive = new DifferentialDrive(leftSide, rightSide);
   

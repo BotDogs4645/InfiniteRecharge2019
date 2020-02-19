@@ -8,6 +8,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.commands.DriveCommand;
 import edu.wpi.first.wpilibj.smartdashboard.*;
+import edu.wpi.first.wpilibj.util.Units;
+
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 
@@ -89,8 +92,8 @@ public class TankDrive extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     m_odometry.update(Rotation2d.fromDegrees(getHeading()), 
-    RobotContainer.middleLeft.getSelectedSensorPosition(), 
-    RobotContainer.middleRight.getSelectedSensorPosition());
+    getActualDistance(RobotContainer.middleLeft), 
+    getActualDistance(RobotContainer.middleRight));
   }
 
   /**
@@ -112,6 +115,18 @@ public class TankDrive extends SubsystemBase {
     m_odometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
   }
 
+   /**
+   * Controls the left and right sides of the drive directly with voltages.
+   *
+   * @param leftVolts  the commanded left output
+   * @param rightVolts the commanded right output
+   */
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    RobotContainer.leftSide.setVoltage(leftVolts);
+    RobotContainer.rightSide.setVoltage(rightVolts);
+    RobotContainer.difDrive.feed();
+  }
+
   /**
    * Resets the drive encoders to currently read a position of 0.
    */
@@ -120,12 +135,43 @@ public class TankDrive extends SubsystemBase {
     RobotContainer.middleRight.setSelectedSensorPosition(0);
   }
 
+   /**
+   * Gets the average distance of the two encoders.
+   *
+   * @return the average of the two encoder readings
+   */
+  public double getAverageEncoderDistance() {
+    return (getActualDistance(RobotContainer.middleLeft) + getActualDistance(RobotContainer.middleRight)) / 2.0;
+  }
+
+  /**
+   * Sets the max output of the drive.  Useful for scaling the drive to drive more slowly.
+   *
+   * @param maxOutput the maximum output to which the drive will be constrained
+   */
+  public void setMaxOutput(double maxOutput) {
+    RobotContainer.difDrive.setMaxOutput(maxOutput);
+  }
 
   /**
    * Zeroes the heading of the robot.
    */
   public void zeroHeading() {
     ahrs.reset();
+  }
+
+  /** 
+   * Gets the actual distance in meters traveled by the robot based on encoder values
+   * 
+   * @param motor The TalonSRX motor with an encoder
+   * 
+   * @return The distance traveled by the robot in meters 
+  */
+
+  public double getActualDistance(WPI_TalonSRX motor) {
+    double count = motor.getSelectedSensorPosition();
+    double wheelDiameter = Units.inchesToMeters(6);
+    return ((wheelDiameter * Math.PI)/1024) * count;
   }
 
    /**
@@ -135,7 +181,15 @@ public class TankDrive extends SubsystemBase {
    */
    public double getHeading() {
      return ahrs.getYaw();
-   } 
-  
+   }
+   
+   /**
+   * Returns the turn rate of the robot.
+   *
+   * @return The turn rate of the robot, in degrees per second
+   */
+  public double getTurnRate() {
+    return ahrs.getRate();
+  }
 
 }
