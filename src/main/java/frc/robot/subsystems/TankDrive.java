@@ -28,6 +28,8 @@ public class TankDrive extends SubsystemBase {
     setDefaultCommand(new DriveCommand(this));
     pid.setTolerance(128); //Error is within 1/8 of a revolution
     
+
+    resetEncoders();
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
   }
 
@@ -86,6 +88,9 @@ public class TankDrive extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    m_odometry.update(Rotation2d.fromDegrees(getHeading()), 
+    RobotContainer.middleLeft.getSelectedSensorPosition(), 
+    RobotContainer.middleRight.getSelectedSensorPosition());
   }
 
   /**
@@ -96,6 +101,25 @@ public class TankDrive extends SubsystemBase {
   public Pose2d getPose() {
     return m_odometry.getPoseMeters();
   }
+
+  /**
+   * Resets the odometry to the specified pose.
+   *
+   * @param pose The pose to which to set the odometry.
+   */
+  public void resetOdometry(Pose2d pose) {
+    resetEncoders();
+    m_odometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
+  }
+
+  /**
+   * Resets the drive encoders to currently read a position of 0.
+   */
+  public void resetEncoders() {
+    RobotContainer.middleLeft.setSelectedSensorPosition(0);
+    RobotContainer.middleRight.setSelectedSensorPosition(0);
+  }
+
 
   /**
    * Zeroes the heading of the robot.
