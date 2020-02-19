@@ -37,7 +37,7 @@ public class Shooter extends SubsystemBase {
 
     motor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
     
-    motor2.setInverted(false);
+    motor2.setInverted(true);
     motor2.follow(motor1);
 
     motor1.setSelectedSensorPosition(0);
@@ -55,7 +55,7 @@ public class Shooter extends SubsystemBase {
       shooterpid.setSetpoint(targetRPM);
       double ffvalue = feedforward.calculate(targetRPM);
       double pidvalue = shooterpid.calculate(getRPM(), targetRPM);
-      double voltage = MathUtil.clamp((ffvalue+pidvalue),-12,12);
+      double voltage = (ffvalue+pidvalue);
 
       SmartDashboard.putNumber("Position", motor1.getSelectedSensorPosition());
       SmartDashboard.putNumber("feedforward", ffvalue);
