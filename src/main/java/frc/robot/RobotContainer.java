@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.VisionCode;
 import frc.robot.subsystems.GearShiftSubsystem;
+import frc.robot.subsystems.IRSensor;
 import frc.robot.subsystems.Motor;
 import frc.robot.subsystems.PneumaticsSubsystem;
 import frc.robot.subsystems.TankDrive;
@@ -24,6 +25,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
 import frc.robot.commands.MoveDistance;
 import frc.robot.commands.MoveMotor;
 import frc.robot.commands.gearshift.GearShiftCommand;
@@ -50,6 +53,8 @@ public class RobotContainer {
   private final ExampleCommand m_autoCommand = new ExampleCommand();
   private final Motor motorSub = new Motor();
 
+  public static IRSensor sensor = new IRSensor();
+
   public static TankDrive tankDriveSubsystem = new TankDrive(); 
   public static PneumaticsSubsystem m_pneumaticssubsytem = new PneumaticsSubsystem();
   public static GearShiftSubsystem m_gearshiftsubsystem = new GearShiftSubsystem();
@@ -64,6 +69,13 @@ public class RobotContainer {
   public static final WPI_TalonSRX frontRight = new WPI_TalonSRX(12); //12
   public static final WPI_TalonSRX middleRight = new WPI_TalonSRX(1); //1
   public static final WPI_TalonSRX rearRight = new WPI_TalonSRX(10);
+
+  //INDEXER MOTORS
+
+  public static final WPI_TalonSRX OuttakeHold = new WPI_TalonSRX(11);
+  public static final WPI_VictorSPX indexerMotor = new WPI_VictorSPX(7);
+  public static final WPI_VictorSPX intakeMotor= new WPI_VictorSPX(1);
+
 
   public static final DoubleSolenoid RightPiston = new DoubleSolenoid(0,1);
   public static final DoubleSolenoid LeftPiston = new DoubleSolenoid(2,3);
