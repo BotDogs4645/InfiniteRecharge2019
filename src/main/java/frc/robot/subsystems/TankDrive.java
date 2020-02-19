@@ -18,7 +18,7 @@ public class TankDrive extends SubsystemBase {
    * Creates a new ExampleSubsystem.
    */
 
-  public final PIDController pid = new PIDController(0.0003397,0, 0);//.00005
+  public final PIDController pid = new PIDController(0,0, 0);//0.0003397
   public PowerDistributionPanel pdp = new PowerDistributionPanel();
 
   public TankDrive() {
@@ -83,7 +83,7 @@ public class TankDrive extends SubsystemBase {
       output = -0.4;
     }
     */
-    RobotContainer.difDrive.arcadeDrive(output, 0);
+    //RobotContainer.difDrive.arcadeDrive(output, 0);
     SmartDashboard.putNumber("Total auto current", pdp.getTotalCurrent());
   }
   

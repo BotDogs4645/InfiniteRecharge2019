@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.VisionCode;
 import frc.robot.subsystems.GearShiftSubsystem;
+import frc.robot.subsystems.Motor;
 import frc.robot.subsystems.PneumaticsSubsystem;
 import frc.robot.subsystems.TankDrive;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -24,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.robot.commands.MoveDistance;
+import frc.robot.commands.MoveMotor;
 import frc.robot.commands.gearshift.GearShiftCommand;
 import frc.robot.commands.pneumatics.BothDownCommand;
 import frc.robot.commands.pneumatics.BothUpCommand;
@@ -46,6 +48,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final VisionCode vision = new VisionCode();
   private final ExampleCommand m_autoCommand = new ExampleCommand();
+  private final Motor motorSub = new Motor();
 
   public static TankDrive tankDriveSubsystem = new TankDrive(); 
   public static PneumaticsSubsystem m_pneumaticssubsytem = new PneumaticsSubsystem();
@@ -76,7 +79,10 @@ public class RobotContainer {
 
   //change all these to xbox controller
 
-  public static JoystickButton GearShiftButton = new JoystickButton(stick,2);
+  public static JoystickButton GearShiftButton = new JoystickButton(stick,1);
+
+  public static JoystickButton intakeButton = new JoystickButton(stick,2);
+
 
   public static JoystickButton LeftUp = new JoystickButton(stick,7);
   public static JoystickButton LeftOff = new JoystickButton(stick,9);
@@ -136,8 +142,9 @@ public class RobotContainer {
     RightOff.whenPressed(new RightOffCommand(m_pneumaticssubsytem), true);
     RightDown.whenPressed(new RightDownCommand(m_pneumaticssubsytem), true);
 
-    GearShiftButton.whenHeld(new GearShiftCommand(m_gearshiftsubsystem), true);
+    GearShiftButton.whileHeld(new GearShiftCommand(m_gearshiftsubsystem), true);
     
+    intakeButton.whileHeld(new MoveMotor(motorSub));
 
     //BothUp.whileHeld(new BothUpCommand(m_pneumaticssubsytem));
     //BothDown.whileHeld(new BothDownCommand(m_pneumaticssubsytem));
