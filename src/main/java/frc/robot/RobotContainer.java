@@ -18,6 +18,7 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.VisionCode;
 import frc.robot.subsystems.GearShiftSubsystem;
 import frc.robot.subsystems.IRSensor;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.Motor;
 import frc.robot.subsystems.PneumaticsSubsystem;
 import frc.robot.subsystems.TankDrive;
@@ -54,7 +55,7 @@ public class RobotContainer {
   private final Motor motorSub = new Motor();
 
   public static IRSensor sensor = new IRSensor();
-
+  public static LEDSubsystem ledSubsystemObject = new LEDSubsystem();
   public static TankDrive tankDriveSubsystem = new TankDrive(); 
   public static PneumaticsSubsystem m_pneumaticssubsytem = new PneumaticsSubsystem();
   public static GearShiftSubsystem m_gearshiftsubsystem = new GearShiftSubsystem();
