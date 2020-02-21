@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.commands.GetPressure;
+import frc.robot.subsystems.TankDrive;
 
 
 public class PneumaticsSubsystem extends SubsystemBase {
@@ -32,5 +33,11 @@ public class PneumaticsSubsystem extends SubsystemBase {
         SmartDashboard.putString("Left Piston", state + "");
 
         RobotContainer.LeftPiston.set(state);
+    }
+
+    @Override
+    public void periodic() {
+    // This method will be called once per scheduler run
+        SmartDashboard.putNumber("Climb angle", TankDrive.ahrs.getPitch());
     }
 }
