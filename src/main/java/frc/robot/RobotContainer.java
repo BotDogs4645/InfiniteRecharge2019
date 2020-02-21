@@ -20,6 +20,7 @@ import frc.robot.subsystems.GearShiftSubsystem;
 import frc.robot.subsystems.IRSensor;
 import frc.robot.subsystems.Motor;
 import frc.robot.subsystems.PneumaticsSubsystem;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.TankDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -29,6 +30,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import frc.robot.commands.MoveDistance;
 import frc.robot.commands.MoveMotor;
+import frc.robot.commands.RunShooter;
 import frc.robot.commands.gearshift.GearShiftCommand;
 import frc.robot.commands.pneumatics.BothDownCommand;
 import frc.robot.commands.pneumatics.BothUpCommand;
@@ -52,6 +54,7 @@ public class RobotContainer {
   private final VisionCode vision = new VisionCode();
   private final ExampleCommand m_autoCommand = new ExampleCommand();
   private final Motor motorSub = new Motor();
+  public static final Shooter shooterSub = new Shooter();
 
   public static IRSensor sensor = new IRSensor();
 
@@ -103,7 +106,7 @@ public class RobotContainer {
   public static JoystickButton RightUp = new JoystickButton(stick,8);
   public static JoystickButton RightOff = new JoystickButton(stick,10);
   public static JoystickButton RightDown = new JoystickButton(stick,12);
-
+  public static JoystickButton shooterButton = new JoystickButton(stick, 5);
 
   //public static JoystickButton BothUp = new JoystickButton(stick,9);
   //public static JoystickButton BothDown = new JoystickButton(stick,11);
@@ -157,6 +160,8 @@ public class RobotContainer {
     GearShiftButton.whileHeld(new GearShiftCommand(m_gearshiftsubsystem), true);
     
     intakeButton.whileHeld(new MoveMotor(motorSub));
+
+    shooterButton.whileHeld(new RunShooter(shooterSub, Constants.shooterTargetRPM));
 
     //BothUp.whileHeld(new BothUpCommand(m_pneumaticssubsytem));
     //BothDown.whileHeld(new BothDownCommand(m_pneumaticssubsytem));
