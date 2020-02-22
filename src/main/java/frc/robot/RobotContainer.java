@@ -46,17 +46,19 @@ import frc.robot.commands.pneumatics.PneumaticsToggle;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final VisionCode vision = new VisionCode();
   private final ExampleCommand m_autoCommand = new ExampleCommand();
-  private final IntakeMotor motorSub = new IntakeMotor();
-  public static final Shooter shooterSub = new Shooter();
 
-  public static IRSensor sensor = new IRSensor();
+  private final VisionCode vision = new VisionCode();
+  
+  private static final IntakeMotor motorSub = new IntakeMotor();
+  private static final Shooter shooterSub = new Shooter();
 
-  public static TankDrive tankDriveSubsystem = new TankDrive(); 
-  public static PneumaticsSubsystem m_pneumaticssubsytem = new PneumaticsSubsystem();
-  public static GearShiftSubsystem m_gearshiftsubsystem = new GearShiftSubsystem();
-  public static PressureSensor m_pressuresensorsubsytem = new PressureSensor();
+  private static final IRSensor sensor = new IRSensor();
+
+  private static final TankDrive tankDriveSubsystem = new TankDrive(); 
+  private static final PneumaticsSubsystem m_pneumaticssubsytem = new PneumaticsSubsystem();
+  private static final GearShiftSubsystem m_gearshiftsubsystem = new GearShiftSubsystem();
+  private static final PressureSensor m_pressuresensorsubsytem = new PressureSensor();
 
 
 
@@ -69,6 +71,11 @@ public class RobotContainer {
   public static final WPI_TalonSRX middleRight = new WPI_TalonSRX(1); //1
   public static final WPI_TalonSRX rearRight = new WPI_TalonSRX(10);
 
+  private static final SpeedControllerGroup leftSide = new SpeedControllerGroup(frontLeft, middleLeft, rearLeft);
+  private static final SpeedControllerGroup rightSide = new SpeedControllerGroup(frontRight, middleRight, rearRight);
+  public static final DifferentialDrive difDrive = new DifferentialDrive(leftSide, rightSide);
+  
+
   //INDEXER MOTORS
   public static final WPI_TalonSRX OuttakeHold = new WPI_TalonSRX(11);
   public static final WPI_VictorSPX indexerMotor = new WPI_VictorSPX(7);
@@ -79,10 +86,11 @@ public class RobotContainer {
   public static final DoubleSolenoid LeftPiston = new DoubleSolenoid(2,3);
 
   //GEARSHIFT SOLENOIDS
-  public static Solenoid gearshift1 = new Solenoid(4);
-  public static Solenoid gearshift2 = new Solenoid(5);
+  public static final Solenoid gearshift1 = new Solenoid(4);
+  public static final Solenoid gearshift2 = new Solenoid(5);
 
   //MAIN JOYSTICK
+
   public static final Joystick stick = new Joystick(0);
 
   public static JoystickButton GearShiftButton = new JoystickButton(stick,1);
@@ -90,7 +98,7 @@ public class RobotContainer {
   public static JoystickButton inwardsintakeButton = new JoystickButton(stick,4);
   public static JoystickButton outwardsintakeButton = new JoystickButton(stick,6);
 
-  //DRIVER 2
+  //XBOX CONTROLLER
   public static XboxController Xbox = new XboxController(1);
 
   public static JoystickButton leftjoystickbutton = new JoystickButton(Xbox, 9);
@@ -98,12 +106,6 @@ public class RobotContainer {
 
   public static JoystickButton shooterButton = new JoystickButton(Xbox,6);
 
-  //DIFFERENTIAL DRIVE STUFF
-  private static final SpeedControllerGroup leftSide = new SpeedControllerGroup(frontLeft, middleLeft, rearLeft);
-
-  private static final SpeedControllerGroup rightSide = new SpeedControllerGroup(frontRight, middleRight, rearRight);
-
-  public static final DifferentialDrive difDrive = new DifferentialDrive(leftSide, rightSide);
   
 
   /**
@@ -111,17 +113,13 @@ public class RobotContainer {
    */
   public RobotContainer() {
     RobotContainer.frontLeft.follow(RobotContainer.middleLeft);
-    /*
-    frontLeft.configClosedloopRamp(2);
-    frontRight.configClosedloopRamp(2);
+    
+    
+    middleLeft.configClosedloopRamp(1);
+    middleRight.configClosedloopRamp(1);
 
-    middleLeft.configClosedloopRamp(2);
-    middleRight.configClosedloopRamp(2);
-
-    rearLeft.configClosedloopRamp(2);
-    rearRight.configClosedloopRamp(2);
-    */
-    //frontLeft.con
+    
+    
 
     RobotContainer.rearLeft.follow(RobotContainer.middleLeft);
   

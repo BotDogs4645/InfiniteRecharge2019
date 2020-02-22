@@ -25,10 +25,10 @@ public class PneumaticsToggle extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.m_pneumaticssubsytem.leftpiston(Value.kOff);
-    RobotContainer.m_pneumaticssubsytem.rightpiston(Value.kOff);
+    subsystem.leftpiston(Value.kOff);
+    subsystem.rightpiston(Value.kOff);
 
-    RobotContainer.m_pneumaticssubsytem.toggle();
+    subsystem.toggle();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
