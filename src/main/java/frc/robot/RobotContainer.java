@@ -61,6 +61,118 @@ public class RobotContainer {
   public static final SpeedControllerGroup rightSide = new SpeedControllerGroup(frontRight, middleRight, rearRight);
 
   public static final DifferentialDrive difDrive = new DifferentialDrive(leftSide, rightSide);
+
+  // Create a voltage constraint to ensure we don't accelerate too fast
+  private static final DifferentialDriveVoltageConstraint autoVoltageConstraint =
+    new DifferentialDriveVoltageConstraint(
+      new SimpleMotorFeedforward(Constants.ksVolts,
+                               Constants.kvVoltSecondsPerMeter,
+                               Constants.kaVoltSecondsSquaredPerMeter),
+    Constants.kDriveKinematics,
+    10);
+
+  // Create config for trajectory
+  private static final TrajectoryConfig config = 
+    new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond, 
+                         Constants.kMaxAccelerationMetersPerSecondSquared)
+          //Add kinematics to ensure max speed is actually obeyed
+          .setKinematics(Constants.kDriveKinematics)
+          //Apply the auto voltage constraint
+          .addConstraint(autoVoltageConstraint);
+
+  private static final Trajectory autoTrajectory = TrajectoryGenerator.generateTrajectory(
+    //Start at origin facing the +X direction
+    new Pose2d(0, 0, new Rotation2d(0)),
+    //Wavepoints making a S curve path
+    List.of(
+      new Translation2d(Units.feetToMeters(1), Units.feetToMeters(1)),
+      new Translation2d(Units.feetToMeters(2), -Units.feetToMeters(1))
+      ),
+    //End 3 feet ahead of where robot start, facing forward
+    new Pose2d(Units.feetToMeters(3), 0, new Rotation2d(0)),
+    //Pass config
+    config
+    );
+
+  private static final Trajectory autoTrajectory2 = TrajectoryGenerator.generateTrajectory(
+    //Start at origin facing the +X direction
+    new Pose2d(0, 0, new Rotation2d(0)),
+    //Wavepoints making a S curve path
+    List.of(
+      new Translation2d(Units.feetToMeters(1), Units.feetToMeters(1)),
+      new Translation2d(Units.feetToMeters(2), -Units.feetToMeters(1))
+      ),
+    //End 3 feet ahead of where robot start, facing forward
+    new Pose2d(Units.feetToMeters(3), 0, new Rotation2d(0)),
+    //Pass config
+    config
+    );
+    
+  private static final Trajectory autoTrajectory3 = TrajectoryGenerator.generateTrajectory(
+    //Start at origin facing the +X direction
+    new Pose2d(0, 0, new Rotation2d(0)),
+    //Wavepoints making a S curve path
+    List.of(
+      new Translation2d(Units.feetToMeters(1), Units.feetToMeters(1)),
+      new Translation2d(Units.feetToMeters(2), -Units.feetToMeters(1))
+      ),
+    //End 3 feet ahead of where robot start, facing forward
+    new Pose2d(Units.feetToMeters(3), 0, new Rotation2d(0)),
+    //Pass config
+    config
+    );
+
+  public static final RamseteCommand ramseteCommand = new RamseteCommand(
+    autoTrajectory,
+    tankDriveSubsystem::getPose,
+    new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
+    new SimpleMotorFeedforward(Constants.ksVolts,
+                                Constants.kvVoltSecondsPerMeter,
+                                Constants.kaVoltSecondsSquaredPerMeter),
+    Constants.kDriveKinematics,
+    tankDriveSubsystem::getWheelSpeeds,
+    new PIDController(Constants.kPDriveVel, 0, 0),
+    new PIDController(Constants.kPDriveVel, 0, 0),
+    //RamseteCommand passes volts to the callback
+    tankDriveSubsystem::tankDriveVolts,
+    tankDriveSubsystem
+  );
+
+  public static final RamseteCommand ramseteCommand2 = new RamseteCommand(
+    autoTrajectory2,
+    tankDriveSubsystem::getPose,
+    new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
+    new SimpleMotorFeedforward(Constants.ksVolts,
+                                Constants.kvVoltSecondsPerMeter,
+                                Constants.kaVoltSecondsSquaredPerMeter),
+    Constants.kDriveKinematics,
+    tankDriveSubsystem::getWheelSpeeds,
+    new PIDController(Constants.kPDriveVel, 0, 0),
+    new PIDController(Constants.kPDriveVel, 0, 0),
+    //RamseteCommand passes volts to the callback
+    tankDriveSubsystem::tankDriveVolts,
+    tankDriveSubsystem
+  );
+
+  public static final RamseteCommand ramseteCommand3 = new RamseteCommand(
+    autoTrajectory3,
+    tankDriveSubsystem::getPose,
+    new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
+    new SimpleMotorFeedforward(Constants.ksVolts,
+                                Constants.kvVoltSecondsPerMeter,
+                                Constants.kaVoltSecondsSquaredPerMeter),
+    Constants.kDriveKinematics,
+    tankDriveSubsystem::getWheelSpeeds,
+    new PIDController(Constants.kPDriveVel, 0, 0),
+    new PIDController(Constants.kPDriveVel, 0, 0),
+    //RamseteCommand passes volts to the callback
+    tankDriveSubsystem::tankDriveVolts,
+    tankDriveSubsystem
+  );
+
+  
+
+
   
 
   /**
@@ -100,55 +212,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // Create a voltage constraint to ensure we don't accelerate too fast
-    DifferentialDriveVoltageConstraint autoVoltageConstraint =
-      new DifferentialDriveVoltageConstraint(
-        new SimpleMotorFeedforward(Constants.ksVolts,
-                                   Constants.kvVoltSecondsPerMeter,
-                                   Constants.kaVoltSecondsSquaredPerMeter),
-        Constants.kDriveKinematics,
-        10);
-    
-    // Create config for trajectory
-    TrajectoryConfig config = 
-      new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond, 
-                           Constants.kMaxAccelerationMetersPerSecondSquared)
-          //Add kinematics to ensure max speed is actually obeyed
-          .setKinematics(Constants.kDriveKinematics)
-          //Apply the auto voltage constraint
-          .addConstraint(autoVoltageConstraint);
 
-    Trajectory autoTrajectory = TrajectoryGenerator.generateTrajectory(
-      //Start at origin facing the +X direction
-      new Pose2d(0, 0, new Rotation2d(0)),
-      //Wavepoints making a S curve path
-      List.of(
-        new Translation2d(Units.feetToMeters(1), Units.feetToMeters(1)),
-        new Translation2d(Units.feetToMeters(2), -Units.feetToMeters(1))
-      ),
-      //End 3 feet ahead of where robot start, facing forward
-      new Pose2d(Units.feetToMeters(3), 0, new Rotation2d(0)),
-      //Pass config
-      config
-    );
-
-    RamseteCommand ramseteCommand = new RamseteCommand(
-      autoTrajectory,
-      tankDriveSubsystem::getPose,
-      new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
-      new SimpleMotorFeedforward(Constants.ksVolts,
-                                 Constants.kvVoltSecondsPerMeter,
-                                 Constants.kaVoltSecondsSquaredPerMeter),
-      Constants.kDriveKinematics,
-      tankDriveSubsystem::getWheelSpeeds,
-      new PIDController(Constants.kPDriveVel, 0, 0),
-      new PIDController(Constants.kPDriveVel, 0, 0),
-      //RamseteCommand passes volts to the callback
-      tankDriveSubsystem::tankDriveVolts,
-      tankDriveSubsystem
-    );
-
-    return ramseteCommand;
+    return Robot.m_chooser.getSelected();
   }
 }
 
