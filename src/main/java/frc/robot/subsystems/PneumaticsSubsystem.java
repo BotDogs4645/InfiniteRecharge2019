@@ -44,12 +44,14 @@ public class PneumaticsSubsystem extends SubsystemBase {
         else{
             rightstate = Value.kOff;
         }
-        SmartDashboard.putString("Left Piston", leftstate + "");
-        SmartDashboard.putString("Right Piston", rightstate + "");
+        
 
         SmartDashboard.putBoolean("onorofoff", onoroff);
 
         if (onoroff){
+        SmartDashboard.putString("Left Piston", leftstate + "");
+        SmartDashboard.putString("Right Piston", rightstate + "");
+
         RobotContainer.LeftPiston.set(leftstate);
         RobotContainer.LeftPiston.set(rightstate);
         }

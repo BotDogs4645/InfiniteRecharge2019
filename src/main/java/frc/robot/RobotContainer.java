@@ -15,10 +15,12 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.IntakeMotorInwards;
+import frc.robot.commands.IntakeMotorOutwards;
 import frc.robot.subsystems.VisionCode;
 import frc.robot.subsystems.GearShiftSubsystem;
 import frc.robot.subsystems.IRSensor;
-import frc.robot.subsystems.Motor;
+import frc.robot.subsystems.IntakeMotor;
 import frc.robot.subsystems.PneumaticsSubsystem;
 import frc.robot.subsystems.PressureSensor;
 import frc.robot.subsystems.Shooter;
@@ -29,8 +31,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
-import frc.robot.commands.MoveDistance;
-import frc.robot.commands.MoveMotor;
+
 import frc.robot.commands.RunShooter;
 import frc.robot.commands.gearshift.GearShiftCommand;
 import frc.robot.commands.pneumatics.PneumaticsToggle;
@@ -47,7 +48,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final VisionCode vision = new VisionCode();
   private final ExampleCommand m_autoCommand = new ExampleCommand();
-  private final Motor motorSub = new Motor();
+  private final IntakeMotor motorSub = new IntakeMotor();
   public static final Shooter shooterSub = new Shooter();
 
   public static IRSensor sensor = new IRSensor();
@@ -69,38 +70,35 @@ public class RobotContainer {
   public static final WPI_TalonSRX rearRight = new WPI_TalonSRX(10);
 
   //INDEXER MOTORS
-
   public static final WPI_TalonSRX OuttakeHold = new WPI_TalonSRX(11);
   public static final WPI_VictorSPX indexerMotor = new WPI_VictorSPX(7);
   public static final WPI_VictorSPX intakeMotor= new WPI_VictorSPX(1);
 
-
+  //CLIMBING PNEUMATICS
   public static final DoubleSolenoid RightPiston = new DoubleSolenoid(0,1);
   public static final DoubleSolenoid LeftPiston = new DoubleSolenoid(2,3);
 
+  //GEARSHIFT SOLENOIDS
   public static Solenoid gearshift1 = new Solenoid(4);
   public static Solenoid gearshift2 = new Solenoid(5);
 
-
+  //MAIN JOYSTICK
   public static final Joystick stick = new Joystick(0);
-  
-  //public static final JoystickButton tankDriveButton = new JoystickButton(stick, 2);//change back to 5
-
-
-  //change all these to xbox controller
 
   public static JoystickButton GearShiftButton = new JoystickButton(stick,1);
 
-  public static JoystickButton intakeButton = new JoystickButton(stick,2);
+  public static JoystickButton inwardsintakeButton = new JoystickButton(stick,4);
+  public static JoystickButton outwardsintakeButton = new JoystickButton(stick,6);
 
+  //DRIVER 2
   public static XboxController Xbox = new XboxController(1);
 
   public static JoystickButton leftjoystickbutton = new JoystickButton(Xbox, 9);
   public static JoystickButton rightjoystickbutton = new JoystickButton(Xbox,10);
 
-  public static JoystickButton shooterButton = new JoystickButton(Xbox,1);
+  public static JoystickButton shooterButton = new JoystickButton(Xbox,6);
 
-
+  //DIFFERENTIAL DRIVE STUFF
   private static final SpeedControllerGroup leftSide = new SpeedControllerGroup(frontLeft, middleLeft, rearLeft);
 
   private static final SpeedControllerGroup rightSide = new SpeedControllerGroup(frontRight, middleRight, rearRight);
@@ -151,7 +149,8 @@ public class RobotContainer {
 
     GearShiftButton.whileHeld(new GearShiftCommand(m_gearshiftsubsystem), true);
     
-    intakeButton.whileHeld(new MoveMotor(motorSub));
+    inwardsintakeButton.whileHeld(new IntakeMotorInwards(motorSub));
+    outwardsintakeButton.whileHeld(new IntakeMotorOutwards(motorSub));
 
     leftjoystickbutton.whileActiveOnce(new PneumaticsToggle(m_pneumaticssubsytem));
     rightjoystickbutton.whileActiveOnce(new PneumaticsToggle(m_pneumaticssubsytem));

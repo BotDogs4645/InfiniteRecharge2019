@@ -9,7 +9,7 @@ package frc.robot.commands.pneumatics;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Motor;
+import frc.robot.subsystems.IntakeMotor;
 import frc.robot.subsystems.PneumaticsSubsystem;
 
 public class PneumaticsJoysticks extends CommandBase {

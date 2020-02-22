@@ -8,17 +8,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Motor;
+import frc.robot.subsystems.IntakeMotor;
 
-public class MoveMotor extends CommandBase {
+public class IntakeMotorInwards extends CommandBase {
   
   //Subsystem the command runs on
-  private final Motor motorSub;
+  private final IntakeMotor intakemotorSub;
 
-  public MoveMotor(Motor pMotorSub) {
-    motorSub = pMotorSub;
+  public IntakeMotorInwards(IntakeMotor pMotorSub) {
+    intakemotorSub = pMotorSub;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(motorSub);
+    addRequirements(intakemotorSub);
   }
 
   // Called when the command is initially scheduled.
@@ -33,7 +33,7 @@ public class MoveMotor extends CommandBase {
     Sets motor speed to 50%
 
     */
-    motorSub.move(-0.5);
+    intakemotorSub.move(-0.5);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -45,7 +45,7 @@ public class MoveMotor extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     //Set the motor speed back to 0% (stop) when command is finished
-    motorSub.move(0);
+    intakemotorSub.move(0);
   }
 
   // Returns true when the command should end.
