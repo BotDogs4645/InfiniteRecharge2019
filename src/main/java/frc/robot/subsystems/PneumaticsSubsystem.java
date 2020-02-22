@@ -83,5 +83,9 @@ public class PneumaticsSubsystem extends SubsystemBase {
         RobotContainer.LeftPiston.set(state);
     }
 
-    
+    @Override
+    public void periodic() {
+    // This method will be called once per scheduler run
+        SmartDashboard.putNumber("Climb angle", TankDrive.ahrs.getPitch());
+    }
 }

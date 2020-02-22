@@ -7,7 +7,8 @@ import frc.robot.RobotContainer;
 public class GearShiftSubsystem extends SubsystemBase {
     //Creates solenoid object
     //hi its me, natarichard :) ٩(♡ε♡ )۶ 
-public GearShiftSubsystem() {  
+
+    public GearShiftSubsystem() {  
         //setDefaultCommand(new GetPressure(this));
     }
 

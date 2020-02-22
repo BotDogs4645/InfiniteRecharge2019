@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -20,6 +22,7 @@ public class TankDrive extends SubsystemBase {
 
   public final PIDController pid = new PIDController(0,0, 0);//0.0003397
   public PowerDistributionPanel pdp = new PowerDistributionPanel();
+  public static final AHRS ahrs = new AHRS();
 
   public TankDrive() {
     setDefaultCommand(new DriveCommand(this));

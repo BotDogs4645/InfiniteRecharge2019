@@ -4,7 +4,7 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
-<<<<<<< HEAD
+
     {
       "type": "java",
       "name": "CodeLens (Launch) - Main",
@@ -12,28 +12,21 @@
       "mainClass": "frc.robot.Main",
       "projectName": "thereal"
     },
-=======
-
->>>>>>> bc927530b1af41f1c59858460dd4b18fabcd0ce4
     {
       "type": "wpilib",
       "name": "WPILib Desktop Debug",
       "request": "launch",
-<<<<<<< HEAD
+
       "desktop": true
-=======
-      "desktop": true,
->>>>>>> bc927530b1af41f1c59858460dd4b18fabcd0ce4
+
     },
     {
       "type": "wpilib",
       "name": "WPILib roboRIO Debug",
       "request": "launch",
-<<<<<<< HEAD
-      "desktop": false
-=======
+
+
       "desktop": false,
->>>>>>> bc927530b1af41f1c59858460dd4b18fabcd0ce4
     }
   ]
 }

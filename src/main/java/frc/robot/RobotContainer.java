@@ -17,18 +17,36 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.VisionCode;
 import frc.robot.subsystems.GearShiftSubsystem;
+import frc.robot.subsystems.IRSensor;
 import frc.robot.subsystems.Motor;
 import frc.robot.subsystems.PneumaticsSubsystem;
-import frc.robot.subsystems.PressureSensor;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.TankDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+<<<<<<< HEAD
 import frc.robot.commands.MoveDistance;
 import frc.robot.commands.MoveMotor;
 import frc.robot.commands.gearshift.GearShiftCommand;
 import frc.robot.commands.pneumatics.PneumaticsToggle;
+=======
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
+import frc.robot.commands.MoveDistance;
+import frc.robot.commands.MoveMotor;
+import frc.robot.commands.RunShooter;
+import frc.robot.commands.gearshift.GearShiftCommand;
+import frc.robot.commands.pneumatics.BothDownCommand;
+import frc.robot.commands.pneumatics.BothUpCommand;
+import frc.robot.commands.pneumatics.LeftDownCommand;
+import frc.robot.commands.pneumatics.LeftOffCommand;
+import frc.robot.commands.pneumatics.LeftUpCommand;
+import frc.robot.commands.pneumatics.RightDownCommand;
+import frc.robot.commands.pneumatics.RightOffCommand;
+import frc.robot.commands.pneumatics.RightUpCommand;
+>>>>>>> 4345f22499ee7acceed59d038c10563e2a0034c7
 
 
 
@@ -43,15 +61,25 @@ public class RobotContainer {
   private final VisionCode vision = new VisionCode();
   private final ExampleCommand m_autoCommand = new ExampleCommand();
   private final Motor motorSub = new Motor();
+<<<<<<< HEAD
+=======
+  public static final Shooter shooterSub = new Shooter();
+
+  public static IRSensor sensor = new IRSensor();
+>>>>>>> 4345f22499ee7acceed59d038c10563e2a0034c7
 
   public static TankDrive tankDriveSubsystem = new TankDrive(); 
   public static PneumaticsSubsystem m_pneumaticssubsytem = new PneumaticsSubsystem();
   public static GearShiftSubsystem m_gearshiftsubsystem = new GearShiftSubsystem();
+<<<<<<< HEAD
   public static PressureSensor m_pressuresensorsubsytem = new PressureSensor();
+=======
+>>>>>>> 4345f22499ee7acceed59d038c10563e2a0034c7
 
 
 
   //TANK DRIVE MOTORS
+<<<<<<< HEAD
   public static final WPI_TalonSRX frontLeft = new WPI_TalonSRX(4); //0
   public static final WPI_TalonSRX middleLeft = new WPI_TalonSRX(5); //13
   public static final WPI_TalonSRX rearLeft = new WPI_TalonSRX(6); //11
@@ -59,6 +87,22 @@ public class RobotContainer {
   public static final WPI_TalonSRX frontRight = new WPI_TalonSRX(1); //12
   public static final WPI_TalonSRX middleRight = new WPI_TalonSRX(2); //1
   public static final WPI_TalonSRX rearRight = new WPI_TalonSRX(10);//10
+=======
+  public static final WPI_TalonSRX frontLeft = new WPI_TalonSRX(0); //0
+  public static final WPI_TalonSRX middleLeft = new WPI_TalonSRX(13); //13
+  public static final WPI_TalonSRX rearLeft = new WPI_TalonSRX(11); //11
+
+  public static final WPI_TalonSRX frontRight = new WPI_TalonSRX(12); //12
+  public static final WPI_TalonSRX middleRight = new WPI_TalonSRX(1); //1
+  public static final WPI_TalonSRX rearRight = new WPI_TalonSRX(10);
+
+  //INDEXER MOTORS
+
+  public static final WPI_TalonSRX OuttakeHold = new WPI_TalonSRX(11);
+  public static final WPI_VictorSPX indexerMotor = new WPI_VictorSPX(7);
+  public static final WPI_VictorSPX intakeMotor= new WPI_VictorSPX(1);
+
+>>>>>>> 4345f22499ee7acceed59d038c10563e2a0034c7
 
   public static final DoubleSolenoid RightPiston = new DoubleSolenoid(0,1);
   public static final DoubleSolenoid LeftPiston = new DoubleSolenoid(2,3);
@@ -78,10 +122,27 @@ public class RobotContainer {
 
   public static JoystickButton intakeButton = new JoystickButton(stick,2);
 
+<<<<<<< HEAD
   public static XboxController Xbox = new XboxController(1);
 
   public static JoystickButton leftjoystickbutton = new JoystickButton(Xbox, 9);
   public static JoystickButton rightjoystickbutton = new JoystickButton(Xbox,10);
+=======
+
+  public static JoystickButton LeftUp = new JoystickButton(stick,7);
+  public static JoystickButton LeftOff = new JoystickButton(stick,9);
+  public static JoystickButton LeftDown = new JoystickButton(stick,11);
+
+  public static JoystickButton RightUp = new JoystickButton(stick,8);
+  public static JoystickButton RightOff = new JoystickButton(stick,10);
+  public static JoystickButton RightDown = new JoystickButton(stick,12);
+  public static JoystickButton shooterButton = new JoystickButton(stick, 5);
+
+  //public static JoystickButton BothUp = new JoystickButton(stick,9);
+  //public static JoystickButton BothDown = new JoystickButton(stick,11);
+
+  //public static JoystickButton Stop = new JoystickButton(stick,12);
+>>>>>>> 4345f22499ee7acceed59d038c10563e2a0034c7
 
   private static final SpeedControllerGroup leftSide = new SpeedControllerGroup(frontLeft, middleLeft, rearLeft);
 
@@ -95,6 +156,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     RobotContainer.frontLeft.follow(RobotContainer.middleLeft);
+<<<<<<< HEAD
     /*
     frontLeft.configClosedloopRamp(2);
     frontRight.configClosedloopRamp(2);
@@ -107,6 +169,8 @@ public class RobotContainer {
     */
     //frontLeft.con
 
+=======
+>>>>>>> 4345f22499ee7acceed59d038c10563e2a0034c7
     RobotContainer.rearLeft.follow(RobotContainer.middleLeft);
   
     RobotContainer.frontLeft.setInverted(true);
@@ -131,12 +195,30 @@ public class RobotContainer {
   private void configureButtonBindings() {
    // tankDriveButton.whenPressed(new MoveDistance(tankDriveSubsystem, 36));
 
+<<<<<<< HEAD
+=======
+    LeftUp.whenPressed(new LeftUpCommand(m_pneumaticssubsytem), true);
+    LeftOff.whenPressed(new LeftOffCommand(m_pneumaticssubsytem), true);
+    LeftDown.whenPressed(new LeftDownCommand(m_pneumaticssubsytem), true);
+
+    RightUp.whenPressed(new RightUpCommand(m_pneumaticssubsytem), true);
+    RightOff.whenPressed(new RightOffCommand(m_pneumaticssubsytem), true);
+    RightDown.whenPressed(new RightDownCommand(m_pneumaticssubsytem), true);
+
+>>>>>>> 4345f22499ee7acceed59d038c10563e2a0034c7
     GearShiftButton.whileHeld(new GearShiftCommand(m_gearshiftsubsystem), true);
     
     intakeButton.whileHeld(new MoveMotor(motorSub));
 
+<<<<<<< HEAD
     leftjoystickbutton.whileActiveOnce(new PneumaticsToggle(m_pneumaticssubsytem));
     rightjoystickbutton.whileActiveOnce(new PneumaticsToggle(m_pneumaticssubsytem));
+=======
+    shooterButton.whileHeld(new RunShooter(shooterSub, Constants.shooterTargetRPM));
+
+    //BothUp.whileHeld(new BothUpCommand(m_pneumaticssubsytem));
+    //BothDown.whileHeld(new BothDownCommand(m_pneumaticssubsytem));
+>>>>>>> 4345f22499ee7acceed59d038c10563e2a0034c7
   }
 
 
