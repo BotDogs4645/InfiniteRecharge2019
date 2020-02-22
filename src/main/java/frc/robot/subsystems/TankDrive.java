@@ -1,9 +1,9 @@
 package frc.robot.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.RobotContainer;
@@ -20,6 +20,7 @@ public class TankDrive extends SubsystemBase {
 
   public final PIDController pid = new PIDController(0,0, 0);//0.0003397
   public PowerDistributionPanel pdp = new PowerDistributionPanel();
+  public static final AHRS ahrs = new AHRS();
 
   public TankDrive() {
     setDefaultCommand(new DriveCommand(this));
@@ -83,7 +84,7 @@ public class TankDrive extends SubsystemBase {
       output = -0.4;
     }
     */
-    //RobotContainer.difDrive.arcadeDrive(output, 0);
+    RobotContainer.difDrive.arcadeDrive(output, 0);
     SmartDashboard.putNumber("Total auto current", pdp.getTotalCurrent());
   }
   
