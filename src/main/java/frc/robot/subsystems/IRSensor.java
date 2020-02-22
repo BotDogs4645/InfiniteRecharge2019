@@ -16,6 +16,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import frc.robot.commands.RunIndexer;
 //import edu.wpi.first.wpilibj.InterruptableSensorBase;
 //import edu.wpi.first.wpilibj.SensorBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,32 +26,33 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class IRSensor extends SubsystemBase{
 
-  int LEDPIN = 13;
-  int SENSORPIN = 4;
-
-  DigitalInput IRIntake = new DigitalInput(9);
-  DigitalInput IRIndex = new DigitalInput(6);
-  DigitalInput IROutake = new DigitalInput(8);
+  DigitalInput IRIntake = new DigitalInput(5);
+  DigitalInput IRIndexer = new DigitalInput(7);
+  DigitalInput IROutake = new DigitalInput(9);
   int count = 0;
   Boolean LastIntakeValue = true;
   Boolean LastOuttakeValue = true;
-    
-  public void setup(){
+
+  public IRSensor() {  
+    setDefaultCommand(new RunIndexer(this));
+  }  
+
+
+  public void readIR(){
  
     if(!IRIntake.get()) { 
     //Roller Begins to Move; Counts # of new balls in the indexer
      
       if(LastIntakeValue == true) {
         count++;
-        RobotContainer.indexerMotor.set(0.5);
-        RobotContainer.OuttakeHold.set(0.5);
+        RobotContainer.IndexerMotor.set(0.5);
+        RobotContainer.ShooterMotor.set(0.5);
       }
-    } 
-    
-    if(!(IRIndex.get())){
+    }
+    else if((IRIndexer.get())){
       //Roller Stops and hold the ball in the first position
-      RobotContainer.indexerMotor.set(0);
-      RobotContainer.OuttakeHold.set(0);
+      RobotContainer.IndexerMotor.set(0);
+      RobotContainer.ShooterMotor.set(0);
     }
     
     if  (!(IROutake.get())){
@@ -58,10 +60,14 @@ public class IRSensor extends SubsystemBase{
       if(LastOuttakeValue == true){
         count--; 
       } 
-      RobotContainer.OuttakeHold.set(0);
-      
+      RobotContainer.ShooterMotor.set(0); 
     }
-        
+    
+  
+    
+    SmartDashboard.putBoolean("Intake IR: ", IRIntake.get());
+    SmartDashboard.putBoolean("Indexer IR: ", IRIndexer.get());
+    SmartDashboard.putBoolean("Outtake IR: ", IROutake.get());
   
     SmartDashboard.putNumber("Number of Balls: ", count);
     LastIntakeValue = IRIntake.get();
@@ -71,7 +77,6 @@ public class IRSensor extends SubsystemBase{
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    setup();
   }
 
 }

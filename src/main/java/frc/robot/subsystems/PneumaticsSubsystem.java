@@ -1,12 +1,10 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
-import frc.robot.commands.GetPressure;
 import frc.robot.commands.pneumatics.PneumaticsJoysticks;
 
 
@@ -53,10 +51,12 @@ public class PneumaticsSubsystem extends SubsystemBase {
         SmartDashboard.putString("Right Piston", rightstate + "");
 
         RobotContainer.LeftPiston.set(leftstate);
-        RobotContainer.LeftPiston.set(rightstate);
+        RobotContainer.RightPiston.set(rightstate);
         }
-
-        
+        else{
+        leftpiston(Value.kOff);
+        rightpiston(Value.kOff);
+        }
     }
 
 

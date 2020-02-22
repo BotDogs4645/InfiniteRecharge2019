@@ -7,9 +7,7 @@
 
 package frc.robot.commands.pneumatics;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.PneumaticsSubsystem;
 
 public class PneumaticsToggle extends CommandBase {
@@ -25,9 +23,6 @@ public class PneumaticsToggle extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    subsystem.leftpiston(Value.kOff);
-    subsystem.rightpiston(Value.kOff);
-
     subsystem.toggle();
   }
 
