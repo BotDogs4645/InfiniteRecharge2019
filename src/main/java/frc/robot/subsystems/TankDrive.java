@@ -83,7 +83,7 @@ public class TankDrive extends SubsystemBase {
       output = -0.4;
     }
     */
-    //RobotContainer.difDrive.arcadeDrive(output, 0);
+    RobotContainer.difDrive.arcadeDrive(output, 0);
     SmartDashboard.putNumber("Total auto current", pdp.getTotalCurrent());
   }
   
