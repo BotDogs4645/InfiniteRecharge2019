@@ -16,8 +16,8 @@ public class GetPressure extends CommandBase {
   /**
    * Creates a new ExampleCommand.
    */
-  public static PneumaticsSubsystem subsystem;
-  public GetPressure(PneumaticsSubsystem sub) {
+  public static PressureSensor subsystem;
+  public GetPressure(PressureSensor sub) {
     subsystem = sub;
     addRequirements(subsystem); 
 
