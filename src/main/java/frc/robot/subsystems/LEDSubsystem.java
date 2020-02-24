@@ -11,7 +11,8 @@ public class LEDSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-
+        chicago();
+        m_led.setData(m_ledBuffer);
     }
 
     public void redLEDS() {
@@ -36,9 +37,30 @@ public class LEDSubsystem extends SubsystemBase {
         m_led.start();
     }
 
-    public void chicagoLEDS() {
+    public void chicago() {
         AddressableLED m_led = new AddressableLED(0);
-        AddressableLEDBuffer chicagoBuffer = new AddressableLEDBuffer(5);
+        AddressableLEDBuffer blueBuffer = new AddressableLEDBuffer(5);
         m_led.setLength(chicagoBuffer.getLength());
+        // loop through 3 colors
+        for (int i = 0; int bluState = 0; i < chicagoBuffer.getLength(); bluState < 256; i++; bluState++) {
+            chicagoBuffer.setRGB(i, 0, 0, bluState);
+        }
+        for (int i = 0; int bluState = 255; i < chicagoBuffer.getLength(); bluState > -1; i++; bluState--) {
+            chicagoBuffer.setRGB(i, 0, 0, bluState);
+        }
+        for (int i = 0; int redState = 0; i < chicagoBuffer.getLength(); redState < 256; i++; redState++) {
+            chicagoBuffer.setRGB(i, redState, 0, 0);
+        }
+        for (int i = 0; int redState = 255; i < chicagoBuffer.getLength(); redState > -1; i++; redState--) {
+            chicagoBuffer.setRGB(i, redState, 0, 0);
+        }        
+        for (int i = 0; int whiteState = 0; i < chicagoBuffer.getLength(); whiteState < 256; i++; whiteState++) {
+            chicagoBuffer.setRGB(i, whiteState, whiteState, whiteState);
+        }
+        for (int i = 0; int whiteState = 255; i < chicagoBuffer.getLength(); whiteState < 256; i++; whiteState--) {
+            chicagoBuffer.setRGB(i, whiteState, whiteState, whiteState);
+        }        
+        m_led.setData(blueBuffer);
+        m_led.start();
     }
 }
