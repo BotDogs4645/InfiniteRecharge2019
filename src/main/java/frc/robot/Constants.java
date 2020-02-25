@@ -49,9 +49,9 @@ public final class Constants {
     public static final double shooterVS = 12.0 / shooterFreeRPM;
 
     //Shooter PID gains
-    public static final double shooterP = 0.00629510; //05;//.01685;//.0072;//0.05; //0.005
-    public static final double shooterI = 0;//0.0005;//0;//.047;//0.01;
-    public static final double shooterD = 0.0000401;//.00068;//.0006;//0.0006;//0.0007;
+    public static final double shooterP = 0.00629510;//0.00629510; //05;//.01685;//.0072;//0.05; //0.005
+    public static final double shooterI = 0;//0;//0.0005;//0;//.047;//0.01;
+    public static final double shooterD = 0.0000401;//0.0000401;//.00068;//.0006;//0.0006;//0.0007;
     public static final double shooterPIDTolerance = 100;
 
 

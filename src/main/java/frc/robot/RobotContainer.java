@@ -29,6 +29,7 @@ import frc.robot.subsystems.TankDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
@@ -83,8 +84,8 @@ public class RobotContainer {
   public static final WPI_TalonSRX ShooterMotor= new WPI_TalonSRX(2);
 
   //CLIMBING PNEUMATICS
-  public static final DoubleSolenoid RightPiston = new DoubleSolenoid(1,0);
-  public static final DoubleSolenoid LeftPiston = new DoubleSolenoid(3,2);
+  public static final DoubleSolenoid RightPiston = new DoubleSolenoid(3,2);
+  public static final DoubleSolenoid LeftPiston = new DoubleSolenoid(1,0);
 
   //GEARSHIFT SOLENOIDS
   public static final Solenoid gearshift1 = new Solenoid(4);
@@ -95,12 +96,12 @@ public class RobotContainer {
 
   public static JoystickButton GearShiftButton = new JoystickButton(stick,1);
 
-  public static JoystickButton inwardsintakeButton = new JoystickButton(stick,4);
-  public static JoystickButton outwardsintakeButton = new JoystickButton(stick,6);
 
   //XBOX CONTROLLER
   public static XboxController Xbox = new XboxController(1);
-  
+  public static JoystickButton inwardsintakeButton = new JoystickButton(Xbox,3);
+  public static JoystickButton outwardsintakeButton = new JoystickButton(Xbox,4);
+
 
   public static JoystickButton leftjoystickbutton = new JoystickButton(Xbox, 9);
   public static JoystickButton rightjoystickbutton = new JoystickButton(Xbox,10);
@@ -116,13 +117,31 @@ public class RobotContainer {
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    m_gearshiftsubsystem.in();
+
+    double ramptime = 3;
+    NeutralMode coast = NeutralMode.Coast;
+
     RobotContainer.frontLeft.follow(RobotContainer.middleLeft);
 
-    middleLeft.configClosedloopRamp(1);
-    middleRight.configClosedloopRamp(1);
+    middleLeft.configClosedloopRamp(ramptime);
+    middleRight.configClosedloopRamp(ramptime);
 
+    rearLeft.configClosedloopRamp(ramptime);
+    rearRight.configClosedloopRamp(ramptime);
     
+    frontLeft.configClosedloopRamp(ramptime);
+    frontRight.configClosedloopRamp(ramptime);
+
+
+    middleLeft.setNeutralMode(coast);
+    middleRight.setNeutralMode(coast);
+
+    rearLeft.setNeutralMode(coast);
+    rearRight.setNeutralMode(coast);
     
+    frontRight.setNeutralMode(coast);
+    frontLeft.setNeutralMode(coast);
 
     RobotContainer.rearLeft.follow(RobotContainer.middleLeft);
   

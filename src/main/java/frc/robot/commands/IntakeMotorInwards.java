@@ -33,7 +33,7 @@ public class IntakeMotorInwards extends CommandBase {
     Sets motor speed to 50%
 
     */
-    intakemotorSub.move(-0.5);
+    intakemotorSub.move(-0.7);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
