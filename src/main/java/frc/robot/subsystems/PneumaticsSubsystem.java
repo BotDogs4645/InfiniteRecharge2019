@@ -12,15 +12,17 @@ public class PneumaticsSubsystem extends SubsystemBase {
     //Creates solenoid object
     //hi its me, natarichard :) ٩(♡ε♡ )۶ 
     
-    Boolean onoroff = true;
+    Boolean onoroff = false;
+    //if onoroff true that means controls are enabled
+    //if onoroff false that means controls are disabled
 
     public PneumaticsSubsystem() {  
         setDefaultCommand(new PneumaticsJoysticks(this));
     }
 
     public void joystickpistons(){
-        double leftstickY = -1 * RobotContainer.Xbox.getRawAxis(1);
-        double rightstickY = -1 * RobotContainer.Xbox.getRawAxis(5);
+        double leftstickY = -1 * RobotContainer.Xbox.getRawAxis(5);
+        double rightstickY = -1 * RobotContainer.Xbox.getRawAxis(1);
 
         DoubleSolenoid.Value leftstate;
         if (leftstickY > .9){

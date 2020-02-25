@@ -26,13 +26,20 @@ public class ManualIndexer extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.ShooterMotor.set(speed);
+    if (speed < 0) {
+      RobotContainer.ShooterMotor.set(speed*.5);
+    } else {
+      RobotContainer.ShooterMotor.set(speed);
+
+    }
     RobotContainer.IndexerMotor.set(speed);
+
   }
 
   // Called once the command ends or is interrupted.

@@ -24,19 +24,20 @@ public class GearShiftCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    subsystem.out();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    subsystem.in();
+    
     
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    subsystem.out();
+    subsystem.in();
   }
 
   // Returns true when the command should end.
