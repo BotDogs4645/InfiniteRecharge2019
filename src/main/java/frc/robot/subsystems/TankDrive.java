@@ -1,9 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.RobotContainer;
@@ -20,14 +18,20 @@ public class TankDrive extends SubsystemBase {
 
   public final PIDController pid = new PIDController(0,0, 0);//0.0003397
   public PowerDistributionPanel pdp = new PowerDistributionPanel();
-
+  
   public TankDrive() {
     setDefaultCommand(new DriveCommand(this));
     pid.setTolerance(128); //Error is within 1/8 of a revolution
     
     
   }
-
+  public void turn(boolean isLeft){
+    if(isLeft){
+      RobotContainer.difDrive.tankDrive(-.05, .05);
+    }else{
+      RobotContainer.difDrive.tankDrive(.05, -.05);
+    }
+  }
 
   public void driveWithJoystick() {
     //ONE JOYSTICK

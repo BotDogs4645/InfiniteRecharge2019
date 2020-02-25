@@ -15,9 +15,10 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.VisionCode;
+import frc.robot.commands.LimeCheckDistance;
 import frc.robot.subsystems.GearShiftSubsystem;
 import frc.robot.subsystems.IRSensor;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Motor;
 import frc.robot.subsystems.PneumaticsSubsystem;
 import frc.robot.subsystems.TankDrive;
@@ -27,17 +28,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
-import frc.robot.commands.MoveDistance;
-import frc.robot.commands.MoveMotor;
-import frc.robot.commands.gearshift.GearShiftCommand;
-import frc.robot.commands.pneumatics.BothDownCommand;
-import frc.robot.commands.pneumatics.BothUpCommand;
-import frc.robot.commands.pneumatics.LeftDownCommand;
-import frc.robot.commands.pneumatics.LeftOffCommand;
-import frc.robot.commands.pneumatics.LeftUpCommand;
-import frc.robot.commands.pneumatics.RightDownCommand;
-import frc.robot.commands.pneumatics.RightOffCommand;
-import frc.robot.commands.pneumatics.RightUpCommand;
+import frc.robot.commands.TurnOffLimelight;
+import frc.robot.commands.TurnOnLimelight;
 
 
 
@@ -49,8 +41,12 @@ import frc.robot.commands.pneumatics.RightUpCommand;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final VisionCode vision = new VisionCode();
+  
+  //public static final WPI_TalonSRX limedrive = new WPI_TalonSRX(6);
+  private final Limelight limelight = new Limelight();
+  
   private final ExampleCommand m_autoCommand = new ExampleCommand();
+  
   private final Motor motorSub = new Motor();
 
   public static IRSensor sensor = new IRSensor();
@@ -85,6 +81,7 @@ public class RobotContainer {
 
 
   public static final Joystick stick = new Joystick(0);
+  public static final Joystick stick2 = new Joystick (1);
   
   //public static final JoystickButton tankDriveButton = new JoystickButton(stick, 2);//change back to 5
 
@@ -95,6 +92,8 @@ public class RobotContainer {
 
   public static JoystickButton intakeButton = new JoystickButton(stick,2);
 
+  public static JoystickButton turnOnLimelight = new JoystickButton(stick,3);
+  public static JoystickButton turnOffLimelight = new JoystickButton(stick,4);
 
   public static JoystickButton LeftUp = new JoystickButton(stick,7);
   public static JoystickButton LeftOff = new JoystickButton(stick,9);
@@ -103,6 +102,8 @@ public class RobotContainer {
   public static JoystickButton RightUp = new JoystickButton(stick,8);
   public static JoystickButton RightOff = new JoystickButton(stick,10);
   public static JoystickButton RightDown = new JoystickButton(stick,12);
+
+
 
 
   //public static JoystickButton BothUp = new JoystickButton(stick,9);
@@ -116,11 +117,12 @@ public class RobotContainer {
 
   public static final DifferentialDrive difDrive = new DifferentialDrive(leftSide, rightSide);
   
-
+  
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    /*
     RobotContainer.frontLeft.follow(RobotContainer.middleLeft);
     RobotContainer.rearLeft.follow(RobotContainer.middleLeft);
   
@@ -134,7 +136,9 @@ public class RobotContainer {
     RobotContainer.rearRight.setInverted(true);
 
     // Configure the button bindings
+    */
     configureButtonBindings();
+    
   }
 
   /**
@@ -143,9 +147,19 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
+  
+  // Objects for Lime light
+  
+  public static JoystickButton check = new JoystickButton(stick2,3);
+  
+  
   private void configureButtonBindings() {
-   // tankDriveButton.whenPressed(new MoveDistance(tankDriveSubsystem, 36));
+    turnOnLimelight.whenPressed(new TurnOnLimelight(limelight));
+    turnOffLimelight.whenPressed(new TurnOffLimelight(limelight));
+    check.whenPressed(new LimeCheckDistance(limelight));
 
+    // tankDriveButton.whenPressed(new MoveDistance(tankDriveSubsystem, 36));
+    /*
     LeftUp.whenPressed(new LeftUpCommand(m_pneumaticssubsytem), true);
     LeftOff.whenPressed(new LeftOffCommand(m_pneumaticssubsytem), true);
     LeftDown.whenPressed(new LeftDownCommand(m_pneumaticssubsytem), true);
@@ -160,6 +174,7 @@ public class RobotContainer {
 
     //BothUp.whileHeld(new BothUpCommand(m_pneumaticssubsytem));
     //BothDown.whileHeld(new BothDownCommand(m_pneumaticssubsytem));
+    */
   }
 
 
