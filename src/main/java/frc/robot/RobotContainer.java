@@ -122,6 +122,7 @@ public class RobotContainer {
     config
     );
 
+  
   public static final RamseteCommand ramseteCommand = new RamseteCommand(
     autoTrajectory,
     tankDriveSubsystem::getPose,
@@ -169,11 +170,6 @@ public class RobotContainer {
     tankDriveSubsystem::tankDriveVolts,
     tankDriveSubsystem
   );
-
-  
-
-
-  
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.

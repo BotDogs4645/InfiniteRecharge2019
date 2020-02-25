@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.MoveDistance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -39,6 +40,7 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("Position 1", RobotContainer.ramseteCommand);
     m_chooser.addOption("Position 2", RobotContainer.ramseteCommand2);
     m_chooser.addOption("Position 3", RobotContainer.ramseteCommand3);
+    m_chooser.addOption("Move past initiation line", new MoveDistance(RobotContainer.tankDriveSubsystem, 84));
 
     SmartDashboard.putData("Auto mode", m_chooser);
   }
