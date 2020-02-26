@@ -21,8 +21,8 @@ public class PneumaticsSubsystem extends SubsystemBase {
     }
 
     public void joystickpistons(){
-        double leftstickY = -1 * RobotContainer.Xbox.getRawAxis(5);
-        double rightstickY = -1 * RobotContainer.Xbox.getRawAxis(1);
+        double leftstickY = -1 * RobotContainer.Xbox.getRawAxis(1);
+        double rightstickY = -1 * RobotContainer.Xbox.getRawAxis(5);
 
         DoubleSolenoid.Value leftstate;
         if (leftstickY > .9){

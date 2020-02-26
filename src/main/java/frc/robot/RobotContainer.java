@@ -13,12 +13,12 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.ManualIndexer;
 import frc.robot.commands.ManualIntake;
 import frc.robot.commands.RunIntake;
-import frc.robot.subsystems.VisionCode;
 import frc.robot.subsystems.GearShiftSubsystem;
 import frc.robot.subsystems.IRSensor;
 import frc.robot.subsystems.IntakeMotor;
@@ -49,7 +49,6 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleCommand m_autoCommand = new ExampleCommand();
 
-  private final VisionCode vision = new VisionCode();
   
   private static final IntakeMotor m_intakeSub = new IntakeMotor();
   private static final Shooter shooterSub = new Shooter();
@@ -117,6 +116,9 @@ public class RobotContainer {
    */
   public RobotContainer() {
     m_gearshiftsubsystem.in();
+    m_pneumaticssubsytem.rightpiston(Value.kReverse);
+    m_pneumaticssubsytem.leftpiston(Value.kReverse);
+
 
     double ramptime = 3;
     NeutralMode coast = NeutralMode.Coast;
@@ -180,8 +182,8 @@ public class RobotContainer {
     forwardIndexerButton.whileHeld(new ManualIndexer(sensor, 0.5));
     reverseIndexerButton.whileHeld(new ManualIndexer(sensor, -0.5));
 
-    indexerIntakeButton.whileHeld(new ManualIndexer(sensor, -0.5));
-    indexerIntakeButton.whileHeld(new ManualIntake(m_intakeSub, -0.7));
+    //indexerIntakeButton.whileHeld(new ManualIndexer(sensor, -0.5));
+    indexerIntakeButton.whileHeld(new ManualIntake(m_intakeSub, sensor, -0.7));
 
 
 

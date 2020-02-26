@@ -35,9 +35,9 @@ public class IntakeMotor extends SubsystemBase {
 
   public void controlledIntake() {
     int pov = RobotContainer.Xbox.getPOV();
-    if (pov == 0) {
+    if (pov == 0 || pov == 45 || pov == 315) {
       move(speed);
-    } else if (pov == 180) {
+    } else if (pov == 180 || pov == 135 || pov == 225) {
       move(-speed);
     } else {
       move(0);

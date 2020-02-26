@@ -9,19 +9,24 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.IRSensor;
 import frc.robot.subsystems.IntakeMotor;
 
 public class ManualIntake extends CommandBase {
   
   //Subsystem the command runs on
   private final IntakeMotor subsystem;
+  private final IRSensor indexerSub;
   private final double speed;
 
-  public ManualIntake(IntakeMotor intakemotorSub, double pSpeed) {
+  public ManualIntake(IntakeMotor intakemotorSub, IRSensor pIndexerSub,double pSpeed) {
     subsystem = intakemotorSub;
     speed = pSpeed;
+    indexerSub = pIndexerSub;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
+    addRequirements(indexerSub);
+
   }
 
   // Called when the command is initially scheduled.
@@ -37,7 +42,14 @@ public class ManualIntake extends CommandBase {
 
     */
     subsystem.move(speed);
-    
+
+    if (speed < 0) {
+      RobotContainer.ShooterMotor.set(speed*.5);
+    } else {
+      RobotContainer.ShooterMotor.set(speed);
+
+    }
+    RobotContainer.IndexerMotor.set(speed);
     
   }
 
@@ -52,6 +64,8 @@ public class ManualIntake extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     //Set the motor speed back to 0% (stop) when command is finished
+    RobotContainer.ShooterMotor.set(0);
+    RobotContainer.IndexerMotor.set(0);
     subsystem.move(0);
   }
 
