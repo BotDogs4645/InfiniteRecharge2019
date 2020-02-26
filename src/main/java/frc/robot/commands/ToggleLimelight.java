@@ -10,14 +10,13 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Limelight;
 
-public class TurnOffLimelight extends CommandBase {
+public class ToggleLimelight extends CommandBase {
   /**
-   * Creates a new TurnOffLimelight.
+   * Creates a new TurnOnLimelight.
    */
   public final Limelight limelight;
-  public TurnOffLimelight(Limelight pLimelight) {
+  public ToggleLimelight(Limelight pLimelight) {
     // Use addRequirements() here to declare subsystem dependencies.
-  
     limelight = pLimelight;
     addRequirements(limelight);
   }
@@ -25,9 +24,11 @@ public class TurnOffLimelight extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    limelight.switchPipelines(0);
-    limelight.turnOff();
+    limelight.switchPipelines(1);
+    limelight.toggle();
+
   }
+
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
