@@ -28,8 +28,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
-import frc.robot.commands.TurnOffLimelight;
-import frc.robot.commands.TurnOnLimelight;
+import frc.robot.commands.ToggleLimelight;
 
 
 
@@ -154,8 +153,7 @@ public class RobotContainer {
   
   
   private void configureButtonBindings() {
-    turnOnLimelight.whenPressed(new TurnOnLimelight(limelight));
-    turnOffLimelight.whenPressed(new TurnOffLimelight(limelight));
+    turnOnLimelight.whenPressed(new ToggleLimelight(limelight));
     check.whenPressed(new LimeCheckDistance(limelight));
 
     // tankDriveButton.whenPressed(new MoveDistance(tankDriveSubsystem, 36));
