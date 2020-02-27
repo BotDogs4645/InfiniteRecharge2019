@@ -8,14 +8,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.PneumaticsSubsystem;
+import frc.robot.subsystems.PressureSensor;
 
 public class GetPressure extends CommandBase {
   /**
    * Creates a new ExampleCommand.
    */
-  public static PneumaticsSubsystem subsystem;
-  public GetPressure(PneumaticsSubsystem sub) {
+  public static PressureSensor subsystem;
+  public GetPressure(PressureSensor sub) {
     subsystem = sub;
     addRequirements(subsystem); 
 
@@ -29,6 +29,7 @@ public class GetPressure extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    subsystem.getpressure();
   }
 
   // Called once the command ends or is interrupted.

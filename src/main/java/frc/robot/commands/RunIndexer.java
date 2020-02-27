@@ -5,17 +5,17 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.gearshift;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.GearShiftSubsystem;
+import frc.robot.subsystems.IRSensor;
 
-public class GearShiftCommand extends CommandBase {
+public class RunIndexer extends CommandBase {
   /**
    * Creates a new ExampleCommand.
    */
-  public static GearShiftSubsystem subsystem;
-  public GearShiftCommand(GearShiftSubsystem sub) {
+  public static IRSensor subsystem;
+  public RunIndexer(IRSensor sub) {
     subsystem = sub;
     addRequirements(subsystem); 
 
@@ -24,20 +24,17 @@ public class GearShiftCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    subsystem.out();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-    
+    subsystem.readIR();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    subsystem.in();
   }
 
   // Returns true when the command should end.

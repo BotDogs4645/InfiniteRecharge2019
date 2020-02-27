@@ -3,9 +3,7 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.RobotContainer;
@@ -35,11 +33,14 @@ public class TankDrive extends SubsystemBase {
   public void driveWithJoystick() {
     //ONE JOYSTICK
     
-    double forward = MathUtil.clamp(1 * Math.pow(RobotContainer.stick.getY(), 3),-1,1);
-    //double forward = Math.pow(RobotContainer.stick.getY(), 2);
+    double forward = .75*MathUtil.clamp(1 * Math.pow(RobotContainer.stick.getY(), 3),-1,1);
+    //double forward = Math.signum(RobotContainer.stick.getY())* Math.pow(RobotContainer.stick.getY(), 2);
+    //double forward = RobotContainer.stick.getY()]
     SmartDashboard.putNumber("Forward", forward);
-    double turn = MathUtil.clamp(-1 * Math.pow(RobotContainer.stick.getZ(), 3),-1,1);
+    double turn = .75*MathUtil.clamp(-1 * Math.pow(RobotContainer.stick.getZ(), 3),-1,1);
     //double turn = Math.pow(RobotContainer.stick.getZ(), 2);
+    //double turn = -Math.signum(RobotContainer.stick.getZ())* Math.pow(RobotContainer.stick.getZ(), 2);
+
     SmartDashboard.putNumber("Turn", turn);
 
     /*deadband*/
@@ -96,7 +97,7 @@ public class TankDrive extends SubsystemBase {
       output = -0.4;
     }
     */
-    //RobotContainer.difDrive.arcadeDrive(output, 0);
+    RobotContainer.difDrive.arcadeDrive(output, 0);
     SmartDashboard.putNumber("Total auto current", pdp.getTotalCurrent());
   }
   
