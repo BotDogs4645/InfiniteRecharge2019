@@ -120,18 +120,27 @@ public class RobotContainer {
     m_pneumaticssubsytem.leftpiston(Value.kReverse);
 
 
-    double ramptime = 3;
+    double ramptime = 1.5;
     NeutralMode coast = NeutralMode.Coast;
 
 
     middleLeft.configClosedloopRamp(ramptime);
     middleRight.configClosedloopRamp(ramptime);
 
+    middleLeft.configOpenloopRamp(ramptime);
+    middleRight.configOpenloopRamp(ramptime);
+
     rearLeft.configClosedloopRamp(ramptime);
     rearRight.configClosedloopRamp(ramptime);
+
+    rearLeft.configOpenloopRamp(ramptime);
+    rearRight.configOpenloopRamp(ramptime);
     
     frontLeft.configClosedloopRamp(ramptime);
     frontRight.configClosedloopRamp(ramptime);
+        
+    frontLeft.configOpenloopRamp(ramptime);
+    frontRight.configOpenloopRamp(ramptime);
 
 
     middleLeft.setNeutralMode(coast);

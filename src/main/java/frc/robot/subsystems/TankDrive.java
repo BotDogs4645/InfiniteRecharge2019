@@ -35,7 +35,7 @@ public class TankDrive extends SubsystemBase {
     
     double forward = .75*MathUtil.clamp(1 * Math.pow(RobotContainer.stick.getY(), 3),-1,1);
     //double forward = Math.signum(RobotContainer.stick.getY())* Math.pow(RobotContainer.stick.getY(), 2);
-    //double forward = RobotContainer.stick.getY();
+    //double forward = RobotContainer.stick.getY()]
     SmartDashboard.putNumber("Forward", forward);
     double turn = .75*MathUtil.clamp(-1 * Math.pow(RobotContainer.stick.getZ(), 3),-1,1);
     //double turn = Math.pow(RobotContainer.stick.getZ(), 2);
