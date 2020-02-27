@@ -19,6 +19,6 @@ public class PressureSensor extends SubsystemBase {
     public void getpressure(){
         double voltage = pressureanalog.getVoltage();
         double pressure = (250 * (voltage/5)) - 25;
-        SmartDashboard.putNumber("", pressure);
+        SmartDashboard.putNumber("Analog Pressure", pressure);
     }
 }
