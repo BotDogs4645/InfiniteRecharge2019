@@ -46,7 +46,7 @@ public class PneumaticsSubsystem extends SubsystemBase {
         }
         
 
-        SmartDashboard.putBoolean("onorofoff", onoroff);
+        SmartDashboard.putBoolean("Pneumatics Controls onoroff", onoroff);
 
         if (onoroff){
         SmartDashboard.putString("Left Piston", leftstate + "");
