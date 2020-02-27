@@ -72,6 +72,16 @@ public class TankDrive extends SubsystemBase {
     
     
   }
+
+  public void turn(boolean isRight) {
+    if (isRight) {
+      RobotContainer.difDrive.arcadeDrive(0.5, 0.5);
+    } else {
+      
+      RobotContainer.difDrive.arcadeDrive(0.5, -0.5);
+    }
+  }
+
   public void updateDrive() {
     double output = pid.calculate(RobotContainer.middleLeft.getSelectedSensorPosition(), pid.getSetpoint());
     SmartDashboard.putNumber("count", pid.getSetpoint());
