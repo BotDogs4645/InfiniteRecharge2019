@@ -17,6 +17,7 @@ public class TankDrive extends SubsystemBase {
    */
 
   public final PIDController pid = new PIDController(0,0, 0);//0.0003397
+  public final PIDController limelightpid = new PIDController(0,0, 0);//0.0003397
   public PowerDistributionPanel pdp = new PowerDistributionPanel();
   
   public TankDrive() {
@@ -91,6 +92,11 @@ public class TankDrive extends SubsystemBase {
     SmartDashboard.putNumber("Total auto current", pdp.getTotalCurrent());
   }
   
+  public void limelightAlign() {
+    double turnBy = MathUtil.clamp(limelightpid.calculate(RobotContainer.limelight.getXOffset()),-.2,.2);
+    RobotContainer.difDrive.tankDrive(turnBy, -turnBy);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

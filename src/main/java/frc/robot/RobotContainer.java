@@ -42,8 +42,9 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   
   //public static final WPI_TalonSRX limedrive = new WPI_TalonSRX(6);
-  private final Limelight limelight = new Limelight();
   
+  public static final Limelight limelight = new Limelight();
+
   private final ExampleCommand m_autoCommand = new ExampleCommand();
   
   private final Motor motorSub = new Motor();
@@ -92,7 +93,6 @@ public class RobotContainer {
   public static JoystickButton intakeButton = new JoystickButton(stick,2);
 
   public static JoystickButton turnOnLimelight = new JoystickButton(stick,3);
-  public static JoystickButton turnOffLimelight = new JoystickButton(stick,4);
 
   public static JoystickButton LeftUp = new JoystickButton(stick,7);
   public static JoystickButton LeftOff = new JoystickButton(stick,9);
@@ -149,12 +149,13 @@ public class RobotContainer {
   
   // Objects for Lime light
   
-  public static JoystickButton check = new JoystickButton(stick2,3);
-  
+  public static JoystickButton check = new JoystickButton(stick,3);
+  public static JoystickButton alignButton = new JoystickButton(stick,4);
   
   private void configureButtonBindings() {
     turnOnLimelight.whenPressed(new ToggleLimelight(limelight));
     check.whenPressed(new LimeCheckDistance(limelight));
+
 
     // tankDriveButton.whenPressed(new MoveDistance(tankDriveSubsystem, 36));
     /*

@@ -13,15 +13,15 @@ import frc.robot.subsystems.TankDrive;
 
 public class Align extends CommandBase {
     public static Limelight limelightsubsytem;
-    public static TankDrive tankdrivesubsytem;
+    public static TankDrive tankdrivesubsystem;
 
   public Align(Limelight sub,TankDrive subtwo) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     limelightsubsytem = sub;
-    tankdrivesubsytem = subtwo;
+    tankdrivesubsystem = subtwo;
     addRequirements(limelightsubsytem); 
-    addRequirements(tankdrivesubsytem); 
+    addRequirements(tankdrivesubsystem); 
     
   }
 
@@ -42,13 +42,14 @@ public class Align extends CommandBase {
     
     double offset = limelightsubsytem.getXOffset();
     if (offset < -1.5){
-
-      tankdrivesubsytem.turn(false);
+      tankdrivesubsystem.limelightAlign();
+      //tankdrivesubsytem.turn(false);
     } else if(offset > 1.5){
-
-      tankdrivesubsytem.turn(true);
+      
+      tankdrivesubsystem.limelightAlign();
+      //tankdrivesubsytem.turn(true);
     } else {
-      //Robot.tankDrive.stop();
+      tankdrivesubsystem.stop();
       return true;
     }
     
@@ -58,7 +59,7 @@ public class Align extends CommandBase {
 
   // Called once after isFinished returns true
   protected void end() {
-    tankdrivesubsytem.stop();
+    tankdrivesubsystem.stop();
   }
 
   // Called when another command which requires one or more of the same
