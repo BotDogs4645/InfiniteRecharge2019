@@ -41,7 +41,7 @@ public final class Constants {
     public static final double shooterFreeRPM = 18730;
 
     //an RPM at which efficiency (percent of power not lost thorugh absorbance) and Power Output are at their highest
-    public static final double shooterTargetRPM = 13000;//9375
+    public static final double shooterTargetRPM = -13000;//9375
 
     //Static gain of feedforward
     public static final double shooterKS = .5; //0.005  
