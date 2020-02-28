@@ -21,6 +21,7 @@ public class Limelight extends SubsystemBase {
 
   public Limelight() {
   }
+  
   public void switchPipelines(int pipline){
     table.getEntry("pipeline").setNumber(pipline);
 
