@@ -85,8 +85,14 @@ public class RobotContainer {
     new Pose2d(0, 0, new Rotation2d(0)),
     //Wavepoints making a S curve path
     List.of(
-      new Translation2d(Units.feetToMeters(1), Units.feetToMeters(1)),
-      new Translation2d(Units.feetToMeters(2), -Units.feetToMeters(1))
+      new Translation2d(Units.inchesToMeters(12), 0),
+      new Translation2d(Units.inchesToMeters(36), 0),
+      new Translation2d(Units.inchesToMeters(60), 0),
+      new Translation2d(Units.inchesToMeters(113), Units.inchesToMeters(68)),
+      new Translation2d(Units.inchesToMeters(142), Units.inchesToMeters(68)),
+      new Translation2d(Units.inchesToMeters(176), Units.inchesToMeters(68)),
+      new Translation2d(Units.inchesToMeters(207), Units.inchesToMeters(68)),
+      new Translation2d(Units.inchesToMeters(60), 0)
       ),
     //End 3 feet ahead of where robot start, facing forward
     new Pose2d(Units.feetToMeters(3), 0, new Rotation2d(0)),
