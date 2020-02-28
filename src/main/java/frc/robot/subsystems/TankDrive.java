@@ -19,6 +19,8 @@ public class TankDrive extends SubsystemBase {
    */
 
   public final PIDController pid = new PIDController(0,0, 0);//0.0003397
+  public final PIDController limelightpid = new PIDController(0,0,0);//0.0003397
+  
   public PowerDistributionPanel pdp = new PowerDistributionPanel();
   public static final AHRS ahrs = new AHRS();
 
@@ -33,13 +35,14 @@ public class TankDrive extends SubsystemBase {
   public void driveWithJoystick() {
     //ONE JOYSTICK
     
-    double forward = .8*MathUtil.clamp(1 * Math.pow(RobotContainer.stick.getY(), 3),-1,1);
-    //double forward = Math.signum(RobotContainer.stick.getY())* Math.pow(RobotContainer.stick.getY(), 2);
+    //double forward = .8*MathUtil.clamp(1 * Math.pow(RobotContainer.stick.getY(), 3),-1,1);
+    double forward = Math.signum(RobotContainer.stick.getY())* Math.pow(RobotContainer.stick.getY(), 2);
     //double forward = RobotContainer.stick.getY()]
+
     SmartDashboard.putNumber("Forward", forward);
-    double turn = .7*MathUtil.clamp(-1 * Math.pow(RobotContainer.stick.getZ(), 3),-1,1);
+    //double turn = .7*MathUtil.clamp(-1 * Math.pow(RobotContainer.stick.getZ(), 3),-1,1);
     //double turn = Math.pow(RobotContainer.stick.getZ(), 2);
-    //double turn = -Math.signum(RobotContainer.stick.getZ())* Math.pow(RobotContainer.stick.getZ(), 2);
+    double turn = -Math.signum(RobotContainer.stick.getZ())* Math.pow(RobotContainer.stick.getZ(), 2);
 
     SmartDashboard.putNumber("Turn", turn);
 
@@ -64,6 +67,23 @@ public class TankDrive extends SubsystemBase {
     RobotContainer.difDrive.arcadeDrive(0, 0);
   }
   
+  public void turn(boolean isLeft){
+    if(isLeft){
+      RobotContainer.difDrive.tankDrive(-.05, .05);
+    }else{
+      RobotContainer.difDrive.tankDrive(.05, -.05);
+    }
+  }
+
+  public void limelightAlign() {
+    double turnBy = MathUtil.clamp(limelightpid.calculate(RobotContainer.limelight.getXOffset()),-.4,.4);
+    if(Math.abs(RobotContainer.limelight.getXOffset()) < .5){
+      turnBy = .26;
+    }
+    SmartDashboard.putNumber("turnBy", turnBy);
+    RobotContainer.difDrive.tankDrive(-turnBy, turnBy);
+  }
+
 
 
   public void driveDistance(double distance) {
@@ -74,14 +94,8 @@ public class TankDrive extends SubsystemBase {
     
   }
 
-  public void turn(boolean isRight) {
-    if (isRight) {
-      RobotContainer.difDrive.arcadeDrive(0.5, 0.5);
-    } else {
-      
-      RobotContainer.difDrive.arcadeDrive(0.5, -0.5);
-    }
-  }
+  
+  
 
   public void updateDrive() {
     double output = pid.calculate(RobotContainer.middleLeft.getSelectedSensorPosition(), pid.getSetpoint());

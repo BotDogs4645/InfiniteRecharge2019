@@ -15,29 +15,58 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Limelight extends SubsystemBase {
   /**
-   * Creates a new Limelight.
+   * Creates a new Limlight.
    */
-  NetworkTable table1 = NetworkTableInstance.getDefault().getTable("limelight");
+  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  boolean lightToggle;
+
   public Limelight() {
+    lightToggle = true;
+  }
+  
+  public void switchPipelines(int pipline){
+    table.getEntry("pipeline").setNumber(pipline);
 
   }
+ 
   public void turnOn(){
+    table.getEntry("ledMode").setNumber(3);
+  }
+  public void toggle (){
+    
+    if (lightToggle)
+    {
+      table.getEntry("pipeline").setNumber(1);
+      table.getEntry("ledMode").setNumber(3);
+    }
+    else
+    {
+      table.getEntry("pipeline").setNumber(0);
+      table.getEntry("ledMode").setNumber(1);
+    }
+    lightToggle = !lightToggle;
+    
+  }
+  
+  public double getXOffset(){
+    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+    NetworkTableEntry tx = table.getEntry("tx");
 
-    table1.getEntry("ledMode").setNumber(3);
+    return tx.getDouble(0);
 
   }
-  public void turnOff(){
+  
+  
+  
 
-    table1.getEntry("ledMode").setNumber(1);
-
-  }
   public void display(){
 
+    
 
-    NetworkTableEntry tx = table1.getEntry("tx");
-    NetworkTableEntry ty = table1.getEntry("ty");
-    NetworkTableEntry ta = table1.getEntry("ta");
-    NetworkTableEntry ts = table1.getEntry("ts");
+    NetworkTableEntry tx = table.getEntry("tx");
+    NetworkTableEntry ty = table.getEntry("ty");
+    NetworkTableEntry ta = table.getEntry("ta");
+    NetworkTableEntry ts = table.getEntry("ts");
 
 
     //read values periodically
@@ -45,7 +74,9 @@ public class Limelight extends SubsystemBase {
     double y = ty.getDouble(0.0);
     double targetArea = ta.getDouble(0.0);
     double skew = ts.getDouble(0.0);
-    
+
+
+    //post to smart dashboard periodically
     SmartDashboard.putNumber("LimelightX", x);
     SmartDashboard.putNumber("LimelightY", y);
     SmartDashboard.putNumber("Target Area", targetArea);
@@ -53,22 +84,10 @@ public class Limelight extends SubsystemBase {
     
   }
 
-  public double getXOffset(){
-    NetworkTableEntry tx = table1.getEntry("tx");
-
-    return tx.getDouble(0);
-  }
-
-  public double getYOffset(){
-    NetworkTableEntry ty = table1.getEntry("ty");
-
-    return ty.getDouble(0);
-
-  }
-
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    //display();
   }
 }

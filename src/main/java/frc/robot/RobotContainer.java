@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import frc.robot.commands.Align;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.ManualIndexer;
 import frc.robot.commands.ManualIntake;
@@ -22,6 +23,7 @@ import frc.robot.commands.RunIntake;
 import frc.robot.subsystems.GearShiftSubsystem;
 import frc.robot.subsystems.IRSensor;
 import frc.robot.subsystems.IntakeMotor;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.PneumaticsSubsystem;
 import frc.robot.subsystems.PressureSensor;
 import frc.robot.subsystems.Shooter;
@@ -32,8 +34,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-
 import frc.robot.commands.RunShooter;
+import frc.robot.commands.ToggleLimelight;
 import frc.robot.commands.gearshift.GearShiftCommand;
 import frc.robot.commands.pneumatics.PneumaticsToggle;
 
@@ -52,6 +54,8 @@ public class RobotContainer {
   
   private static final IntakeMotor m_intakeSub = new IntakeMotor();
   private static final Shooter shooterSub = new Shooter();
+
+  public static final Limelight limelight = new Limelight();
 
   private static final IRSensor sensor = new IRSensor();
 
@@ -108,6 +112,9 @@ public class RobotContainer {
   public static JoystickButton reverseIndexerButton = new JoystickButton(Xbox,2);
 
   public static JoystickButton shooterButton = new JoystickButton(Xbox,6);
+
+  public static JoystickButton alignButton = new JoystickButton(stick,11);
+  public static JoystickButton limelightToggleButton = new JoystickButton(stick,12);
 
   
 
@@ -194,6 +201,8 @@ public class RobotContainer {
     //indexerIntakeButton.whileHeld(new ManualIndexer(sensor, -0.5));
     indexerIntakeButton.whileHeld(new ManualIntake(m_intakeSub, sensor, -0.7));
 
+    limelightToggleButton.whenPressed(new ToggleLimelight(limelight));
+    alignButton.whileHeld(new Align(limelight, tankDriveSubsystem));
 
 
   }
