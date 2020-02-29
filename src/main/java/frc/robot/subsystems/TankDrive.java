@@ -58,13 +58,13 @@ public class TankDrive extends SubsystemBase {
     //double forward = drivingpid.calculate(fps(RobotContainer.middleLeft.getSelectedSensorVelocity()), joysticky*30);
 
     //double forward = .8*MathUtil.clamp(1 * Math.pow(RobotContainer.stick.getY(), 3),-1,1);
-    double forward = Math.signum(RobotContainer.stick.getY())* Math.pow(RobotContainer.stick.getY(), 2);
+    double forward = Math.signum(RobotContainer.stick.getY())* (Math.pow(RobotContainer.stick.getY(), 2));
     //double forward = RobotContainer.stick.getY()]
 
     SmartDashboard.putNumber("Forward", forward);
     //double turn = .7*MathUtil.clamp(-1 * Math.pow(RobotContainer.stick.getZ(), 3),-1,1);
     //double turn = Math.pow(RobotContainer.stick.getZ(), 2);
-    double turn =  Math.signum(RobotContainer.stick.getZ())* Math.pow(RobotContainer.stick.getZ(), 2);
+    double turn =  Math.signum(RobotContainer.stick.getZ())* (Math.pow(RobotContainer.stick.getZ(), 2));
 
     SmartDashboard.putNumber("Turn", turn);
 
@@ -82,7 +82,7 @@ public class TankDrive extends SubsystemBase {
     forward = MathUtil.clamp(forward, -.7,.7);
     turn = MathUtil.clamp(turn, -.7,.7);
 
-    RobotContainer.difDrive.arcadeDrive(forward, turn);
+    RobotContainer.difDrive.arcadeDrive(forward, -turn);
     SmartDashboard.putNumber("Total current", pdp.getTotalCurrent()); 
   }
   
@@ -104,7 +104,7 @@ public class TankDrive extends SubsystemBase {
     double turnBy = MathUtil.clamp(limelightpid.calculate(RobotContainer.limelight.getXOffset(),0),-.4,.4);
     double forward = MathUtil.clamp(limelightpid.calculate(RobotContainer.limelight.getYOffset(),0),-.4,.4);
     if(Math.abs(RobotContainer.limelight.getXOffset()) < 10){
-      turnBy = Math.signum(RobotContainer.limelight.getXOffset())*.26;
+      turnBy = -Math.signum(RobotContainer.limelight.getXOffset())*.26;
     }
     if(Math.abs(RobotContainer.limelight.getXOffset()) < 3){
       turnBy = 0;
