@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.LEDSubsystem;
 
@@ -28,13 +29,15 @@ public class LEDS extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue) {
+    /*if (DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue) {
       RobotContainer.ledSubsystemObject.blueLEDS();
     } else if (DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Red) {
       RobotContainer.ledSubsystemObject.redLEDS();
     } else {
-
-    }
+      RobotContainer.ledSubsystemObject.chicagoLEDS();
+    }*/
+    /*RobotContainer.ledSubsystemObject.blueLEDS();
+    Robot.m_led.setData(Robot.m_ledBuffer);*/
   }
 
   // Called once the command ends or is interrupted.
