@@ -13,15 +13,17 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import frc.robot.commands.Align;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.IntakeMotorInwards;
-import frc.robot.commands.IntakeMotorOutwards;
 import frc.robot.commands.ManualIndexer;
-import frc.robot.subsystems.VisionCode;
+import frc.robot.commands.ManualIntake;
+import frc.robot.commands.RunIntake;
 import frc.robot.subsystems.GearShiftSubsystem;
 import frc.robot.subsystems.IRSensor;
 import frc.robot.subsystems.IntakeMotor;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.PneumaticsSubsystem;
 import frc.robot.subsystems.PressureSensor;
 import frc.robot.subsystems.Shooter;
@@ -31,10 +33,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-
 
 import frc.robot.commands.RunShooter;
+import frc.robot.commands.ToggleLimelight;
 import frc.robot.commands.gearshift.GearShiftCommand;
 import frc.robot.commands.pneumatics.PneumaticsToggle;
 
@@ -50,10 +51,11 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleCommand m_autoCommand = new ExampleCommand();
 
-  private final VisionCode vision = new VisionCode();
   
-  private static final IntakeMotor motorSub = new IntakeMotor();
+  private static final IntakeMotor m_intakeSub = new IntakeMotor();
   private static final Shooter shooterSub = new Shooter();
+
+  public static final Limelight limelight = new Limelight();
 
   private static final IRSensor sensor = new IRSensor();
 
@@ -99,17 +101,20 @@ public class RobotContainer {
 
   //XBOX CONTROLLER
   public static XboxController Xbox = new XboxController(1);
-  public static JoystickButton inwardsintakeButton = new JoystickButton(Xbox,3);
-  public static JoystickButton outwardsintakeButton = new JoystickButton(Xbox,4);
+
+  public static JoystickButton indexerIntakeButton = new JoystickButton(Xbox,3);
 
 
   public static JoystickButton leftjoystickbutton = new JoystickButton(Xbox, 9);
   public static JoystickButton rightjoystickbutton = new JoystickButton(Xbox,10);
 
-  public static JoystickButton aButton = new JoystickButton(Xbox,1);
-  public static JoystickButton bButton = new JoystickButton(Xbox,2);
+  public static JoystickButton forwardIndexerButton = new JoystickButton(Xbox,1);
+  public static JoystickButton reverseIndexerButton = new JoystickButton(Xbox,2);
 
   public static JoystickButton shooterButton = new JoystickButton(Xbox,6);
+
+  public static JoystickButton alignButton = new JoystickButton(stick,11);
+  public static JoystickButton limelightToggleButton = new JoystickButton(stick,12);
 
   
 
@@ -118,20 +123,31 @@ public class RobotContainer {
    */
   public RobotContainer() {
     m_gearshiftsubsystem.in();
+    m_pneumaticssubsytem.rightpiston(Value.kReverse);
+    m_pneumaticssubsytem.leftpiston(Value.kReverse);
 
-    double ramptime = 3;
+
+    double ramptime = 1.5;
     NeutralMode coast = NeutralMode.Coast;
 
-    RobotContainer.frontLeft.follow(RobotContainer.middleLeft);
 
     middleLeft.configClosedloopRamp(ramptime);
     middleRight.configClosedloopRamp(ramptime);
 
+    middleLeft.configOpenloopRamp(ramptime);
+    middleRight.configOpenloopRamp(ramptime);
+
     rearLeft.configClosedloopRamp(ramptime);
     rearRight.configClosedloopRamp(ramptime);
+
+    rearLeft.configOpenloopRamp(ramptime);
+    rearRight.configOpenloopRamp(ramptime);
     
     frontLeft.configClosedloopRamp(ramptime);
     frontRight.configClosedloopRamp(ramptime);
+        
+    frontLeft.configOpenloopRamp(ramptime);
+    frontRight.configOpenloopRamp(ramptime);
 
 
     middleLeft.setNeutralMode(coast);
@@ -143,6 +159,8 @@ public class RobotContainer {
     frontRight.setNeutralMode(coast);
     frontLeft.setNeutralMode(coast);
 
+    
+    RobotContainer.frontLeft.follow(RobotContainer.middleLeft);
     RobotContainer.rearLeft.follow(RobotContainer.middleLeft);
   
     RobotContainer.frontLeft.setInverted(true);
@@ -169,8 +187,6 @@ public class RobotContainer {
 
     GearShiftButton.whileHeld(new GearShiftCommand(m_gearshiftsubsystem), true);
     
-    inwardsintakeButton.whileHeld(new IntakeMotorInwards(motorSub));
-    outwardsintakeButton.whileHeld(new IntakeMotorOutwards(motorSub));
 
     leftjoystickbutton.whileActiveOnce(new PneumaticsToggle(m_pneumaticssubsytem));
     rightjoystickbutton.whileActiveOnce(new PneumaticsToggle(m_pneumaticssubsytem));
@@ -179,8 +195,15 @@ public class RobotContainer {
     //BothUp.whileHeld(new BothPUpCommand(m_pneumaticssubsytem));
     //BothDown.whileHeld(new BothDownCommand(m_pneumaticssubsytem));
 
-    aButton.whileHeld(new ManualIndexer(sensor, 0.5));
-    bButton.whileHeld(new ManualIndexer(sensor, -0.5));
+    forwardIndexerButton.whileHeld(new ManualIndexer(sensor, 0.5));
+    reverseIndexerButton.whileHeld(new ManualIndexer(sensor, -0.5));
+
+    //indexerIntakeButton.whileHeld(new ManualIndexer(sensor, -0.5));
+    indexerIntakeButton.whileHeld(new ManualIntake(m_intakeSub, sensor, -0.7));
+
+    limelightToggleButton.whenPressed(new ToggleLimelight(limelight));
+    alignButton.whileHeld(new Align(limelight, tankDriveSubsystem));
+
 
   }
 

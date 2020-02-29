@@ -19,6 +19,8 @@ public class TankDrive extends SubsystemBase {
    */
 
   public final PIDController pid = new PIDController(0,0, 0);//0.0003397
+  public final PIDController limelightpid = new PIDController(0.1,0,0);//0.0003397
+  public final PIDController drivingpid = new PIDController(0.1,0,0);
   public PowerDistributionPanel pdp = new PowerDistributionPanel();
   public static final AHRS ahrs = new AHRS();
 
@@ -29,17 +31,25 @@ public class TankDrive extends SubsystemBase {
     
   }
 
+  public double fps(double input) {
+
+    return ((input*10 / 1024 ) / (6*Math.PI))/12;
+  }
 
   public void driveWithJoystick() {
     //ONE JOYSTICK
     
-    double forward = MathUtil.clamp(1 * Math.pow(RobotContainer.stick.getY(), 3),-1,1);
-    //double forward = Math.signum(RobotContainer.stick.getY())* Math.pow(RobotContainer.stick.getY(), 2);
-    //double forward = RobotContainer.stick.getY();
+    //double joysticky = Math.signum(RobotContainer.stick.getY())* Math.pow(RobotContainer.stick.getY(), 2);
+    //double forward = drivingpid.calculate(fps(RobotContainer.middleLeft.getSelectedSensorVelocity()), joysticky*30);
+
+    //double forward = .8*MathUtil.clamp(1 * Math.pow(RobotContainer.stick.getY(), 3),-1,1);
+    double forward = Math.signum(RobotContainer.stick.getY())* Math.pow(RobotContainer.stick.getY(), 2);
+    //double forward = RobotContainer.stick.getY()]
+
     SmartDashboard.putNumber("Forward", forward);
-    double turn = MathUtil.clamp(-1 * Math.pow(RobotContainer.stick.getZ(), 3),-1,1);
+    //double turn = .7*MathUtil.clamp(-1 * Math.pow(RobotContainer.stick.getZ(), 3),-1,1);
     //double turn = Math.pow(RobotContainer.stick.getZ(), 2);
-    //double turn = -Math.signum(RobotContainer.stick.getZ())* Math.pow(RobotContainer.stick.getZ(), 2);
+    double turn = -Math.signum(RobotContainer.stick.getZ())* Math.pow(RobotContainer.stick.getZ(), 2);
 
     SmartDashboard.putNumber("Turn", turn);
 
@@ -54,6 +64,9 @@ public class TankDrive extends SubsystemBase {
       turn = 0;
     }
 
+    forward = MathUtil.clamp(forward, -.7,.7);
+    turn = MathUtil.clamp(turn, -.7,.7);
+
     RobotContainer.difDrive.arcadeDrive(forward, turn);
     SmartDashboard.putNumber("Total current", pdp.getTotalCurrent()); 
   }
@@ -64,6 +77,27 @@ public class TankDrive extends SubsystemBase {
     RobotContainer.difDrive.arcadeDrive(0, 0);
   }
   
+  public void turn(boolean isLeft){
+    if(isLeft){
+      RobotContainer.difDrive.tankDrive(-.05, .05);
+    }else{
+      RobotContainer.difDrive.tankDrive(.05, -.05);
+    }
+  }
+
+  public void limelightAlign() {
+    double turnBy = MathUtil.clamp(limelightpid.calculate(RobotContainer.limelight.getXOffset(),0),-.4,.4);
+    double forward = MathUtil.clamp(limelightpid.calculate(RobotContainer.limelight.getYOffset(),0),-.4,.4);
+    if(Math.abs(RobotContainer.limelight.getXOffset()) < 3){
+      turnBy = .26;
+    }
+    if(Math.abs(RobotContainer.limelight.getYOffset()) < 3){
+      turnBy = .26;
+    }
+    SmartDashboard.putNumber("turnBy", turnBy);
+    RobotContainer.difDrive.tankDrive(-turnBy + forward, turnBy + forward);
+  }
+
 
 
   public void driveDistance(double distance) {
@@ -73,6 +107,10 @@ public class TankDrive extends SubsystemBase {
     
     
   }
+
+  
+  
+
   public void updateDrive() {
     double output = pid.calculate(RobotContainer.middleLeft.getSelectedSensorPosition(), pid.getSetpoint());
     SmartDashboard.putNumber("count", pid.getSetpoint());
