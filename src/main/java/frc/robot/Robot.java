@@ -66,6 +66,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    RobotContainer.m_pneumaticssubsytem.rightpiston(Value.kReverse);
+    RobotContainer.m_pneumaticssubsytem.leftpiston(Value.kReverse);
   }
 
   @Override
@@ -99,8 +101,6 @@ public class Robot extends TimedRobot {
     // continue until interrupted by another command, remove
     // this line or comment it out.
     RobotContainer.m_gearshiftsubsystem.in();
-    RobotContainer.m_pneumaticssubsytem.rightpiston(Value.kReverse);
-    RobotContainer.m_pneumaticssubsytem.leftpiston(Value.kReverse);
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }

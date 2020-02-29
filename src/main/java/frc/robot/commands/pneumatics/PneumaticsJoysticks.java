@@ -7,11 +7,13 @@
 
 package frc.robot.commands.pneumatics;
 
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.PneumaticsSubsystem;
 
 public class PneumaticsJoysticks extends CommandBase {
-  
+  private static Timer timer = new Timer();
   //Subsystem the command runs on
   public static PneumaticsSubsystem subsystem;
     public PneumaticsJoysticks(PneumaticsSubsystem sub)
@@ -32,12 +34,18 @@ public class PneumaticsJoysticks extends CommandBase {
     Sets motor speed to 50%
 
     */
+    timer.start();
+    subsystem.rightpiston(Value.kReverse);
+    subsystem.leftpiston(Value.kReverse);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    subsystem.joystickpistons();
+    if(timer.get() > 15){
+    
+      subsystem.joystickpistons();
+    }
   }
 
   // Called once the command ends or is interrupted.

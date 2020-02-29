@@ -25,7 +25,7 @@ public class TankDrive extends SubsystemBase {
 
   public final PIDController pid = new PIDController(0,0, 0);//0.0003397
   public final PIDController limelightpid = new PIDController(0.05,0,0);//0.0003397
-  public final PIDController drivingpid = new PIDController(0.1,0,0);
+  public final PIDController drivingpid = new PIDController(0.2,0,0);
   public PowerDistributionPanel pdp = new PowerDistributionPanel();
   public static final AHRS ahrs = new AHRS();
 
@@ -64,7 +64,14 @@ public class TankDrive extends SubsystemBase {
     SmartDashboard.putNumber("Forward", forward);
     //double turn = .7*MathUtil.clamp(-1 * Math.pow(RobotContainer.stick.getZ(), 3),-1,1);
     //double turn = Math.pow(RobotContainer.stick.getZ(), 2);
+    
+    
     double turn =  Math.signum(RobotContainer.stick.getZ())* (Math.pow(RobotContainer.stick.getZ(), 2));
+
+    //double joystickz = Math.signum(RobotContainer.stick.getY())* Math.pow(RobotContainer.stick.getZ(), 2);
+    //double turn = drivingpid.calculate(fps(RobotContainer.middleLeft.getSelectedSensorVelocity()), joystickz*30);
+
+    
 
     SmartDashboard.putNumber("Turn", turn);
 
@@ -79,8 +86,8 @@ public class TankDrive extends SubsystemBase {
       turn = 0;
     }
 
-    forward = MathUtil.clamp(forward, -.7,.7);
-    turn = MathUtil.clamp(turn, -.7,.7);
+    forward = MathUtil.clamp(forward, -.7,.7)*-RobotContainer.stick.getThrottle();
+    turn = MathUtil.clamp(turn, -.7,.7)*Math.abs(RobotContainer.stick.getThrottle());
 
     RobotContainer.difDrive.arcadeDrive(forward, -turn);
     SmartDashboard.putNumber("Total current", pdp.getTotalCurrent()); 
@@ -106,11 +113,14 @@ public class TankDrive extends SubsystemBase {
     if(Math.abs(RobotContainer.limelight.getXOffset()) < 10){
       turnBy = -Math.signum(RobotContainer.limelight.getXOffset())*.26;
     }
-    if(Math.abs(RobotContainer.limelight.getXOffset()) < 3){
+    if(Math.abs(RobotContainer.limelight.getXOffset()) < 1){
       turnBy = 0;
     }
-    if(Math.abs(RobotContainer.limelight.getYOffset()) < 5){
-      forward =  Math.signum(RobotContainer.limelight.getXOffset())*.26;
+    if(Math.abs(RobotContainer.limelight.getYOffset()) < 10){
+      forward =  Math.signum(RobotContainer.limelight.getYOffset())*.26;
+    }
+    if(Math.abs(RobotContainer.limelight.getYOffset()) < 1){
+      turnBy = 0;
     }
     SmartDashboard.putNumber("turnBy", turnBy);
     RobotContainer.difDrive.tankDrive(turnBy , -turnBy);
