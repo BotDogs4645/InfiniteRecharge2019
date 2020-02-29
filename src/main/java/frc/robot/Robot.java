@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -37,11 +38,10 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-    m_chooser.addOption("Position 1", RobotContainer.ramseteCommand);
-    m_chooser.addOption("Position 2", RobotContainer.ramseteCommand2);
-    m_chooser.addOption("Position 3", RobotContainer.ramseteCommand3);
+    //m_chooser.addOption("Position 1", RobotContainer.ramseteCommand);
+    //m_chooser.addOption("Position 2", RobotContainer.ramseteCommand2);
+    //m_chooser.addOption("Position 3", RobotContainer.ramseteCommand3);
     m_chooser.addOption("Move past initiation line", new MoveDistance(RobotContainer.tankDriveSubsystem, 84));
-
     SmartDashboard.putData("Auto mode", m_chooser);
   }
 
@@ -98,6 +98,9 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    RobotContainer.m_gearshiftsubsystem.in();
+    RobotContainer.m_pneumaticssubsytem.rightpiston(Value.kReverse);
+    RobotContainer.m_pneumaticssubsytem.leftpiston(Value.kReverse);
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }

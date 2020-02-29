@@ -24,7 +24,7 @@ public class TankDrive extends SubsystemBase {
    */
 
   public final PIDController pid = new PIDController(0,0, 0);//0.0003397
-  public final PIDController limelightpid = new PIDController(0.1,0,0);//0.0003397
+  public final PIDController limelightpid = new PIDController(0.05,0,0);//0.0003397
   public final PIDController drivingpid = new PIDController(0.1,0,0);
   public PowerDistributionPanel pdp = new PowerDistributionPanel();
   public static final AHRS ahrs = new AHRS();
@@ -42,7 +42,7 @@ public class TankDrive extends SubsystemBase {
     pid.setTolerance(128); //Error is within 1/8 of a revolution
     
 
-    resetEncoders();
+    //resetEncoders();
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
   }
 
@@ -64,7 +64,7 @@ public class TankDrive extends SubsystemBase {
     SmartDashboard.putNumber("Forward", forward);
     //double turn = .7*MathUtil.clamp(-1 * Math.pow(RobotContainer.stick.getZ(), 3),-1,1);
     //double turn = Math.pow(RobotContainer.stick.getZ(), 2);
-    double turn = -Math.signum(RobotContainer.stick.getZ())* Math.pow(RobotContainer.stick.getZ(), 2);
+    double turn =  Math.signum(RobotContainer.stick.getZ())* Math.pow(RobotContainer.stick.getZ(), 2);
 
     SmartDashboard.putNumber("Turn", turn);
 
@@ -103,14 +103,17 @@ public class TankDrive extends SubsystemBase {
   public void limelightAlign() {
     double turnBy = MathUtil.clamp(limelightpid.calculate(RobotContainer.limelight.getXOffset(),0),-.4,.4);
     double forward = MathUtil.clamp(limelightpid.calculate(RobotContainer.limelight.getYOffset(),0),-.4,.4);
-    if(Math.abs(RobotContainer.limelight.getXOffset()) < 3){
-      turnBy = .26;
+    if(Math.abs(RobotContainer.limelight.getXOffset()) < 10){
+      turnBy = Math.signum(RobotContainer.limelight.getXOffset())*.26;
     }
-    if(Math.abs(RobotContainer.limelight.getYOffset()) < 3){
-      turnBy = .26;
+    if(Math.abs(RobotContainer.limelight.getXOffset()) < 3){
+      turnBy = 0;
+    }
+    if(Math.abs(RobotContainer.limelight.getYOffset()) < 5){
+      forward =  Math.signum(RobotContainer.limelight.getXOffset())*.26;
     }
     SmartDashboard.putNumber("turnBy", turnBy);
-    RobotContainer.difDrive.tankDrive(-turnBy + forward, turnBy + forward);
+    RobotContainer.difDrive.tankDrive(turnBy , -turnBy);
   }
 
 
@@ -152,12 +155,14 @@ public class TankDrive extends SubsystemBase {
     getActualDistance(RobotContainer.middleRight));
   }
 
+  
   /**
    * Returns the currently-estimated pose of the robot.
    *
    * @return The pose.
    */
-  public Pose2d getPose() {
+  
+   public Pose2d getPose() {
     return m_odometry.getPoseMeters();
   }
 
@@ -175,6 +180,7 @@ public class TankDrive extends SubsystemBase {
    *
    * @param pose The pose to which to set the odometry.
    */
+  /*
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
     m_odometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
@@ -195,6 +201,7 @@ public class TankDrive extends SubsystemBase {
   /**
    * Resets the drive encoders to currently read a position of 0.
    */
+  /*
   public void resetEncoders() {
     RobotContainer.middleLeft.setSelectedSensorPosition(0);
     RobotContainer.middleRight.setSelectedSensorPosition(0);

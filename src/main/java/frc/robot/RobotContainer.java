@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -63,7 +65,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleCommand m_autoCommand = new ExampleCommand();
 
-  
+  UsbCamera camera1 = CameraServer.getInstance().startAutomaticCapture(0);
+
   private static final IntakeMotor m_intakeSub = new IntakeMotor();
   private static final Shooter shooterSub = new Shooter();
 
@@ -71,9 +74,9 @@ public class RobotContainer {
 
   private static final IRSensor sensor = new IRSensor();
 
-  private static final TankDrive tankDriveSubsystem = new TankDrive(); 
-  private static final PneumaticsSubsystem m_pneumaticssubsytem = new PneumaticsSubsystem();
-  private static final GearShiftSubsystem m_gearshiftsubsystem = new GearShiftSubsystem();
+  public static final TankDrive tankDriveSubsystem = new TankDrive(); 
+  public static final PneumaticsSubsystem m_pneumaticssubsytem = new PneumaticsSubsystem();
+  public static final GearShiftSubsystem m_gearshiftsubsystem = new GearShiftSubsystem();
   private static final PressureSensor m_pressuresensorsubsytem = new PressureSensor();
 
 
@@ -128,7 +131,7 @@ public class RobotContainer {
   public static JoystickButton alignButton = new JoystickButton(stick,11);
   public static JoystickButton limelightToggleButton = new JoystickButton(stick,12);
 
-  
+  /*
   // Create a voltage constraint to ensure we don't accelerate too fast
   private static final DifferentialDriveVoltageConstraint autoVoltageConstraint =
     new DifferentialDriveVoltageConstraint(
@@ -243,14 +246,12 @@ public class RobotContainer {
     tankDriveSubsystem::tankDriveVolts,
     tankDriveSubsystem
   );
-
+*/
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    m_gearshiftsubsystem.in();
-    m_pneumaticssubsytem.rightpiston(Value.kReverse);
-    m_pneumaticssubsytem.leftpiston(Value.kReverse);
+    
 
 
     double ramptime = 1.5;
