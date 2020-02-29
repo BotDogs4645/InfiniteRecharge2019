@@ -8,8 +8,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.MoveDistance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -22,6 +25,8 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  public static SendableChooser<Command> m_chooser = new SendableChooser<Command>();
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -31,6 +36,13 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    m_chooser.addOption("Position 1", RobotContainer.ramseteCommand);
+    m_chooser.addOption("Position 2", RobotContainer.ramseteCommand2);
+    m_chooser.addOption("Position 3", RobotContainer.ramseteCommand3);
+    m_chooser.addOption("Move past initiation line", new MoveDistance(RobotContainer.tankDriveSubsystem, 84));
+
+    SmartDashboard.putData("Auto mode", m_chooser);
   }
 
   /**
