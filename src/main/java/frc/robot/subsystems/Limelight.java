@@ -26,7 +26,6 @@ public class Limelight extends SubsystemBase {
   
   public void switchPipelines(int pipline){
     table.getEntry("pipeline").setNumber(pipline);
-
   }
  
   public void turnOn(){
@@ -53,6 +52,14 @@ public class Limelight extends SubsystemBase {
     NetworkTableEntry tx = table.getEntry("tx");
 
     return tx.getDouble(0);
+
+  }
+  
+  public double getYOffset(){
+    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+    NetworkTableEntry ty = table.getEntry("ty");
+
+    return ty.getDouble(0);
 
   }
   
@@ -88,6 +95,6 @@ public class Limelight extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    //display();
+    display();
   }
 }

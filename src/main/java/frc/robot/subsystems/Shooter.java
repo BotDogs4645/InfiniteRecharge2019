@@ -58,11 +58,9 @@ public class Shooter extends SubsystemBase {
       double voltage = MathUtil.clamp((ffvalue+pidvalue),-12,12);
 
       SmartDashboard.putNumber("Position", motor1.getSelectedSensorPosition());
-      SmartDashboard.putNumber("feedforward", ffvalue);
       SmartDashboard.putNumber("pid", pidvalue);
       SmartDashboard.putNumber("RPM", getRPM());
       SmartDashboard.putNumber("print RPM", getRPM());
-      SmartDashboard.putNumber("velocity", motor1.getSelectedSensorVelocity());
       SmartDashboard.putNumber("position error", shooterpid.getPositionError());
       SmartDashboard.putNumber("velocity error", shooterpid.getVelocityError());
 
