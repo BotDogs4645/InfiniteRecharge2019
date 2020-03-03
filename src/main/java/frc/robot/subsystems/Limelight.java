@@ -88,7 +88,11 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putNumber("LimelightY", y);
     SmartDashboard.putNumber("Target Area", targetArea);
     SmartDashboard.putNumber("Skew", skew);
-    
+
+    double distance = (8-(34/12))/ Math.tan(y);
+
+    SmartDashboard.putNumber("Distance to target", distance);
+
   }
 
 
