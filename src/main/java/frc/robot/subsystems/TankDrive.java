@@ -190,7 +190,7 @@ public class TankDrive extends SubsystemBase {
    *
    * @param pose The pose to which to set the odometry.
    */
-  /*
+  
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
     m_odometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
@@ -211,7 +211,7 @@ public class TankDrive extends SubsystemBase {
   /**
    * Resets the drive encoders to currently read a position of 0.
    */
-  /*
+  
   public void resetEncoders() {
     RobotContainer.middleLeft.setSelectedSensorPosition(0);
     RobotContainer.middleRight.setSelectedSensorPosition(0);

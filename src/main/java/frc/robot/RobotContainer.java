@@ -21,6 +21,7 @@ import frc.robot.commands.Align;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.ManualIndexer;
 import frc.robot.commands.ManualIntake;
+import frc.robot.commands.MoveDistance;
 import frc.robot.commands.RunIntake;
 import frc.robot.subsystems.GearShiftSubsystem;
 import frc.robot.subsystems.IRSensor;
@@ -131,129 +132,30 @@ public class RobotContainer {
   public static JoystickButton alignButton = new JoystickButton(stick,11);
   public static JoystickButton limelightToggleButton = new JoystickButton(stick,12);
 
-  /*
-  // Create a voltage constraint to ensure we don't accelerate too fast
-  private static final DifferentialDriveVoltageConstraint autoVoltageConstraint =
-    new DifferentialDriveVoltageConstraint(
-      new SimpleMotorFeedforward(Constants.ksVolts,
+  public static final DifferentialDriveVoltageConstraint autoVoltageConstraint =
+     new DifferentialDriveVoltageConstraint(
+       new SimpleMotorFeedforward(Constants.ksVolts,
                                Constants.kvVoltSecondsPerMeter,
                                Constants.kaVoltSecondsSquaredPerMeter),
-    Constants.kDriveKinematics,
-    10);
-
-  // Create config for trajectory
-  private static final TrajectoryConfig config = 
-    new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond, 
+     Constants.kDriveKinematics,
+     10);
+ 
+   // Create config for trajectory
+   public static final TrajectoryConfig config = 
+     new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond, 
                          Constants.kMaxAccelerationMetersPerSecondSquared)
-          //Add kinematics to ensure max speed is actually obeyed
-          .setKinematics(Constants.kDriveKinematics)
-          //Apply the auto voltage constraint
-          .addConstraint(autoVoltageConstraint);
-
-  private static final Trajectory autoTrajectory = TrajectoryGenerator.generateTrajectory(
-    //Start at origin facing the +X direction
-    new Pose2d(0, 0, new Rotation2d(0)),
-    //Wavepoints making a S curve path
-    List.of(
-      new Translation2d(Units.inchesToMeters(12), 0),
-      new Translation2d(Units.inchesToMeters(36), 0),
-      new Translation2d(Units.inchesToMeters(60), 0),
-      new Translation2d(Units.inchesToMeters(113), Units.inchesToMeters(68)),
-      new Translation2d(Units.inchesToMeters(142), Units.inchesToMeters(68)),
-      new Translation2d(Units.inchesToMeters(176), Units.inchesToMeters(68)),
-      new Translation2d(Units.inchesToMeters(207), Units.inchesToMeters(68)),
-      new Translation2d(Units.inchesToMeters(60), 0)
-      ),
-    //End 3 feet ahead of where robot start, facing forward
-    new Pose2d(Units.feetToMeters(3), 0, new Rotation2d(0)),
-    //Pass config
-    config
-    );
-
-  private static final Trajectory autoTrajectory2 = TrajectoryGenerator.generateTrajectory(
-    //Start at origin facing the +X direction
-    new Pose2d(0, 0, new Rotation2d(0)),
-    //Wavepoints making a S curve path
-    List.of(
-      new Translation2d(Units.feetToMeters(1), Units.feetToMeters(1)),
-      new Translation2d(Units.feetToMeters(2), -Units.feetToMeters(1))
-      ),
-    //End 3 feet ahead of where robot start, facing forward
-    new Pose2d(Units.feetToMeters(3), 0, new Rotation2d(0)),
-    //Pass config
-    config
-    );
-    
-  private static final Trajectory autoTrajectory3 = TrajectoryGenerator.generateTrajectory(
-    //Start at origin facing the +X direction
-    new Pose2d(0, 0, new Rotation2d(0)),
-    //Wavepoints making a S curve path
-    List.of(
-      new Translation2d(Units.feetToMeters(1), Units.feetToMeters(1)),
-      new Translation2d(Units.feetToMeters(2), -Units.feetToMeters(1))
-      ),
-    //End 3 feet ahead of where robot start, facing forward
-    new Pose2d(Units.feetToMeters(3), 0, new Rotation2d(0)),
-    //Pass config
-    config
-    );
-
+           //Add kinematics to ensure max speed is actually obeyed
+           .setKinematics(Constants.kDriveKinematics)
+           //Apply the auto voltage constraint
+           .addConstraint(autoVoltageConstraint);
   
-  public static final RamseteCommand ramseteCommand = new RamseteCommand(
-    autoTrajectory,
-    tankDriveSubsystem::getPose,
-    new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
-    new SimpleMotorFeedforward(Constants.ksVolts,
-                                Constants.kvVoltSecondsPerMeter,
-                                Constants.kaVoltSecondsSquaredPerMeter),
-    Constants.kDriveKinematics,
-    tankDriveSubsystem::getWheelSpeeds,
-    new PIDController(Constants.kPDriveVel, 0, 0),
-    new PIDController(Constants.kPDriveVel, 0, 0),
-    //RamseteCommand passes volts to the callback
-    tankDriveSubsystem::tankDriveVolts,
-    tankDriveSubsystem
-  );
 
-  public static final RamseteCommand ramseteCommand2 = new RamseteCommand(
-    autoTrajectory2,
-    tankDriveSubsystem::getPose,
-    new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
-    new SimpleMotorFeedforward(Constants.ksVolts,
-                                Constants.kvVoltSecondsPerMeter,
-                                Constants.kaVoltSecondsSquaredPerMeter),
-    Constants.kDriveKinematics,
-    tankDriveSubsystem::getWheelSpeeds,
-    new PIDController(Constants.kPDriveVel, 0, 0),
-    new PIDController(Constants.kPDriveVel, 0, 0),
-    //RamseteCommand passes volts to the callback
-    tankDriveSubsystem::tankDriveVolts,
-    tankDriveSubsystem
-  );
-
-  public static final RamseteCommand ramseteCommand3 = new RamseteCommand(
-    autoTrajectory3,
-    tankDriveSubsystem::getPose,
-    new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
-    new SimpleMotorFeedforward(Constants.ksVolts,
-                                Constants.kvVoltSecondsPerMeter,
-                                Constants.kaVoltSecondsSquaredPerMeter),
-    Constants.kDriveKinematics,
-    tankDriveSubsystem::getWheelSpeeds,
-    new PIDController(Constants.kPDriveVel, 0, 0),
-    new PIDController(Constants.kPDriveVel, 0, 0),
-    //RamseteCommand passes volts to the callback
-    tankDriveSubsystem::tankDriveVolts,
-    tankDriveSubsystem
-  );
-*/
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     
-
-
+    
     double ramptime = 1.5;
     NeutralMode coast = NeutralMode.Coast;
 
@@ -343,7 +245,78 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
+     // Create a voltage constraint to ensure we don't accelerate too fast
+     
+ 
+   
+ 
+   Trajectory autoTrajectory2 = TrajectoryGenerator.generateTrajectory(
+     //Start at origin facing the +X direction
+     new Pose2d(0, 0, new Rotation2d(0)),
+     //Wavepoints making a S curve path
+     List.of(
+       new Translation2d(Units.feetToMeters(1), Units.feetToMeters(1)),
+       new Translation2d(Units.feetToMeters(2), -Units.feetToMeters(1))
+       ),
+     //End 3 feet ahead of where robot start, facing forward
+     new Pose2d(Units.feetToMeters(3), 0, new Rotation2d(0)),
+     //Pass config
+     config
+     );
+     
+   Trajectory autoTrajectory3 = TrajectoryGenerator.generateTrajectory(
+     //Start at origin facing the +X direction
+     new Pose2d(0, 0, new Rotation2d(0)),
+     //Wavepoints making a S curve path
+     List.of(
+       new Translation2d(Units.feetToMeters(1), Units.feetToMeters(1)),
+       new Translation2d(Units.feetToMeters(2), -Units.feetToMeters(1))
+       ),
+     //End 3 feet ahead of where robot start, facing forward
+     new Pose2d(Units.feetToMeters(3), 0, new Rotation2d(0)),
+     //Pass config
+     config
+     );
+ 
+ 
+   
+ 
+   RamseteCommand ramseteCommand2 = new RamseteCommand(
+     autoTrajectory2,
+     tankDriveSubsystem::getPose,
+     new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
+     new SimpleMotorFeedforward(Constants.ksVolts,
+                                 Constants.kvVoltSecondsPerMeter,
+                                 Constants.kaVoltSecondsSquaredPerMeter),
+     Constants.kDriveKinematics,
+     tankDriveSubsystem::getWheelSpeeds,
+     new PIDController(Constants.kPDriveVel, 0, 0),
+     new PIDController(Constants.kPDriveVel, 0, 0),
+     //RamseteCommand passes volts to the callback
+     tankDriveSubsystem::tankDriveVolts,
+     tankDriveSubsystem
+   );
+ 
+   RamseteCommand ramseteCommand3 = new RamseteCommand(
+     autoTrajectory3,
+     tankDriveSubsystem::getPose,
+     new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
+     new SimpleMotorFeedforward(Constants.ksVolts,
+                                 Constants.kvVoltSecondsPerMeter,
+                                 Constants.kaVoltSecondsSquaredPerMeter),
+     Constants.kDriveKinematics,
+     tankDriveSubsystem::getWheelSpeeds,
+     new PIDController(Constants.kPDriveVel, 0, 0),
+     new PIDController(Constants.kPDriveVel, 0, 0),
+     //RamseteCommand passes volts to the callback
+     tankDriveSubsystem::tankDriveVolts,
+     tankDriveSubsystem
+   );
+ 
     return Robot.m_chooser.getSelected();
-  }
+    
+    
+      
+    }
 }
 
