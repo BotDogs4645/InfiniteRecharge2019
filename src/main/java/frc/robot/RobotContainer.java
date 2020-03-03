@@ -131,7 +131,7 @@ public class RobotContainer {
   public static JoystickButton alignButton = new JoystickButton(stick,11);
   public static JoystickButton limelightToggleButton = new JoystickButton(stick,12);
 
-  /*
+  
   // Create a voltage constraint to ensure we don't accelerate too fast
   private static final DifferentialDriveVoltageConstraint autoVoltageConstraint =
     new DifferentialDriveVoltageConstraint(
@@ -246,7 +246,7 @@ public class RobotContainer {
     tankDriveSubsystem::tankDriveVolts,
     tankDriveSubsystem
   );
-*/
+
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
