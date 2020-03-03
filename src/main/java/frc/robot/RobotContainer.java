@@ -132,17 +132,9 @@ public class RobotContainer {
   public static JoystickButton alignButton = new JoystickButton(stick,11);
   public static JoystickButton limelightToggleButton = new JoystickButton(stick,12);
 
-<<<<<<< HEAD
   public static final DifferentialDriveVoltageConstraint autoVoltageConstraint =
      new DifferentialDriveVoltageConstraint(
        new SimpleMotorFeedforward(Constants.ksVolts,
-=======
-  
-  // Create a voltage constraint to ensure we don't accelerate too fast
-  private static final DifferentialDriveVoltageConstraint autoVoltageConstraint =
-    new DifferentialDriveVoltageConstraint(
-      new SimpleMotorFeedforward(Constants.ksVolts,
->>>>>>> 640d57a4cf691dd2a174da3035f4ed7325eb34c3
                                Constants.kvVoltSecondsPerMeter,
                                Constants.kaVoltSecondsSquaredPerMeter),
      Constants.kDriveKinematics,
@@ -157,56 +149,6 @@ public class RobotContainer {
            //Apply the auto voltage constraint
            .addConstraint(autoVoltageConstraint);
   
-<<<<<<< HEAD
-=======
-  public static final RamseteCommand ramseteCommand = new RamseteCommand(
-    autoTrajectory,
-    tankDriveSubsystem::getPose,
-    new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
-    new SimpleMotorFeedforward(Constants.ksVolts,
-                                Constants.kvVoltSecondsPerMeter,
-                                Constants.kaVoltSecondsSquaredPerMeter),
-    Constants.kDriveKinematics,
-    tankDriveSubsystem::getWheelSpeeds,
-    new PIDController(Constants.kPDriveVel, 0, 0),
-    new PIDController(Constants.kPDriveVel, 0, 0),
-    //RamseteCommand passes volts to the callback
-    tankDriveSubsystem::tankDriveVolts,
-    tankDriveSubsystem
-  );
-
-  public static final RamseteCommand ramseteCommand2 = new RamseteCommand(
-    autoTrajectory2,
-    tankDriveSubsystem::getPose,
-    new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
-    new SimpleMotorFeedforward(Constants.ksVolts,
-                                Constants.kvVoltSecondsPerMeter,
-                                Constants.kaVoltSecondsSquaredPerMeter),
-    Constants.kDriveKinematics,
-    tankDriveSubsystem::getWheelSpeeds,
-    new PIDController(Constants.kPDriveVel, 0, 0),
-    new PIDController(Constants.kPDriveVel, 0, 0),
-    //RamseteCommand passes volts to the callback
-    tankDriveSubsystem::tankDriveVolts,
-    tankDriveSubsystem
-  );
-
-  public static final RamseteCommand ramseteCommand3 = new RamseteCommand(
-    autoTrajectory3,
-    tankDriveSubsystem::getPose,
-    new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
-    new SimpleMotorFeedforward(Constants.ksVolts,
-                                Constants.kvVoltSecondsPerMeter,
-                                Constants.kaVoltSecondsSquaredPerMeter),
-    Constants.kDriveKinematics,
-    tankDriveSubsystem::getWheelSpeeds,
-    new PIDController(Constants.kPDriveVel, 0, 0),
-    new PIDController(Constants.kPDriveVel, 0, 0),
-    //RamseteCommand passes volts to the callback
-    tankDriveSubsystem::tankDriveVolts,
-    tankDriveSubsystem
-  );
->>>>>>> 640d57a4cf691dd2a174da3035f4ed7325eb34c3
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
