@@ -63,13 +63,13 @@ public final class Constants {
 
     
     //Use the Robot Characterization Toolsuite to obtain these feedfoward and feedback gains
-    public static final double ksVolts = 1;
-    public static final double kvVoltSecondsPerMeter = 1;
-    public static final double kaVoltSecondsSquaredPerMeter = 1;
-    public static final double kPDriveVel = 1;
+    public static final double ksVolts = 0;
+    public static final double kvVoltSecondsPerMeter = 0;
+    public static final double kaVoltSecondsSquaredPerMeter = 0;
+    public static final double kPDriveVel = 0;
 
     //Uses the trackwidth of the robot to covert from chassis speeds to wheel speeds
-    public static final double kTrackwidthMeters = 1; //horizontal distance between the wheels in meters
+    public static final double kTrackwidthMeters = 0; //horizontal distance between the wheels in meters
     public static final DifferentialDriveKinematics kDriveKinematics =  new DifferentialDriveKinematics(kTrackwidthMeters);
 
     /*
@@ -77,8 +77,8 @@ public final class Constants {
      * The maximum velocity should be somewhat below the nominal free-speed of the robot
      * The maximum acceleration value is not very import as DifferentialDriveVoltageConstraint will limit it
      */
-    public static final double kMaxSpeedMetersPerSecond = 1;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 1;
+    public static final double kMaxSpeedMetersPerSecond = 0;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 0;
 
      // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
      public static final double kRamseteB = 2;
