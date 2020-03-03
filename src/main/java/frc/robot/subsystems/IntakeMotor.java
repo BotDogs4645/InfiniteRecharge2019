@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
@@ -17,7 +18,7 @@ public class IntakeMotor extends SubsystemBase {
   /**
    * Creates a new Motor.
    */
-  private final WPI_TalonSRX motor = new WPI_TalonSRX(4);
+  private final WPI_VictorSPX motor = new WPI_VictorSPX(4);
 
   private final double speed;
 
@@ -29,6 +30,10 @@ public class IntakeMotor extends SubsystemBase {
   public void move(double pSpeed) {
 
     motor.set(pSpeed);
+  }
+  public void move() {
+
+    motor.set(speed);
   }
 
   

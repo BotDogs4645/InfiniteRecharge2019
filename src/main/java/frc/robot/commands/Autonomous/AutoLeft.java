@@ -9,6 +9,7 @@ package frc.robot.commands.Autonomous;
 
 import java.util.List;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
@@ -18,10 +19,14 @@ import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.util.Units;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.commands.ManualIndexer;
+import frc.robot.commands.RunShooter;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -31,12 +36,15 @@ public class AutoLeft extends SequentialCommandGroup {
    * Creates a new AutoLeft.
    */
 
+
+
   public AutoLeft() {
      Trajectory autoTrajectory = TrajectoryGenerator.generateTrajectory(
       // Start at origin facing the +X direction
       new Pose2d(0, 0, new Rotation2d(0)),
       // Wavepoints making a S curve path
-      List.of(new Translation2d(Units.inchesToMeters(12), 0), new Translation2d(Units.inchesToMeters(36), 0),
+      List.of(new Translation2d(Units.inchesToMeters(12), 0), 
+        new Translation2d(Units.inchesToMeters(36), 0),
           new Translation2d(Units.inchesToMeters(60), 0),
           new Translation2d(Units.inchesToMeters(113), Units.inchesToMeters(68)),
           new Translation2d(Units.inchesToMeters(142), Units.inchesToMeters(68)),
@@ -60,6 +68,22 @@ public class AutoLeft extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
 
-    super.addCommands(ramseteCommand);
+    addCommands(
+      new ParallelDeadlineGroup(
+        ramseteCommand, 
+        new AutoIntake(RobotContainer.m_intakeSub)
+        ),
+      
+      new ParallelCommandGroup(
+        new RunShooter(RobotContainer.shooterSub, Constants.shooterTargetRPM),
+        
+        new SequentialCommandGroup(
+          new Delay(3),
+          new ManualIndexer(RobotContainer.sensor, .5)
+          )
+
+        )
+      
+      );
   }
 }

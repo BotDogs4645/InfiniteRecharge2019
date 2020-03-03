@@ -48,6 +48,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import java.util.List;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import frc.robot.commands.RunShooter;
 import frc.robot.commands.ToggleLimelight;
@@ -68,12 +69,12 @@ public class RobotContainer {
 
   UsbCamera camera1 = CameraServer.getInstance().startAutomaticCapture(0);
 
-  private static final IntakeMotor m_intakeSub = new IntakeMotor();
-  private static final Shooter shooterSub = new Shooter();
+  public static final IntakeMotor m_intakeSub = new IntakeMotor();
+  public static final Shooter shooterSub = new Shooter();
 
   public static final Limelight limelight = new Limelight();
 
-  private static final IRSensor sensor = new IRSensor();
+  public static final IRSensor sensor = new IRSensor();
 
   public static final TankDrive tankDriveSubsystem = new TankDrive(); 
   public static final PneumaticsSubsystem m_pneumaticssubsytem = new PneumaticsSubsystem();
@@ -97,9 +98,9 @@ public class RobotContainer {
   
 
   //INDEXER MOTORS
-  public static final WPI_TalonSRX IntakeMotor = new WPI_TalonSRX(4);
-  public static final WPI_TalonSRX IndexerMotor = new WPI_TalonSRX(5);
-  public static final WPI_TalonSRX ShooterMotor= new WPI_TalonSRX(2);
+  public static final WPI_VictorSPX IntakeMotor = new WPI_VictorSPX(4);
+  public static final WPI_VictorSPX IndexerMotor = new WPI_VictorSPX(5);
+  public static final WPI_VictorSPX ShooterMotor= new WPI_VictorSPX(2);
 
   //CLIMBING PNEUMATICS
   public static final DoubleSolenoid RightPiston = new DoubleSolenoid(3,2);

@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
@@ -23,7 +24,7 @@ public class Shooter extends SubsystemBase {
    * Creates a new Motor.
    */
   private final WPI_TalonSRX motor1 = new WPI_TalonSRX(Constants.shooterMotor1);
-  private final WPI_TalonSRX motor2 = new WPI_TalonSRX(Constants.shooterMotor2);
+  private final WPI_VictorSPX motor2 = new WPI_VictorSPX(Constants.shooterMotor2);
 
   private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(Constants.shooterKS, Constants.shooterVS);
 
