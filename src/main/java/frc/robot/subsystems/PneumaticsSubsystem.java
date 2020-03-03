@@ -18,6 +18,8 @@ public class PneumaticsSubsystem extends SubsystemBase {
 
     public PneumaticsSubsystem() {  
         setDefaultCommand(new PneumaticsJoysticks(this));
+        
+        
     }
 
     public void joystickpistons(){
@@ -58,6 +60,7 @@ public class PneumaticsSubsystem extends SubsystemBase {
         else{
         leftpiston(Value.kOff);
         rightpiston(Value.kOff);
+        
         }
     }
 
