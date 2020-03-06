@@ -21,7 +21,7 @@ import frc.robot.commands.Align;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.ManualIndexer;
 import frc.robot.commands.ManualIntake;
-import frc.robot.commands.MoveDistance;
+import frc.robot.commands.Autonomous.MoveDistance;
 import frc.robot.commands.RunIntake;
 import frc.robot.subsystems.GearShiftSubsystem;
 import frc.robot.subsystems.IRSensor;
@@ -99,8 +99,8 @@ public class RobotContainer {
 
   //INDEXER MOTORS
   public static final WPI_VictorSPX IntakeMotor = new WPI_VictorSPX(4);
-  public static final WPI_VictorSPX IndexerMotor = new WPI_VictorSPX(5);
-  public static final WPI_VictorSPX ShooterMotor= new WPI_VictorSPX(2);
+  public static final WPI_VictorSPX IndexerMotor = new WPI_VictorSPX(2);
+  public static final WPI_VictorSPX ShooterMotor= new WPI_VictorSPX(3);
 
   //CLIMBING PNEUMATICS
   public static final DoubleSolenoid RightPiston = new DoubleSolenoid(3,2);
@@ -119,14 +119,14 @@ public class RobotContainer {
   //XBOX CONTROLLER
   public static XboxController Xbox = new XboxController(1);
 
-  public static JoystickButton indexerIntakeButton = new JoystickButton(Xbox,3);
+  public static JoystickButton indexerIntakeButton = new JoystickButton(Xbox,1);
 
 
-  public static JoystickButton leftjoystickbutton = new JoystickButton(Xbox, 9);
-  public static JoystickButton rightjoystickbutton = new JoystickButton(Xbox,10);
+  public static JoystickButton leftjoystickbutton = new JoystickButton(Xbox, 11);
+  public static JoystickButton rightjoystickbutton = new JoystickButton(Xbox,12);
 
-  public static JoystickButton forwardIndexerButton = new JoystickButton(Xbox,1);
-  public static JoystickButton reverseIndexerButton = new JoystickButton(Xbox,2);
+  public static JoystickButton forwardIndexerButton = new JoystickButton(Xbox,2);
+  public static JoystickButton reverseIndexerButton = new JoystickButton(Xbox,3);
 
   public static JoystickButton shooterButton = new JoystickButton(Xbox,6);
 
@@ -162,20 +162,20 @@ public class RobotContainer {
 
 
 
-    middleLeft.configClosedloopRamp(ramptime);
-    middleRight.configClosedloopRamp(ramptime);
+    //middleLeft.configClosedloopRamp(ramptime);
+    //middleRight.configClosedloopRamp(ramptime);
 
     middleLeft.configOpenloopRamp(ramptime);
     middleRight.configOpenloopRamp(ramptime);
 
-    rearLeft.configClosedloopRamp(ramptime);
-    rearRight.configClosedloopRamp(ramptime);
+    //rearLeft.configClosedloopRamp(ramptime);
+    //rearRight.configClosedloopRamp(ramptime);
 
     rearLeft.configOpenloopRamp(ramptime);
     rearRight.configOpenloopRamp(ramptime);
     
-    frontLeft.configClosedloopRamp(ramptime);
-    frontRight.configClosedloopRamp(ramptime);
+    //frontLeft.configClosedloopRamp(ramptime);
+    //frontRight.configClosedloopRamp(ramptime);
         
     frontLeft.configOpenloopRamp(ramptime);
     frontRight.configOpenloopRamp(ramptime);

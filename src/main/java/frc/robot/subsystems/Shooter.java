@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.Constants;
-import frc.robot.commands.RunShooter;
+//import frc.robot.commands.RunShooter;
 
 public class Shooter extends SubsystemBase {
   /**
@@ -58,12 +58,20 @@ public class Shooter extends SubsystemBase {
       double pidvalue = shooterpid.calculate(getRPM(), targetRPM);
       double voltage = MathUtil.clamp((ffvalue+pidvalue),-12,12);
 
-      SmartDashboard.putNumber("Position", motor1.getSelectedSensorPosition());
-      SmartDashboard.putNumber("pid", pidvalue);
+      //SmartDashboard.putNumber("Position", motor1.getSelectedSensorPosition());
+      //SmartDashboard.putNumber("pid", pidvalue);
       SmartDashboard.putNumber("RPM", getRPM());
-      SmartDashboard.putNumber("print RPM", getRPM());
-      SmartDashboard.putNumber("position error", shooterpid.getPositionError());
-      SmartDashboard.putNumber("velocity error", shooterpid.getVelocityError());
+      //SmartDashboard.putNumber("print RPM", getRPM());
+      //SmartDashboard.putNumber("position error", shooterpid.getPositionError());
+      //SmartDashboard.putNumber("velocity error", shooterpid.getVelocityError());
+      if (getRPM() < -12500){
+        SmartDashboard.putBoolean("RPM Reached: ", true);
+      }
+      else {
+        SmartDashboard.putBoolean("RPM Reached: ", false);
+
+
+      }
 
       motor1.setVoltage(voltage);
       //motor1.set(.1);
@@ -84,6 +92,7 @@ public class Shooter extends SubsystemBase {
     );
     return RPM;
   }
+
 
   public void stopShooting() {
     shooting = false;

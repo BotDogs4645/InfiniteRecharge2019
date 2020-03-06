@@ -5,58 +5,49 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-//import frc.robot.RobotContainer;
-import frc.robot.subsystems.IntakeMotor;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.TankDrive;
 
-public class RunIntake extends CommandBase {
-  
-  //Subsystem the command runs on
-  private final IntakeMotor subsystem;
-
-  public RunIntake(IntakeMotor intakemotorSub) {
-    subsystem = intakemotorSub;
+public class AutoDrive extends CommandBase {
+  /**
+   * Creates a new AutoDrive.
+   */
+  TankDrive subsystem;
+  private double forward;
+  private double turn;
+  public AutoDrive(double pForward, double pTurn) {
     // Use addRequirements() here to declare subsystem dependencies.
+    subsystem = RobotContainer.tankDriveSubsystem;
+    forward =pForward;
+    turn = pTurn;
     addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    /*
-
-    This method only runs once: when this command is first scheduled
-    Motor move method only needs to be called once, 
-    because when the motor speed is set, it will not change unless it is set again
-
-    Sets motor speed to 50%
-
-    */
-    
-    
     
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    subsystem.controlledIntake();
-
+    subsystem.move(forward,turn);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //Set the motor speed back to 0% (stop) when command is finished
-    subsystem.move(0);
+    subsystem.tankDriveVolts(0,0);
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    
     return false;
   }
 }

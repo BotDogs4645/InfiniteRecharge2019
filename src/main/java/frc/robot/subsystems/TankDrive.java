@@ -23,7 +23,7 @@ public class TankDrive extends SubsystemBase {
    * Creates a new ExampleSubsystem.
    */
 
-  public final PIDController pid = new PIDController(0,0, 0);//0.0003397
+  public final PIDController pid = new PIDController(0.00000003397,0, 0);//0.0003397
   public final PIDController limelightpid = new PIDController(0.05,0,0);//0.0003397
   public final PIDController drivingpid = new PIDController(0.2,0,0);
   public PowerDistributionPanel pdp = new PowerDistributionPanel();
@@ -59,14 +59,16 @@ public class TankDrive extends SubsystemBase {
 
     //double forward = .8*MathUtil.clamp(1 * Math.pow(RobotContainer.stick.getY(), 3),-1,1);
     double forward = Math.signum(RobotContainer.stick.getY())* (Math.pow(RobotContainer.stick.getY(), 2));
+    //double forward = Math.signum(RobotContainer.stick.getY())* Math.abs(Math.log10(RobotContainer.stick.getY()));
+    //double forward = .7*RobotContainer.stick.getY();
+
     //double forward = RobotContainer.stick.getY()]
 
     SmartDashboard.putNumber("Forward", forward);
     //double turn = .7*MathUtil.clamp(-1 * Math.pow(RobotContainer.stick.getZ(), 3),-1,1);
     //double turn = Math.pow(RobotContainer.stick.getZ(), 2);
-    
-    
     double turn =  Math.signum(RobotContainer.stick.getZ())* (Math.pow(RobotContainer.stick.getZ(), 2));
+    //double turn = .7*RobotContainer.stick.getZ();
 
     //double joystickz = Math.signum(RobotContainer.stick.getY())* Math.pow(RobotContainer.stick.getZ(), 2);
     //double turn = drivingpid.calculate(fps(RobotContainer.middleLeft.getSelectedSensorVelocity()), joystickz*30);
@@ -90,7 +92,7 @@ public class TankDrive extends SubsystemBase {
     turn = MathUtil.clamp(turn, -.7,.7)*Math.abs(RobotContainer.stick.getThrottle());
 
     RobotContainer.difDrive.arcadeDrive(forward, -turn);
-    SmartDashboard.putNumber("Total current", pdp.getTotalCurrent()); 
+    SmartDashboard.putNumber("motor Voltage", RobotContainer.middleLeft.get()); 
   }
   
   
@@ -105,6 +107,10 @@ public class TankDrive extends SubsystemBase {
     }else{
       RobotContainer.difDrive.tankDrive(.05, -.05);
     }
+  }
+
+  public void move(double forward, double turn) {
+    RobotContainer.difDrive.arcadeDrive(forward, turn);
   }
 
   public void limelightAlign() {
@@ -129,7 +135,7 @@ public class TankDrive extends SubsystemBase {
 
 
   public void driveDistance(double distance) {
-    double count = -distance * (1024 / (6 * Math.PI));
+    double count = -distance * (2048 / (6 * Math.PI));
     RobotContainer.middleLeft.setSelectedSensorPosition(0);
     pid.setSetpoint(count);
     
