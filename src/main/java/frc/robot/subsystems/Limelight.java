@@ -91,7 +91,7 @@ public class Limelight extends SubsystemBase {
 
     double distance = (8-(34/12))/ Math.tan(y);
 
-    SmartDashboard.putNumber("Distance to target", distance);
+    //SmartDashboard.putNumber("Distance to target", distance);
 
   }
 

@@ -77,7 +77,6 @@ public class Shooter extends SubsystemBase {
       //motor1.set(.1);
 
       SmartDashboard.putNumber("voltage", voltage);
-      //SmartDashboard.putNumber("voltage", motor1.getBusVoltage());
 
       
     }

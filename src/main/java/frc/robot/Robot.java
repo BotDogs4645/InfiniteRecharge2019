@@ -16,7 +16,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.Autonomous.MoveDistance;
 import frc.robot.commands.Autonomous.AutoLeft;
-import frc.robot.commands.Autonomous.DriveByTimer;
+import frc.robot.commands.Autonomous.AutoShoot;
+import frc.robot.commands.Autonomous.DrivePastLine;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -41,7 +42,8 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    m_chooser.setDefaultOption("Move past initiation line", new DriveByTimer());
+    m_chooser.setDefaultOption("Pass line", new DrivePastLine());
+    m_chooser.addOption("Pass Line and Shoot", new AutoShoot());
     //m_chooser.addOption("Move past initaiton line", new DriveByTimer());
     //m_chooser.addOp budtion("Position 1", new AutoLeft());
     //m_chooser.addOption("Position 2", new AutoLeft());

@@ -47,6 +47,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import java.util.List;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
@@ -84,16 +85,21 @@ public class RobotContainer {
 
 
   //TANK DRIVE MOTORS
-  public static final WPI_TalonSRX frontLeft = new WPI_TalonSRX(15); //0
-  public static final WPI_TalonSRX middleLeft = new WPI_TalonSRX(13); //13
-  public static final WPI_TalonSRX rearLeft = new WPI_TalonSRX(11); //11
+  public static final WPI_TalonFX frontLeft = new WPI_TalonFX(15); //0
+  public static final WPI_TalonFX middleLeft = new WPI_TalonFX(13); //13
+  public static final WPI_TalonFX rearLeft = new WPI_TalonFX(11); //11
 
-  public static final WPI_TalonSRX frontRight = new WPI_TalonSRX(12); //12
-  public static final WPI_TalonSRX middleRight = new WPI_TalonSRX(14); //1
-  public static final WPI_TalonSRX rearRight = new WPI_TalonSRX(10);
+  public static final WPI_TalonFX frontRight = new WPI_TalonFX(12); //12
+  public static final WPI_TalonFX middleRight = new WPI_TalonFX(14); //1
+  public static final WPI_TalonFX rearRight = new WPI_TalonFX(10);
 
-  public static final SpeedControllerGroup leftSide = new SpeedControllerGroup(frontLeft, middleLeft, rearLeft);
-  public static final SpeedControllerGroup rightSide = new SpeedControllerGroup(frontRight, middleRight, rearRight);
+  //public static final SpeedControllerGroup leftSide = new SpeedControllerGroup(frontLeft, middleLeft, rearLeft);
+  //public static final SpeedControllerGroup rightSide = new SpeedControllerGroup(frontRight, middleRight, rearRight);
+  
+  public static final SpeedControllerGroup leftSide = new SpeedControllerGroup(frontLeft, middleLeft);
+  public static final SpeedControllerGroup rightSide = new SpeedControllerGroup(frontRight, middleRight);
+
+
   public static final DifferentialDrive difDrive = new DifferentialDrive(leftSide, rightSide);
   
 
@@ -161,22 +167,12 @@ public class RobotContainer {
     NeutralMode coast = NeutralMode.Coast;
 
 
-
-    //middleLeft.configClosedloopRamp(ramptime);
-    //middleRight.configClosedloopRamp(ramptime);
-
     middleLeft.configOpenloopRamp(ramptime);
     middleRight.configOpenloopRamp(ramptime);
 
-    //rearLeft.configClosedloopRamp(ramptime);
-    //rearRight.configClosedloopRamp(ramptime);
-
     rearLeft.configOpenloopRamp(ramptime);
     rearRight.configOpenloopRamp(ramptime);
-    
-    //frontLeft.configClosedloopRamp(ramptime);
-    //frontRight.configClosedloopRamp(ramptime);
-        
+            
     frontLeft.configOpenloopRamp(ramptime);
     frontRight.configOpenloopRamp(ramptime);
 
@@ -192,13 +188,13 @@ public class RobotContainer {
 
     
     RobotContainer.frontLeft.follow(RobotContainer.middleLeft);
-    RobotContainer.rearLeft.follow(RobotContainer.middleLeft);
+    //RobotContainer.rearLeft.follow(RobotContainer.middleLeft);
   
     RobotContainer.frontLeft.setInverted(true);
     RobotContainer.rearLeft.setInverted(true);
     
     RobotContainer.frontRight.follow(RobotContainer.middleRight);
-    RobotContainer.rearRight.follow(RobotContainer.middleRight); 
+    //RobotContainer.rearRight.follow(RobotContainer.middleRight); 
 
     RobotContainer.frontRight.setInverted(true);
     RobotContainer.rearRight.setInverted(true);

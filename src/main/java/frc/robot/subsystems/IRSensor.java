@@ -70,9 +70,9 @@ public class IRSensor extends SubsystemBase{
     
   
     
-    SmartDashboard.putBoolean("Intake IR: ", IRIntake.get());
-    SmartDashboard.putBoolean("Indexer IR: ", IRIndexer.get());
-    SmartDashboard.putBoolean("Outtake IR: ", IROutake.get());
+    //SmartDashboard.putBoolean("Intake IR: ", IRIntake.get());
+    //SmartDashboard.putBoolean("Indexer IR: ", IRIndexer.get());
+    //SmartDashboard.putBoolean("Outtake IR: ", IROutake.get());
   
     SmartDashboard.putNumber("Number of Balls: ", count);
     LastIntakeValue = IRIntake.get();

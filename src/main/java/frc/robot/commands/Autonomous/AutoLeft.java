@@ -75,6 +75,8 @@ public class AutoLeft extends SequentialCommandGroup {
         ),
       
       new ParallelCommandGroup(
+        new Delay(8),
+
         new RunShooter(RobotContainer.shooterSub, Constants.shooterTargetRPM),
         
         new SequentialCommandGroup(
