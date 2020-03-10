@@ -93,11 +93,11 @@ public class RobotContainer {
   public static final WPI_TalonFX middleRight = new WPI_TalonFX(14); //1
   public static final WPI_TalonFX rearRight = new WPI_TalonFX(10);
 
-  public static final SpeedControllerGroup leftSide = new SpeedControllerGroup(frontLeft, middleLeft, rearLeft);
-  public static final SpeedControllerGroup rightSide = new SpeedControllerGroup(frontRight, middleRight, rearRight);
+  //public static final SpeedControllerGroup leftSide = new SpeedControllerGroup(frontLeft, middleLeft, rearLeft);
+  //public static final SpeedControllerGroup rightSide = new SpeedControllerGroup(frontRight, middleRight, rearRight);
   
-  //public static final SpeedControllerGroup leftSide = new SpeedControllerGroup(frontLeft, middleLeft);
-  //public static final SpeedControllerGroup rightSide = new SpeedControllerGroup(frontRight, middleRight);
+  public static final SpeedControllerGroup leftSide = new SpeedControllerGroup(frontLeft, middleLeft);
+  public static final SpeedControllerGroup rightSide = new SpeedControllerGroup(frontRight, middleRight);
 
 
   public static final DifferentialDrive difDrive = new DifferentialDrive(leftSide, rightSide);
@@ -167,14 +167,12 @@ public class RobotContainer {
     NeutralMode coast = NeutralMode.Coast;
 
 
-
     middleLeft.configOpenloopRamp(ramptime);
     middleRight.configOpenloopRamp(ramptime);
 
     rearLeft.configOpenloopRamp(ramptime);
     rearRight.configOpenloopRamp(ramptime);
-    
-        
+            
     frontLeft.configOpenloopRamp(ramptime);
     frontRight.configOpenloopRamp(ramptime);
 
@@ -191,13 +189,13 @@ public class RobotContainer {
 
     
     RobotContainer.frontLeft.follow(RobotContainer.middleLeft);
-    RobotContainer.rearLeft.follow(RobotContainer.middleLeft);
+    //RobotContainer.rearLeft.follow(RobotContainer.middleLeft);
   
     RobotContainer.frontLeft.setInverted(true);
     RobotContainer.rearLeft.setInverted(true);
     
     RobotContainer.frontRight.follow(RobotContainer.middleRight);
-    RobotContainer.rearRight.follow(RobotContainer.middleRight); 
+    //RobotContainer.rearRight.follow(RobotContainer.middleRight); 
 
     RobotContainer.frontRight.setInverted(true);
     RobotContainer.rearRight.setInverted(true);

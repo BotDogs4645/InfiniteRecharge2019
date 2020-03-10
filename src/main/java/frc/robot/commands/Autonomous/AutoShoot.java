@@ -19,23 +19,34 @@ import frc.robot.commands.RunShooter;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class PassInitiation extends SequentialCommandGroup {
+public class AutoShoot extends SequentialCommandGroup {
   /**
    * Creates a new DriveByTimer.
    */
-  public PassInitiation() {
+  public AutoShoot() {
     // Add your commands in the super() call.  Add the deadline first.
     super(
+      /*
       new ParallelDeadlineGroup(
         new Delay(0.5),
         new AutoDrive(0.5,0)
         ),
-
       new ParallelDeadlineGroup(
         new Delay(1.5),
         new AutoDrive(-0.5,0)
-        )
-      
+        ),
+        */
+      new DrivePastLine(),
+      new ParallelDeadlineGroup(
+          new Delay(8),
+          new RunShooter(RobotContainer.shooterSub, Constants.shooterTargetRPM),
+          
+          new SequentialCommandGroup(
+            new Delay(3),
+            new ManualIndexer(RobotContainer.sensor, .2)
+            )
+    
+            )
     );
   }
 }

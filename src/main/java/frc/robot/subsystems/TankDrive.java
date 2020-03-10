@@ -59,17 +59,17 @@ public class TankDrive extends SubsystemBase {
     //double forward = drivingpid.calculate(fps(RobotContainer.middleLeft.getSelectedSensorVelocity()), joysticky*30);
 
     //double forward = .8*MathUtil.clamp(1 * Math.pow(RobotContainer.stick.getY(), 3),-1,1);
-    double forward = Math.signum(RobotContainer.stick.getY())* (Math.pow(RobotContainer.stick.getY(), 2));
+    //double forward = Math.signum(RobotContainer.stick.getY())* (Math.pow(RobotContainer.stick.getY(), 2));
     //double forward = Math.signum(RobotContainer.stick.getY())* Math.abs(Math.log10(RobotContainer.stick.getY()));
-    //double forward = .7*RobotContainer.stick.getY();
+    double forward = .85*RobotContainer.stick.getY();
 
     //double forward = RobotContainer.stick.getY()]
 
     SmartDashboard.putNumber("Forward", forward);
     //double turn = .7*MathUtil.clamp(-1 * Math.pow(RobotContainer.stick.getZ(), 3),-1,1);
     //double turn = Math.pow(RobotContainer.stick.getZ(), 2);
-    double turn =  Math.signum(RobotContainer.stick.getZ())* (Math.pow(RobotContainer.stick.getZ(), 2));
-    //double turn = .7*RobotContainer.stick.getZ();
+    //double turn =  Math.signum(RobotContainer.stick.getZ())* (Math.pow(RobotContainer.stick.getZ(), 2));
+    double turn = .7*RobotContainer.stick.getZ();
 
     //double joystickz = Math.signum(RobotContainer.stick.getY())* Math.pow(RobotContainer.stick.getZ(), 2);
     //double turn = drivingpid.calculate(fps(RobotContainer.middleLeft.getSelectedSensorVelocity()), joystickz*30);
