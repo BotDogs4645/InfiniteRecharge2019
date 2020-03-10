@@ -21,6 +21,7 @@ import frc.robot.commands.Align;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.ManualIndexer;
 import frc.robot.commands.ManualIntake;
+import frc.robot.commands.Autonomous.MoveDistance;
 import frc.robot.commands.RunIntake;
 import frc.robot.subsystems.GearShiftSubsystem;
 import frc.robot.subsystems.IRSensor;
@@ -46,7 +47,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import java.util.List;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import frc.robot.commands.RunShooter;
 import frc.robot.commands.ToggleLimelight;
@@ -67,12 +70,12 @@ public class RobotContainer {
 
   UsbCamera camera1 = CameraServer.getInstance().startAutomaticCapture(0);
 
-  private static final IntakeMotor m_intakeSub = new IntakeMotor();
-  private static final Shooter shooterSub = new Shooter();
+  public static final IntakeMotor m_intakeSub = new IntakeMotor();
+  public static final Shooter shooterSub = new Shooter();
 
   public static final Limelight limelight = new Limelight();
 
-  private static final IRSensor sensor = new IRSensor();
+  public static final IRSensor sensor = new IRSensor();
 
   public static final TankDrive tankDriveSubsystem = new TankDrive(); 
   public static final PneumaticsSubsystem m_pneumaticssubsytem = new PneumaticsSubsystem();
@@ -82,23 +85,28 @@ public class RobotContainer {
 
 
   //TANK DRIVE MOTORS
-  public static final WPI_TalonSRX frontLeft = new WPI_TalonSRX(15); //0
-  public static final WPI_TalonSRX middleLeft = new WPI_TalonSRX(13); //13
-  public static final WPI_TalonSRX rearLeft = new WPI_TalonSRX(11); //11
+  public static final WPI_TalonFX frontLeft = new WPI_TalonFX(15); //0
+  public static final WPI_TalonFX middleLeft = new WPI_TalonFX(13); //13
+  public static final WPI_TalonFX rearLeft = new WPI_TalonFX(11); //11
 
-  public static final WPI_TalonSRX frontRight = new WPI_TalonSRX(12); //12
-  public static final WPI_TalonSRX middleRight = new WPI_TalonSRX(14); //1
-  public static final WPI_TalonSRX rearRight = new WPI_TalonSRX(10);
+  public static final WPI_TalonFX frontRight = new WPI_TalonFX(12); //12
+  public static final WPI_TalonFX middleRight = new WPI_TalonFX(14); //1
+  public static final WPI_TalonFX rearRight = new WPI_TalonFX(10);
 
-  public static final SpeedControllerGroup leftSide = new SpeedControllerGroup(frontLeft, middleLeft, rearLeft);
-  public static final SpeedControllerGroup rightSide = new SpeedControllerGroup(frontRight, middleRight, rearRight);
+  //public static final SpeedControllerGroup leftSide = new SpeedControllerGroup(frontLeft, middleLeft, rearLeft);
+  //public static final SpeedControllerGroup rightSide = new SpeedControllerGroup(frontRight, middleRight, rearRight);
+  
+  public static final SpeedControllerGroup leftSide = new SpeedControllerGroup(frontLeft, middleLeft);
+  public static final SpeedControllerGroup rightSide = new SpeedControllerGroup(frontRight, middleRight);
+
+
   public static final DifferentialDrive difDrive = new DifferentialDrive(leftSide, rightSide);
   
 
   //INDEXER MOTORS
-  public static final WPI_TalonSRX IntakeMotor = new WPI_TalonSRX(4);
-  public static final WPI_TalonSRX IndexerMotor = new WPI_TalonSRX(5);
-  public static final WPI_TalonSRX ShooterMotor= new WPI_TalonSRX(2);
+  public static final WPI_VictorSPX IntakeMotor = new WPI_VictorSPX(4);
+  public static final WPI_VictorSPX IndexerMotor = new WPI_VictorSPX(2);
+  public static final WPI_VictorSPX ShooterMotor= new WPI_VictorSPX(3);
 
   //CLIMBING PNEUMATICS
   public static final DoubleSolenoid RightPiston = new DoubleSolenoid(3,2);
@@ -117,163 +125,54 @@ public class RobotContainer {
   //XBOX CONTROLLER
   public static XboxController Xbox = new XboxController(1);
 
-  public static JoystickButton indexerIntakeButton = new JoystickButton(Xbox,3);
+  public static JoystickButton indexerIntakeButton = new JoystickButton(Xbox,1);
 
 
-  public static JoystickButton leftjoystickbutton = new JoystickButton(Xbox, 9);
-  public static JoystickButton rightjoystickbutton = new JoystickButton(Xbox,10);
+  public static JoystickButton leftjoystickbutton = new JoystickButton(Xbox, 11);
+  public static JoystickButton rightjoystickbutton = new JoystickButton(Xbox,12);
 
-  public static JoystickButton forwardIndexerButton = new JoystickButton(Xbox,1);
-  public static JoystickButton reverseIndexerButton = new JoystickButton(Xbox,2);
+  public static JoystickButton forwardIndexerButton = new JoystickButton(Xbox,2);
+  public static JoystickButton reverseIndexerButton = new JoystickButton(Xbox,3);
 
   public static JoystickButton shooterButton = new JoystickButton(Xbox,6);
 
   public static JoystickButton alignButton = new JoystickButton(stick,11);
   public static JoystickButton limelightToggleButton = new JoystickButton(stick,12);
 
-  /*
-  // Create a voltage constraint to ensure we don't accelerate too fast
-  private static final DifferentialDriveVoltageConstraint autoVoltageConstraint =
-    new DifferentialDriveVoltageConstraint(
-      new SimpleMotorFeedforward(Constants.ksVolts,
+  public static final DifferentialDriveVoltageConstraint autoVoltageConstraint =
+     new DifferentialDriveVoltageConstraint(
+       new SimpleMotorFeedforward(Constants.ksVolts,
                                Constants.kvVoltSecondsPerMeter,
                                Constants.kaVoltSecondsSquaredPerMeter),
-    Constants.kDriveKinematics,
-    10);
-
-  // Create config for trajectory
-  private static final TrajectoryConfig config = 
-    new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond, 
+     Constants.kDriveKinematics,
+     10);
+ 
+   // Create config for trajectory
+   public static final TrajectoryConfig config = 
+     new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond, 
                          Constants.kMaxAccelerationMetersPerSecondSquared)
-          //Add kinematics to ensure max speed is actually obeyed
-          .setKinematics(Constants.kDriveKinematics)
-          //Apply the auto voltage constraint
-          .addConstraint(autoVoltageConstraint);
-
-  private static final Trajectory autoTrajectory = TrajectoryGenerator.generateTrajectory(
-    //Start at origin facing the +X direction
-    new Pose2d(0, 0, new Rotation2d(0)),
-    //Wavepoints making a S curve path
-    List.of(
-      new Translation2d(Units.inchesToMeters(12), 0),
-      new Translation2d(Units.inchesToMeters(36), 0),
-      new Translation2d(Units.inchesToMeters(60), 0),
-      new Translation2d(Units.inchesToMeters(113), Units.inchesToMeters(68)),
-      new Translation2d(Units.inchesToMeters(142), Units.inchesToMeters(68)),
-      new Translation2d(Units.inchesToMeters(176), Units.inchesToMeters(68)),
-      new Translation2d(Units.inchesToMeters(207), Units.inchesToMeters(68)),
-      new Translation2d(Units.inchesToMeters(60), 0)
-      ),
-    //End 3 feet ahead of where robot start, facing forward
-    new Pose2d(Units.feetToMeters(3), 0, new Rotation2d(0)),
-    //Pass config
-    config
-    );
-
-  private static final Trajectory autoTrajectory2 = TrajectoryGenerator.generateTrajectory(
-    //Start at origin facing the +X direction
-    new Pose2d(0, 0, new Rotation2d(0)),
-    //Wavepoints making a S curve path
-    List.of(
-      new Translation2d(Units.feetToMeters(1), Units.feetToMeters(1)),
-      new Translation2d(Units.feetToMeters(2), -Units.feetToMeters(1))
-      ),
-    //End 3 feet ahead of where robot start, facing forward
-    new Pose2d(Units.feetToMeters(3), 0, new Rotation2d(0)),
-    //Pass config
-    config
-    );
-    
-  private static final Trajectory autoTrajectory3 = TrajectoryGenerator.generateTrajectory(
-    //Start at origin facing the +X direction
-    new Pose2d(0, 0, new Rotation2d(0)),
-    //Wavepoints making a S curve path
-    List.of(
-      new Translation2d(Units.feetToMeters(1), Units.feetToMeters(1)),
-      new Translation2d(Units.feetToMeters(2), -Units.feetToMeters(1))
-      ),
-    //End 3 feet ahead of where robot start, facing forward
-    new Pose2d(Units.feetToMeters(3), 0, new Rotation2d(0)),
-    //Pass config
-    config
-    );
-
+           //Add kinematics to ensure max speed is actually obeyed
+           .setKinematics(Constants.kDriveKinematics)
+           //Apply the auto voltage constraint
+           .addConstraint(autoVoltageConstraint);
   
-  public static final RamseteCommand ramseteCommand = new RamseteCommand(
-    autoTrajectory,
-    tankDriveSubsystem::getPose,
-    new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
-    new SimpleMotorFeedforward(Constants.ksVolts,
-                                Constants.kvVoltSecondsPerMeter,
-                                Constants.kaVoltSecondsSquaredPerMeter),
-    Constants.kDriveKinematics,
-    tankDriveSubsystem::getWheelSpeeds,
-    new PIDController(Constants.kPDriveVel, 0, 0),
-    new PIDController(Constants.kPDriveVel, 0, 0),
-    //RamseteCommand passes volts to the callback
-    tankDriveSubsystem::tankDriveVolts,
-    tankDriveSubsystem
-  );
 
-  public static final RamseteCommand ramseteCommand2 = new RamseteCommand(
-    autoTrajectory2,
-    tankDriveSubsystem::getPose,
-    new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
-    new SimpleMotorFeedforward(Constants.ksVolts,
-                                Constants.kvVoltSecondsPerMeter,
-                                Constants.kaVoltSecondsSquaredPerMeter),
-    Constants.kDriveKinematics,
-    tankDriveSubsystem::getWheelSpeeds,
-    new PIDController(Constants.kPDriveVel, 0, 0),
-    new PIDController(Constants.kPDriveVel, 0, 0),
-    //RamseteCommand passes volts to the callback
-    tankDriveSubsystem::tankDriveVolts,
-    tankDriveSubsystem
-  );
-
-  public static final RamseteCommand ramseteCommand3 = new RamseteCommand(
-    autoTrajectory3,
-    tankDriveSubsystem::getPose,
-    new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
-    new SimpleMotorFeedforward(Constants.ksVolts,
-                                Constants.kvVoltSecondsPerMeter,
-                                Constants.kaVoltSecondsSquaredPerMeter),
-    Constants.kDriveKinematics,
-    tankDriveSubsystem::getWheelSpeeds,
-    new PIDController(Constants.kPDriveVel, 0, 0),
-    new PIDController(Constants.kPDriveVel, 0, 0),
-    //RamseteCommand passes volts to the callback
-    tankDriveSubsystem::tankDriveVolts,
-    tankDriveSubsystem
-  );
-*/
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     
-
-
+    
     double ramptime = 1.5;
     NeutralMode coast = NeutralMode.Coast;
 
 
-
-    middleLeft.configClosedloopRamp(ramptime);
-    middleRight.configClosedloopRamp(ramptime);
-
     middleLeft.configOpenloopRamp(ramptime);
     middleRight.configOpenloopRamp(ramptime);
 
-    rearLeft.configClosedloopRamp(ramptime);
-    rearRight.configClosedloopRamp(ramptime);
-
     rearLeft.configOpenloopRamp(ramptime);
     rearRight.configOpenloopRamp(ramptime);
-    
-    frontLeft.configClosedloopRamp(ramptime);
-    frontRight.configClosedloopRamp(ramptime);
-        
+            
     frontLeft.configOpenloopRamp(ramptime);
     frontRight.configOpenloopRamp(ramptime);
 
@@ -289,13 +188,13 @@ public class RobotContainer {
 
     
     RobotContainer.frontLeft.follow(RobotContainer.middleLeft);
-    RobotContainer.rearLeft.follow(RobotContainer.middleLeft);
+    //RobotContainer.rearLeft.follow(RobotContainer.middleLeft);
   
     RobotContainer.frontLeft.setInverted(true);
     RobotContainer.rearLeft.setInverted(true);
     
     RobotContainer.frontRight.follow(RobotContainer.middleRight);
-    RobotContainer.rearRight.follow(RobotContainer.middleRight); 
+    //RobotContainer.rearRight.follow(RobotContainer.middleRight); 
 
     RobotContainer.frontRight.setInverted(true);
     RobotContainer.rearRight.setInverted(true);
@@ -343,7 +242,78 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
+     // Create a voltage constraint to ensure we don't accelerate too fast
+     
+ 
+   
+ 
+   Trajectory autoTrajectory2 = TrajectoryGenerator.generateTrajectory(
+     //Start at origin facing the +X direction
+     new Pose2d(0, 0, new Rotation2d(0)),
+     //Wavepoints making a S curve path
+     List.of(
+       new Translation2d(Units.feetToMeters(1), Units.feetToMeters(1)),
+       new Translation2d(Units.feetToMeters(2), -Units.feetToMeters(1))
+       ),
+     //End 3 feet ahead of where robot start, facing forward
+     new Pose2d(Units.feetToMeters(3), 0, new Rotation2d(0)),
+     //Pass config
+     config
+     );
+     
+   Trajectory autoTrajectory3 = TrajectoryGenerator.generateTrajectory(
+     //Start at origin facing the +X direction
+     new Pose2d(0, 0, new Rotation2d(0)),
+     //Wavepoints making a S curve path
+     List.of(
+       new Translation2d(Units.feetToMeters(1), Units.feetToMeters(1)),
+       new Translation2d(Units.feetToMeters(2), -Units.feetToMeters(1))
+       ),
+     //End 3 feet ahead of where robot start, facing forward
+     new Pose2d(Units.feetToMeters(3), 0, new Rotation2d(0)),
+     //Pass config
+     config
+     );
+ 
+ 
+   
+ 
+   RamseteCommand ramseteCommand2 = new RamseteCommand(
+     autoTrajectory2,
+     tankDriveSubsystem::getPose,
+     new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
+     new SimpleMotorFeedforward(Constants.ksVolts,
+                                 Constants.kvVoltSecondsPerMeter,
+                                 Constants.kaVoltSecondsSquaredPerMeter),
+     Constants.kDriveKinematics,
+     tankDriveSubsystem::getWheelSpeeds,
+     new PIDController(Constants.kPDriveVel, 0, 0),
+     new PIDController(Constants.kPDriveVel, 0, 0),
+     //RamseteCommand passes volts to the callback
+     tankDriveSubsystem::tankDriveVolts,
+     tankDriveSubsystem
+   );
+ 
+   RamseteCommand ramseteCommand3 = new RamseteCommand(
+     autoTrajectory3,
+     tankDriveSubsystem::getPose,
+     new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
+     new SimpleMotorFeedforward(Constants.ksVolts,
+                                 Constants.kvVoltSecondsPerMeter,
+                                 Constants.kaVoltSecondsSquaredPerMeter),
+     Constants.kDriveKinematics,
+     tankDriveSubsystem::getWheelSpeeds,
+     new PIDController(Constants.kPDriveVel, 0, 0),
+     new PIDController(Constants.kPDriveVel, 0, 0),
+     //RamseteCommand passes volts to the callback
+     tankDriveSubsystem::tankDriveVolts,
+     tankDriveSubsystem
+   );
+ 
     return Robot.m_chooser.getSelected();
-  }
+    
+    
+      
+    }
 }
 

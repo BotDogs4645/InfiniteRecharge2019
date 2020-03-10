@@ -5,18 +5,18 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-//import frc.robot.RobotContainer;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.IntakeMotor;
 
-public class RunIntake extends CommandBase {
+public class AutoIntake extends CommandBase {
   
   //Subsystem the command runs on
   private final IntakeMotor subsystem;
 
-  public RunIntake(IntakeMotor intakemotorSub) {
+  public AutoIntake(IntakeMotor intakemotorSub) {
     subsystem = intakemotorSub;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
@@ -42,7 +42,7 @@ public class RunIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    subsystem.controlledIntake();
+    subsystem.move();
 
   }
 

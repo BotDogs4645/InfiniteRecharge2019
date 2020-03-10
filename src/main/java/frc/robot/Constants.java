@@ -58,8 +58,8 @@ public final class Constants {
 
 
     //Shooter Ports
-    public static final int shooterMotor1 = 6;
-    public static final int shooterMotor2 = 3;
+    public static final int shooterMotor1 = 0;
+    public static final int shooterMotor2 = 1;
 
     
     //Use the Robot Characterization Toolsuite to obtain these feedfoward and feedback gains

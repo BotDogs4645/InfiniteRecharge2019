@@ -5,58 +5,47 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.Autonomous;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-//import frc.robot.RobotContainer;
-import frc.robot.subsystems.IntakeMotor;
 
-public class RunIntake extends CommandBase {
-  
-  //Subsystem the command runs on
-  private final IntakeMotor subsystem;
+public class Delay extends CommandBase {
+  /**
+   * Creates a new Delay.
+   */
+  private final Timer timer = new Timer();
+  private final double endTime;
 
-  public RunIntake(IntakeMotor intakemotorSub) {
-    subsystem = intakemotorSub;
+  public Delay(double pSeconds) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
+    endTime = pSeconds;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    /*
-
-    This method only runs once: when this command is first scheduled
-    Motor move method only needs to be called once, 
-    because when the motor speed is set, it will not change unless it is set again
-
-    Sets motor speed to 50%
-
-    */
-    
-    
-    
+    timer.reset();
+    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    subsystem.controlledIntake();
-
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //Set the motor speed back to 0% (stop) when command is finished
-    subsystem.move(0);
+    timer.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    
+    if (timer.get() >= endTime) {
+      return true;
+    }
     return false;
   }
 }
