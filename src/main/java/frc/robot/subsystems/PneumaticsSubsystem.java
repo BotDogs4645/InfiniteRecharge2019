@@ -12,7 +12,7 @@ public class PneumaticsSubsystem extends SubsystemBase {
     //Creates solenoid object
     //hi its me, natarichard :) ٩(♡ε♡ )۶ 
     
-    Boolean onoroff = false;
+    Boolean controlEnabled = false;
     //if onoroff true that means controls are enabled
     //if onoroff false that means controls are disabled
 
@@ -27,6 +27,7 @@ public class PneumaticsSubsystem extends SubsystemBase {
         double rightstickY = -1 * RobotContainer.Xbox.getRawAxis(3);
 
         DoubleSolenoid.Value leftstate;
+        
         if (leftstickY > .9){
             leftstate = Value.kForward;
         }
@@ -48,9 +49,9 @@ public class PneumaticsSubsystem extends SubsystemBase {
         }
         
 
-        SmartDashboard.putBoolean("Pneumatics Controls onoroff", onoroff);
+        SmartDashboard.putBoolean("Pneumatics Controls on or off", controlEnabled);
 
-        if (onoroff){
+        if (controlEnabled){
         SmartDashboard.putString("Left Piston", leftstate + "");
         SmartDashboard.putString("Right Piston", rightstate + "");
 
@@ -67,14 +68,14 @@ public class PneumaticsSubsystem extends SubsystemBase {
 
     public void toggle (){
 
-        if (!onoroff){
-            onoroff = true;
+        if (!controlEnabled){
+            controlEnabled = true;
         }
         else
         {
-            onoroff = false;
+            controlEnabled = false;
         }
-        SmartDashboard.putBoolean("onorofoff", onoroff);
+        SmartDashboard.putBoolean("onorofoff", controlEnabled);
         
     }
 
