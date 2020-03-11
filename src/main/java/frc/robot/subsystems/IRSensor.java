@@ -32,51 +32,52 @@ public class IRSensor extends SubsystemBase{
   public int count = 2;
   Boolean LastIntakeValue = true;
   Boolean LastOuttakeValue = true;
-
+  public Boolean teleop = true;
   public IRSensor() {  
     setDefaultCommand(new RunIndexer(this));
   }  
 
 
   public void readIR(){
- 
-    if(!IRIntake.get()) { 
-    //Roller Begins to Move; Counts # of new balls in the indexer
-      if(LastIntakeValue == true) {
-        count++;
-        RobotContainer.IndexerMotor.set(0.5);
-        RobotContainer.ShooterMotor.set(0.5);
+    if (teleop) {
+      if(!IRIntake.get()) { 
+      //Roller Begins to Move; Counts # of new balls in the indexer
+        if(LastIntakeValue == true) {
+          count++;
+          RobotContainer.IndexerMotor.set(0.5);
+          RobotContainer.ShooterMotor.set(0.5);
+        }
       }
-    }
-    else if((IRIndexer.get())){
-      //Roller Stops and hold the ball in the first position
-      RobotContainer.IndexerMotor.set(0);
-      RobotContainer.ShooterMotor.set(0);
-    }
+      else if((IRIndexer.get())){
+        //Roller Stops and hold the ball in the first position
+        RobotContainer.IndexerMotor.set(0);
+        RobotContainer.ShooterMotor.set(0);
+      }
+      
+      if  (!(IROutake.get())){
+        //counts the # of balls exiting
+        if(LastOuttakeValue == true){
+          count--; 
+        } 
+        RobotContainer.ShooterMotor.set(0); 
+      }
+      if (count > 5){
+        count = 5;
+      }
+      if (count < 0){
+        count = 0;
+      }
+      
     
-    if  (!(IROutake.get())){
-      //counts the # of balls exiting
-      if(LastOuttakeValue == true){
-        count--; 
-      } 
-      RobotContainer.ShooterMotor.set(0); 
-    }
-    if (count > 5){
-      count = 5;
-    }
-    if (count < 0){
-      count = 0;
-    }
+      
+      SmartDashboard.putBoolean("Intake IR: ", IRIntake.get());
+      SmartDashboard.putBoolean("Indexer IR: ", IRIndexer.get());
+      SmartDashboard.putBoolean("Outtake IR: ", IROutake.get());
     
-  
-    
-    //SmartDashboard.putBoolean("Intake IR: ", IRIntake.get());
-    //SmartDashboard.putBoolean("Indexer IR: ", IRIndexer.get());
-    //SmartDashboard.putBoolean("Outtake IR: ", IROutake.get());
-  
-    SmartDashboard.putNumber("Number of Balls: ", count);
-    LastIntakeValue = IRIntake.get();
-    LastOuttakeValue = IROutake.get();
+      SmartDashboard.putNumber("Number of Balls: ", count);
+      LastIntakeValue = IRIntake.get();
+      LastOuttakeValue = IROutake.get();
+    }
   }
     
   @Override

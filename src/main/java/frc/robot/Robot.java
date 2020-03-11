@@ -15,7 +15,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.Autonomous.MoveDistance;
+import frc.robot.commands.ManualIndexer;
 import frc.robot.commands.Autonomous.AutoLeft;
+import frc.robot.commands.Autonomous.AutoScore;
 import frc.robot.commands.Autonomous.AutoShoot;
 import frc.robot.commands.Autonomous.PassInitiation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -43,8 +45,9 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     m_chooser.setDefaultOption("Pass line", new PassInitiation());
-    m_chooser.addOption("Pass Line and Shoot", new AutoShoot());
-    //m_chooser.addOption("Move past initaiton line", new DriveByTimer());
+    m_chooser.addOption("Pass Line and Shoot", new AutoShoot
+    ());
+    m_chooser.addOption("Run Indexer", new ManualIndexer(RobotContainer.sensor, 0.5));
     //m_chooser.addOp budtion("Position 1", new AutoLeft());
     //m_chooser.addOption("Position 2", new AutoLeft());
     //m_chooser.addOption("Position 3", new AutoLeft());
@@ -86,6 +89,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    RobotContainer.sensor.teleop = false;
+
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -103,6 +108,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    RobotContainer.sensor.teleop = true;
+
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove

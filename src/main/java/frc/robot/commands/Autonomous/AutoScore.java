@@ -39,7 +39,7 @@ public class AutoScore extends SequentialCommandGroup {
         
         new SequentialCommandGroup(
           new Delay(3),
-          new ManualIndexer(RobotContainer.sensor, .3)
+          new ManualIndexer(RobotContainer.sensor, .5)
           )
 
         

@@ -43,7 +43,7 @@ public class AutoShoot extends SequentialCommandGroup {
           
           new SequentialCommandGroup(
             new Delay(3),
-            new ManualIndexer(RobotContainer.sensor, .2)
+            new ManualIndexer(RobotContainer.sensor, .3)
             )
     
             )
